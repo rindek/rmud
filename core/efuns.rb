@@ -1,3 +1,11 @@
+def set_server_environment(envi)
+  Thread.current[:server_environment] = envi
+end
+
+def server_environment
+  Thread.current[:server_environment]
+end
+
 def current_environment
   Thread.current[:environment]
 end

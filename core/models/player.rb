@@ -14,8 +14,8 @@ module Models
 
     def get_option(player_id, option_name)
       query = "select value from players_options
-      left join options on (players_options.option_id = options.id)
-      where players_options.player_id = ? AND options.name = ? LIMIT 1"
+        left join options on (players_options.option_id = options.id)
+        where players_options.player_id = ? AND options.name = ? LIMIT 1"
       @sql.one(query, player_id, option_name)
     end
   end

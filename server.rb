@@ -1,4 +1,7 @@
 require 'core/efuns.rb'
+
+set_server_environment("devel")
+
 require 'core/engine.rb'
 
 require 'yaml'
@@ -6,18 +9,14 @@ require 'dbi'
 
 require 'core/sql/sql.rb'
 
-@game_environment = "devel"
-
-
-puts "Testuje polaczenie z baza danych..."
 
 def test_database
-  config = read_config("database")
+  config = read_config("database")[server_environment]
 
-  connection_string = "DBI:Mysql:" + config[@game_environment]["database"] + ":" + config[@game_environment]["host"]
+  connection_string = "DBI:Mysql:" + config["database"] + ":" + config["host"]
 
   begin
-    DBI.connect(connection_string, config[@game_environment]["username"], config[@game_environment]["password"]) do |dbh|
+    DBI.connect(connection_string, config["username"], config["password"]) do |dbh|
       dbh.prepare("SELECT NOW()") do |sth|
         sth.execute
       end
@@ -32,6 +31,7 @@ def test_database
   end
 end
 
+puts "Testuję bazę danych..."
 test_database
 
 if $0 == __FILE__
