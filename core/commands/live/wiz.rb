@@ -44,8 +44,6 @@ module Cmd
           end
         end
 
-        p entries
-
         this_player.catch_msg(entries.join("  "))
         this_player.catch_msg("\n")
       end
