@@ -49,7 +49,7 @@ end
 
 ## config
 def read_config(config_name)
-	YAML.load_file("config/"+ config_name +".yaml")
+  YAML.load_file("config/"+ config_name +".yaml")
 end
 
 class Object

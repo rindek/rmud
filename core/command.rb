@@ -21,7 +21,7 @@ class Command
       true
     end
   end
-  
+
   def to_s
     @cmd + (" " + @args if @args).to_s
   end

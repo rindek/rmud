@@ -1,7 +1,7 @@
 require 'core/modules/declension'
 
 class AccountPlayer
-	include Declension
+  include Declension
 
   attr_accessor :name
 
@@ -12,13 +12,13 @@ class AccountPlayer
 
   def initialize(account_name)
     @account_name = account_name
-		init_declension()
+    init_declension()
   end
 
   def name= (name)
     @name = name
   end
-  
+
   def account
     Engine.instance.accounts.select {|acc| acc.name == @account_name}.first
   end

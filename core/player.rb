@@ -8,13 +8,13 @@ class Player < Living
     super()
 
     @player = nil
-#    @commands = {}
-		@souls = []
+    #    @commands = {}
+    @souls = []
 
-#    add_action("zakoncz") do |*args|
- #     p args
- #     catch_msg("zakanczamy!\n")
- #   end
+    #    add_action("zakoncz") do |*args|
+    #     p args
+    #     catch_msg("zakanczamy!\n")
+    #   end
 
     set_user(user)
     set_player(player)
@@ -25,8 +25,8 @@ class Player < Living
     @souls << Cmd::Live::Exits.instance
     @souls << Cmd::Live::Wiz.instance
 
-		## aby zainicjalizować komendy
-		update_hooks
+    ## aby zainicjalizować komendy
+    update_hooks
   end
 
   def set_user(user)
@@ -42,21 +42,21 @@ class Player < Living
     true
   end
 
-	def update_hooks
-		@souls.each do |soul|
-			soul.init
-		end
-	end
+  def update_hooks
+    @souls.each do |soul|
+      soul.init
+    end
+  end
 
-	def get_souls
-		@souls
-	end
+  def get_souls
+    @souls
+  end
 
-	## wywołanie komendy na graczu
-	def command(str)
-		cmd = Command.new(str)
-		Engine.instance.serve(self, cmd)
-	end
+  ## wywołanie komendy na graczu
+  def command(str)
+    cmd = Command.new(str)
+    Engine.instance.serve(self, cmd)
+  end
 
   def socket
     @user.socket

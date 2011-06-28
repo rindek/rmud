@@ -20,10 +20,10 @@ module Cmd
         return true
       end
 
-			def logout(command)
-				this_player.catch_msg("Do zobaczenia!\n")
-				this_player.disconnect
-			end
+      def logout(command)
+        this_player.catch_msg("Do zobaczenia!\n")
+        this_player.disconnect
+      end
 
       def init
         init_module_command
@@ -31,7 +31,7 @@ module Cmd
         add_object_action(:glance, "spojrz")
         add_object_action(:glance, "sp")
 
-				add_object_action(:logout, "zakoncz")
+        add_object_action(:logout, "zakoncz")
       end
     end
   end

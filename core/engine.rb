@@ -32,43 +32,43 @@ class Engine
     end
   end
 
-#  def load_accounts
-#    acc_dir = Dir.pwd + Account::DIR
-#
-#    Dir.entries(acc_dir).each do |letter|
-#      if letter.match(/[a-z]/)
-#        Dir.entries(acc_dir + letter).each do |acc|
-#          if acc.match(/[a-z]+\.yaml/)
-#            load_account(acc_dir + letter + "/" + acc)
-#          end
-#        end
-#      end
-#    end
-#
-#
-#    puts("Loaded "+ @accounts.size.to_s + " accounts.")
-#  end
-#
-#  def load_account(file)
-#    acc = File.open(file) {|y| YAML::load(y)}
-#    @accounts.push(acc)
-#    puts "nowe konto zaladowane " + acc.inspect
-#  end
-#
-#  def load_player(playername)
-#    playername.downcase!
-#    filename = Dir.pwd + AccountPlayer::DIR + playername[0..0] + "/" + playername + ".yaml"
-#    if File.exists?(filename)
-#      return File.open(filename) {|y| YAML::load(y)}
-#    end
-#
-#    return nil
-#  end
+  #  def load_accounts
+  #    acc_dir = Dir.pwd + Account::DIR
+  #
+  #    Dir.entries(acc_dir).each do |letter|
+  #      if letter.match(/[a-z]/)
+  #        Dir.entries(acc_dir + letter).each do |acc|
+  #          if acc.match(/[a-z]+\.yaml/)
+  #            load_account(acc_dir + letter + "/" + acc)
+  #          end
+  #        end
+  #      end
+  #    end
+  #
+  #
+  #    puts("Loaded "+ @accounts.size.to_s + " accounts.")
+  #  end
+  #
+  #  def load_account(file)
+  #    acc = File.open(file) {|y| YAML::load(y)}
+  #    @accounts.push(acc)
+  #    puts "nowe konto zaladowane " + acc.inspect
+  #  end
+  #
+  #  def load_player(playername)
+  #    playername.downcase!
+  #    filename = Dir.pwd + AccountPlayer::DIR + playername[0..0] + "/" + playername + ".yaml"
+  #    if File.exists?(filename)
+  #      return File.open(filename) {|y| YAML::load(y)}
+  #    end
+  #
+  #    return nil
+  #  end
 
   def load_all
     load_models
 
-#    load_accounts
+    #    load_accounts
   end
 
   def read(user, prompt = "> ")
@@ -97,52 +97,52 @@ class Engine
   ## user => Player
   def serve(user, command)
     begin
-			fail_message("Slucham?\n")
+      fail_message("Slucham?\n")
       # user.catch_msg(command.cmd + "\n")
 
-			# priorytet szukania komend
-			# 1. obiekty, które mam przy sobie
-			# 2. obiekty, ktore są w moim otoczeniu
-			# 3. obiekt lokacji
-			# 4. obiekty soula
+      # priorytet szukania komend
+      # 1. obiekty, które mam przy sobie
+      # 2. obiekty, ktore są w moim otoczeniu
+      # 3. obiekt lokacji
+      # 4. obiekty soula
 
-			## najpierw obiekty, które mam przy sobie
-			inv = this_player.inventory
-			inv.each do |obj|
-				if obj.respond_to_command?(command)
-					func = obj.get_command(command)
-					return if func.call(command) != false
-				end
-			end
+      ## najpierw obiekty, które mam przy sobie
+      inv = this_player.inventory
+      inv.each do |obj|
+        if obj.respond_to_command?(command)
+          func = obj.get_command(command)
+          return if func.call(command) != false
+        end
+      end
 
-			## obiekty mojego otoczenia
-			inv = this_player.environment.inventory
-			inv.each do |obj|
-				if obj.respond_to_command?(command)
-					func = obj.get_command(command)
-					return if func.call(command) != false
-				end
-			end
+      ## obiekty mojego otoczenia
+      inv = this_player.environment.inventory
+      inv.each do |obj|
+        if obj.respond_to_command?(command)
+          func = obj.get_command(command)
+          return if func.call(command) != false
+        end
+      end
 
-			## obiekty lokacji
-			room = this_player.environment
-			if room.respond_to_command?(command)
-				func = room.get_command(command)
-				return if func.call(command) != false
-			end
+      ## obiekty lokacji
+      room = this_player.environment
+      if room.respond_to_command?(command)
+        func = room.get_command(command)
+        return if func.call(command) != false
+      end
 
-			## na końcu szukamy po obiektach soula
-			souls = this_player.get_souls
-			souls.each do |soul|
-				if soul.respond_to_command?(command)
-					func = soul.get_command(command)
-					return if func.call(command) != false
-				end
-			end
+      ## na końcu szukamy po obiektach soula
+      souls = this_player.get_souls
+      souls.each do |soul|
+        if soul.respond_to_command?(command)
+          func = soul.get_command(command)
+          return if func.call(command) != false
+        end
+      end
 
-			## jeżeli dotarliśmy do tego miejsca oznacza to, że wszystkie
-			## poprzednie komendy zakończyly się failem, wyświetlamy fail message
-			this_player.catch_msg(get_fail_message)
+      ## jeżeli dotarliśmy do tego miejsca oznacza to, że wszystkie
+      ## poprzednie komendy zakończyly się failem, wyświetlamy fail message
+      this_player.catch_msg(get_fail_message)
 
       if command.cmd =~ /env/
         p user.environment
@@ -151,12 +151,12 @@ class Engine
         p user.environment.get_exits
       end
 
-#      if command.cmd == "i"
-#        user.inventory.each do |obj|
-#          user.catch_msg(obj.short + ", ")
-#        end
-#        user.catch_msg("\n")
-#      end
+      #      if command.cmd == "i"
+      #        user.inventory.each do |obj|
+      #          user.catch_msg(obj.short + ", ")
+      #        end
+      #        user.catch_msg("\n")
+      #      end
 
       require 'world/pilka.rb'
 

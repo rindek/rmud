@@ -1,14 +1,14 @@
 module Declension
   attr_reader :declination
 
-	def init_declension
-		@declination = {
-			:mia => nil, :dop => nil, :cel => nil, :bie => nil, :nar => nil, :mie => nil
-		}
-	end
+  def init_declension
+    @declination = {
+      :mia => nil, :dop => nil, :cel => nil, :bie => nil, :nar => nil, :mie => nil
+    }
+  end
 
   def mia= (mia)
-		puts @declination
+    puts @declination
     @declination[:mia] = mia
   end
 
@@ -32,7 +32,7 @@ module Declension
     @declination[:mie] = mie
   end
 
-	def decline
+  def decline
     declination = ""
     declination += "Mianownik: " + @declination[:mia] + "\n"
     declination += "Dopelniacz: " + @declination[:dop] + "\n"
@@ -44,12 +44,12 @@ module Declension
     declination
   end
 
-	def set_declination(mia, dop, cel, bie, nar, mie)
-		mia = mia
-		dop = dop
-		cel = cel
-		bie = bie
-		nar = nar
-		mie = mie
-	end
+  def set_declination(mia, dop, cel, bie, nar, mie)
+    mia = mia
+    dop = dop
+    cel = cel
+    bie = bie
+    nar = nar
+    mie = mie
+  end
 end

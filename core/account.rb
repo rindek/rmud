@@ -10,7 +10,7 @@ class Account
   attr_accessor :password
   attr_accessor :player_password
   attr_accessor :email
-#  attr_accessor :players
+  #  attr_accessor :players
 
   # tworzymy nowego usera
   def create_new_user(user)
@@ -37,7 +37,7 @@ class Account
       if /^[A-Za-z]+$/.match(command.cmd)
         if command.cmd.size < 5
           user.catch_msg("Nazwa konta musi skladac sie z conajmniej 5 liter\n")
-#        elsif Engine.instance.accounts.select {|acc| acc.name == command.cmd}.first
+          #        elsif Engine.instance.accounts.select {|acc| acc.name == command.cmd}.first
         elsif !self.find_account_by_name(command.cmd).nil?
           user.catch_msg("Ta nazwa konta jest juz zajeta, wybierz inna.\n")
         else
@@ -95,7 +95,7 @@ class Account
     current_user.catch_msg("[1] - lista stworzonych postaci\n")
     current_user.catch_msg("[2] - tworzenie nowej postaci\n")
     current_user.catch_msg("[3] - utworzenie/zmiana hasla postaci\n")
-#    current_user.catch_msg("[4] - zmiana hasla konta\n")
+    #    current_user.catch_msg("[4] - zmiana hasla konta\n")
     current_user.catch_msg("[zakoncz] - zakonczenie zarzadzania kontem, powrot do ekranu logowania\n")
   end
 
@@ -155,11 +155,11 @@ class Account
       if /^[A-Za-z]+$/.match(command.cmd)
         if command.cmd.size < 3
           current_user.catch_msg("Imie postaci musi skladac sie z conajmniej 3 liter\n")
-				elsif !@player_model.get_by_name(command.cmd).nil?
-					current_user.catch_msg("Postac z takim imieniem juz istnieje, wybierz inne imie.\n")
-				else
+        elsif !@player_model.get_by_name(command.cmd).nil?
+          current_user.catch_msg("Postac z takim imieniem juz istnieje, wybierz inne imie.\n")
+        else
           create_player(command.cmd, account)
-					break
+          break
         end
       else
         current_user.catch_msg("Imie postaci moze skladac sie tylko z liter a-z\n")
@@ -259,62 +259,62 @@ class Account
     current_user.catch_msg "Postac o imieniu '" + playername.to_s + "' zostala utworzona.\n"
     Engine.instance.read(current_user, "Wcisnij enter. ")
     ## todo - zrobić tworzenie graczy
-#
-#
-#
-#    player = AccountPlayer.new(@name) # od razu robimy powiązanie z tym kontem
-#    player.name = playername.downcase
-#
-#    current_user.catch_msg("Podaj poprawna odmiane swojego imienia.\n")
-#    current_user.catch_msg("Mianownik: " + player.name + "\n")
-#
-#    player.mia = player.name
-#
-#    loop do
-#      command = Engine.instance.read(current_user, "Dopelniacz (kogo? / czego?): ")
-#      player.dop = command.cmd
-#      command = Engine.instance.read(current_user, "Celownik (komu? / czemu?): ")
-#      player.cel = command.cmd
-#      command = Engine.instance.read(current_user, "Biernik (kogo? / co?): ")
-#      player.bie = command.cmd
-#      command = Engine.instance.read(current_user, "Narzednik (z kim? / z czym?): ")
-#      player.nar = command.cmd
-#      command = Engine.instance.read(current_user, "Miejscownik (o kim? / o czym?): ")
-#      player.mie = command.cmd
-#
-#      current_user.catch_msg("Oto odmiana podana przez ciebie: \n")
-#      current_user.catch_msg(player.decline)
-#
-#      declination_correct = false
-#      loop do
-#        command = Engine.instance.read(current_user, "Czy odmiana jest poprawna? ([t]ak/[n]ie): ")
-#        if !command.cmd.match(/^(t|n|tak|nie)$/)
-#          current_user.catch_msg("Mozliwe odpowiedzi: [t]ak/[n]ie.\n")
-#        else
-#					if command.cmd.match(/^t/)
-#						declination_correct = true
-#					end
-#					break
-#        end
-#      end
-#
-#			if declination_correct
-#				break
-#			end
-#    end
-#
-#		begin
-#			player.save
-#			current_user.catch_msg("Postac #{player.name} zostala poprawnie stworzona. Mozesz sie na nia zalogowac.\n")
-#			if @players.nil?
-#				@players = []
-#			end
-#			@players << player.name
-#			self.save
-#		rescue
-#			current_user.catch_msg("Wystapil blad przy tworzeniu postaci.\n")
-#		end
-#
+    #
+    #
+    #
+    #    player = AccountPlayer.new(@name) # od razu robimy powiązanie z tym kontem
+    #    player.name = playername.downcase
+    #
+    #    current_user.catch_msg("Podaj poprawna odmiane swojego imienia.\n")
+    #    current_user.catch_msg("Mianownik: " + player.name + "\n")
+    #
+    #    player.mia = player.name
+    #
+    #    loop do
+    #      command = Engine.instance.read(current_user, "Dopelniacz (kogo? / czego?): ")
+    #      player.dop = command.cmd
+    #      command = Engine.instance.read(current_user, "Celownik (komu? / czemu?): ")
+    #      player.cel = command.cmd
+    #      command = Engine.instance.read(current_user, "Biernik (kogo? / co?): ")
+    #      player.bie = command.cmd
+    #      command = Engine.instance.read(current_user, "Narzednik (z kim? / z czym?): ")
+    #      player.nar = command.cmd
+    #      command = Engine.instance.read(current_user, "Miejscownik (o kim? / o czym?): ")
+    #      player.mie = command.cmd
+    #
+    #      current_user.catch_msg("Oto odmiana podana przez ciebie: \n")
+    #      current_user.catch_msg(player.decline)
+    #
+    #      declination_correct = false
+    #      loop do
+    #        command = Engine.instance.read(current_user, "Czy odmiana jest poprawna? ([t]ak/[n]ie): ")
+    #        if !command.cmd.match(/^(t|n|tak|nie)$/)
+    #          current_user.catch_msg("Mozliwe odpowiedzi: [t]ak/[n]ie.\n")
+    #        else
+    #					if command.cmd.match(/^t/)
+    #						declination_correct = true
+    #					end
+    #					break
+    #        end
+    #      end
+    #
+    #			if declination_correct
+    #				break
+    #			end
+    #    end
+    #
+    #		begin
+    #			player.save
+    #			current_user.catch_msg("Postac #{player.name} zostala poprawnie stworzona. Mozesz sie na nia zalogowac.\n")
+    #			if @players.nil?
+    #				@players = []
+    #			end
+    #			@players << player.name
+    #			self.save
+    #		rescue
+    #			current_user.catch_msg("Wystapil blad przy tworzeniu postaci.\n")
+    #		end
+    #
 
   end
 end

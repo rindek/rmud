@@ -2,7 +2,7 @@ require 'core/modules/declension'
 require 'core/modules/command'
 
 class BaseObject
-	include Modules::Command
+  include Modules::Command
 
   attr_accessor :short
 
@@ -10,7 +10,7 @@ class BaseObject
     @environment = nil
     @short = "obiekt"
 
-		init_module_command
+    init_module_command
   end
 
   def environment

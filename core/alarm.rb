@@ -2,7 +2,7 @@ class Alarm
   @@alarms = []
 
   @current = nil
-  
+
   def in(sec)
     @current = Thread.new {
       sleep sec
@@ -10,7 +10,7 @@ class Alarm
       stop
     }
     @@alarms << self
-    
+
     self
   end
 
@@ -31,15 +31,15 @@ class Alarm
       stop
     }
     @@alarms << self
-    
+
     self
   end
-  
+
   def stop
     @@alarms.delete(self)
     @thread.kill
   end
-  
+
   def self.alarms
     @@alarms
   end

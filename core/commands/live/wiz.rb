@@ -10,17 +10,17 @@ module Cmd
 
       ## NIE DZIAŁA - SYPIE BŁĘDAMI GDY CHCE COŚ ZAŁADOWAĆ Z POZIOMU
       ## KLIENTA - DZIWNA SPRAWA
-#      def load(command)
-##        debugger
-#        __load(command.cmd)
-#        return true
-#      end
+      #      def load(command)
+      ##        debugger
+      #        __load(command.cmd)
+      #        return true
+      #      end
 
 
       def init
         init_module_command
 
-#        add_object_action(:load, "load")
+        #        add_object_action(:load, "load")
       end
     end
   end

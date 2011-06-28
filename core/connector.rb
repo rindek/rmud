@@ -87,7 +87,7 @@ class Connector < GServer
     puts "Logujemy gracza " + accplayer['name'] + " do gry."
     user.nick = accplayer['name']
 
-#    user.disconnect()
+    #    user.disconnect()
     player = Player.new(user, accplayer)
 
     ## jeżeli gracz nie jest jeszcze do końca stworzony, to musi
