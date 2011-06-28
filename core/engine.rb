@@ -158,9 +158,12 @@ class Engine
       #        user.catch_msg("\n")
       #      end
 
-      require 'world/pilka.rb'
+      if command.cmd =~ /debugger/
+        debugger
+      end
 
       if command.cmd =~ /pilka/
+        require 'world/pilka.rb'
         World::Pilka.new.move(user)
         user.catch_msg("masz nowa pilke!\n")
       end

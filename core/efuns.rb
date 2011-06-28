@@ -61,11 +61,30 @@ def read_config(config_name)
 end
 
 class Object
+  @@loaded_files = []
+
   def require(path)
     if super(path)
       log("Loaded: " + path)
     end
   end
+
+  def load(path)
+    if super(path)
+      unless @@loaded_files.include?(path)
+        @@loaded_files << path
+        p @@loaded_files
+      end
+    end
+  end
+
+  def loaded_files
+    @@loaded_files
+  end
 end
 
-
+class File
+  def self.is_loaded?(path)
+    @@loaded_files.include?(path)
+  end
+end
