@@ -71,6 +71,8 @@ class Connector < GServer
   end
 
   def serve(client)
+    client.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY, 1)
+
     user = User.new(client)
 
     @@users.push(user)

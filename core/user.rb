@@ -35,7 +35,8 @@ class User
 
   def write_socket(msg)
     begin
-      @connection.print msg
+      @connection.write(msg)
+      @connection.flush
     rescue IOError => e
       puts "Connection lost!"
     end
