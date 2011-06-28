@@ -1,0 +1,11 @@
+devel:
+  database: rmud
+  host: localhost
+  username: rmud
+  password: rmudrmud
+
+production:
+  database: rmud
+  host: localhost
+  username: root
+  password: root
