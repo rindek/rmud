@@ -1,7 +1,7 @@
 require 'gserver'
-require 'core/login.rb'
-require 'core/user.rb'
-require 'core/command.rb'
+require './core/login.rb'
+require './core/user.rb'
+require './core/command.rb'
 
 class Connector < GServer
 
@@ -96,7 +96,8 @@ class Connector < GServer
     ## zostać przeniesiony do specjalnego miejsca, gdzie
     ## postać jest tworzona.
 
-    require 'world/room.rb'
+    require './world/room.rb'
+    puts 'a'
     room = World::Room.instance
     player.move(room)
     room.filter(Player, [player]).each do |p|
@@ -104,7 +105,6 @@ class Connector < GServer
     end
 
     set_environment("game")
-
     loop do
       if player.socket.closed?
         break

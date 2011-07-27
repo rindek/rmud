@@ -1,5 +1,5 @@
 require 'singleton'
-require 'core/modules/command'
+require './core/modules/command'
 
 module Cmd
   module Live

@@ -1,4 +1,4 @@
-require 'core/modules/declension'
+require './core/modules/declension'
 
 class AccountPlayer
   include Declension

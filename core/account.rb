@@ -1,6 +1,6 @@
 require 'digest/sha1'
 
-require 'core/account_player.rb'
+require './core/account_player.rb'
 
 class Account
 
@@ -87,8 +87,7 @@ class Account
   end
 
   def save
-    model = Models::Account.new
-    model.save(0, {:name => @name, :email => @email, :password => @password, :player_password => @player_password})
+    Models::Account.create(:name => @name, :email => @email, :password => @password, :player_password => @player_password)
   end
 
   def menu
@@ -101,9 +100,9 @@ class Account
 
   ## main menu
   def manage(account)
-    @model_account = Models::Account.new
+#    @model_account = Models::Account.new
     loop do
-      account = @model_account.by_id(account['id'])
+#      account = @model_account.by_id(account['id'])
 
       current_user.catch_msg("Zarzadzanie kontem\n")
       menu
@@ -125,7 +124,8 @@ class Account
 
   ## opcja 1 - lista stworzonych postaci
   def manage_cmd_1(account)
-    players = @model_account.get_players(account['id'])
+    account.reload
+    players = account.players
 
     if players.size == 0
       current_user.catch_msg("Nie masz stworzonych zadnych postaci.\n")
@@ -196,7 +196,8 @@ class Account
         end
 
         pass = Digest::SHA1.hexdigest(pass)
-        @model_account.save(account['id'], {:player_password => pass})
+#        @model_account.save(account['id'], {:player_password => pass})
+        account.update(:player_password => pass)
         current_user.catch_msg("Haslo na postac zostalo poprawnie utworzone.\n")
         break
       else ## mamy hasło, chcemy je zmienić
@@ -235,7 +236,8 @@ class Account
         end
 
         new_password = Digest::SHA1.hexdigest(new_password)
-        @model_account.save(account['id'], {:player_password => new_password})
+#        @model_account.save(account['id'], {:player_password => new_password})
+        account.update(:player_password => new_password)
         current_user.catch_msg("Haslo na postac zostalo poprawnie zmienione.\n")
         break
       end
@@ -255,7 +257,11 @@ class Account
   def create_player(playername, account)
     params = {:account_id => account['id'], :name => playername.downcase, :created => false}
 
-    @player_model.save(0, params)
+    player = Models::Player.new
+    player.attributes = params
+    player.save
+
+#    @player_model.save(0, params)
     current_user.catch_msg "Postac o imieniu '" + playername.to_s + "' zostala utworzona.\n"
     Engine.instance.read(current_user, "Wcisnij enter. ")
     ## todo - zrobić tworzenie graczy

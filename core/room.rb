@@ -1,6 +1,6 @@
 require 'singleton'
-require 'core/container'
-require 'core/modules/command'
+require './core/container'
+require './core/modules/command'
 
 module Core
   class Room < Container

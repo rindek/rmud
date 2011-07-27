@@ -1,10 +1,10 @@
 require 'singleton'
-require 'core/connector.rb'
-require 'core/alarm.rb'
+require './core/connector.rb'
+require './core/alarm.rb'
 
-require 'core/commands/loader'
+require './core/commands/loader'
 
-require 'core/player.rb'
+require './core/player.rb'
 
 ## konfiguracja bazy danych
 
@@ -22,7 +22,7 @@ class Engine
     model_dir = Dir.pwd + "/core/models/"
 
     ## model.rb jest wymagany
-    require (model_dir + "model.rb")
+    ## require (model_dir + "model.rb")
 
     Dir.entries(model_dir).each do |file|
       if file.match(/.+\.rb/)
@@ -30,6 +30,8 @@ class Engine
         require (model_dir + file)
       end
     end
+
+    DataMapper.finalize
   end
 
   #  def load_accounts
@@ -163,7 +165,7 @@ class Engine
       end
 
       if command.cmd =~ /pilka/
-        require 'world/pilka.rb'
+        require './world/pilka.rb'
         World::Pilka.new.move(user)
         user.catch_msg("masz nowa pilke!\n")
       end

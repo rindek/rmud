@@ -1,6 +1,6 @@
-require 'core/room.rb'
+require './core/room.rb'
 
-require 'world/room'
+require './world/room'
 
 module World
   class Room2 < Core::Room

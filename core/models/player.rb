@@ -1,15 +1,19 @@
 module Models
-  class Player < Models::Model
+  class Player
+    include DataMapper::Resource
 
-    def initialize
-      super
+    storage_names[:default] = 'players'
 
-      @table_name = "players"
-    end
+    property :id,         Serial
+    property :account_id, Integer
+    property :name,       String
+    property :created,    Boolean
+    property :created_at, DateTime, :default => Time.now
+
+    belongs_to :account
 
     def get_by_name(name)
-      query = "select * from players where name = ?"
-      @sql.one(query, name)
+      Models::Player.first(:name => name)
     end
 
     def get_option(player_id, option_name)

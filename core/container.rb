@@ -1,4 +1,4 @@
-require 'core/base_object'
+require './core/base_object'
 
 class Container < BaseObject
   include Declension
@@ -32,6 +32,21 @@ class Container < BaseObject
     @inventory = []
 
     set_declination("pojemnik", "pojemnika", "pojemnikowi", "pojemnik", "pojemnikiem", "pojemniku")
+
+#    Event.instance.register('before_enter')
+    Event.register('obj_enter') do |obj, to|
+      to.enter(obj)
+    end
+#    Event.instance.register('after_enter')
+
+#    Event.instance.register('before_leave')
+    Event.register('obj_leave') do |obj, from|
+      unless from.nil?
+        from.leave(obj)
+      end
+    end
+#    Event.instance.register('after_leave')
+
   end
 
   def inventory
@@ -50,11 +65,11 @@ class Container < BaseObject
     inv
   end
 
-  def enter(obj, from)
+  def enter(obj)
     @inventory << obj
   end
 
-  def leave(obj, to)
+  def leave(obj)
     @inventory.delete(obj)
   end
 end

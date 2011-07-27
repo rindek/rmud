@@ -1,8 +1,8 @@
 require 'singleton'
 require 'digest/sha1'
 
-require 'core/engine.rb'
-require 'core/account.rb'
+require './core/engine.rb'
+require './core/account.rb'
 
 class Login
   include Singleton
@@ -48,7 +48,8 @@ class Login
         if player.nil?
           user.catch_msg("Postac o takim imieniu nie istnieje. Sprobuj ponownie.\n")
         else
-          account = @model_account.get_by_player_id(player['id'])
+#          account = @model_account.get_by_player_id(player['id'])
+          account = player.account
 
           user.dont_echo
           password = Engine.instance.read(user, "Witaj, #{player['name']}. Podaj swoje haslo: ")

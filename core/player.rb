@@ -1,4 +1,4 @@
-require 'core/living.rb'
+require './core/living.rb'
 
 class Player < Living
 

@@ -1,4 +1,4 @@
-require 'core/container.rb'
+require './core/container.rb'
 
 # living jest containerem
 class Living < Container

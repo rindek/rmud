@@ -1,4 +1,4 @@
-require 'core/base_object'
+require './core/base_object'
 
 module World
   class Pilka < BaseObject
