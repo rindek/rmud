@@ -34,19 +34,34 @@ class Container < BaseObject
     set_declination("pojemnik", "pojemnika", "pojemnikowi", "pojemnik", "pojemnikiem", "pojemniku")
 
 #    Event.instance.register('before_enter')
-    Event.register('obj_enter') do |obj, to|
-      to.enter(obj)
-    end
+#    Event.register(self, 'obj_enter') do |obj, to|
+#      to.enter(obj)
+#    end
 #    Event.instance.register('after_enter')
 
 #    Event.instance.register('before_leave')
-    Event.register('obj_leave') do |obj, from|
-      unless from.nil?
-        from.leave(obj)
-      end
-    end
+#    Event.register(self, 'obj_leave') do |obj, from|
+#      unless from.nil?
+#        from.leave(obj)
+#      end
+#    end
 #    Event.instance.register('after_leave')
 
+    Event.hook(self, 'object_leaving_container') do |obj, from, to|
+      unless from.nil?
+        unless obj.is_a?(Core::Room)
+          from.leave(obj)
+        end
+      end
+    end
+
+    Event.hook(self, 'object_entering_container') do |obj, from, to|
+      unless to.nil?
+        unless obj.is_a?(Core::Room)
+          to.enter(obj)
+        end
+      end
+    end
   end
 
   def inventory

@@ -48,12 +48,17 @@ module Cmd
         this_player.catch_msg("\n")
       end
 
+      def irb(command)
+        IRB.start_session(binding)
+      end
+
 
       def init
         init_module_command
 
         add_object_action(:load, "load")
-        add_object_action(:ls, "ls");
+        add_object_action(:ls, "ls")
+        add_object_action(:irb, "irb")
       end
     end
   end

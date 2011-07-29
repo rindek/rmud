@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require './core/room.rb'
 
 require './world/room2'
@@ -14,9 +16,11 @@ module World
 
       add_object_action(:test, "test")
 
-#      Event.hook('obj_enter') do |player, from|
-#        player.catch_msg("Ha, widze, ze przyszedles!")
-#      end
+      Event.hook(self, 'object_entering_container') do |room, obj, from|
+        if obj.is_a?(Player)
+          obj.catch_msg("Ha, widzę, że przyszedłeś!\n")
+        end
+      end
     end
 
     def test(command)

@@ -97,7 +97,6 @@ class Connector < GServer
     ## postać jest tworzona.
 
     require './world/room.rb'
-    puts 'a'
     room = World::Room.instance
     player.move(room)
     room.filter(Player, [player]).each do |p|

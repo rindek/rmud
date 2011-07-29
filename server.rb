@@ -2,6 +2,9 @@
 
 require './core/efuns.rb'
 
+## for irb
+require './core/irb.rb'
+
 set_server_environment("devel")
 
 require './core/event.rb'

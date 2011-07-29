@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'singleton'
 require 'digest/sha1'
 
@@ -10,7 +12,7 @@ class Login
   def login(user)
     set_environment("login")
     while !user.logged_in?
-      command = Engine.instance.read(user, "Podaj swoje imie: ")
+      command = Engine.instance.read(user, "Podaj swoje imię: ")
       puts command.inspect
       if command.cmd == 'nowe' && (command.has_args? && command.args_array[0] == 'konto')
         acc = Account.new
@@ -26,10 +28,10 @@ class Login
           # user.socket.print 0xfb.chr
           # user.socket.print 0x01.chr
           user.dont_echo
-          password = Engine.instance.read(user, "Podaj haslo na konto: ")
+          password = Engine.instance.read(user, "Podaj hasło na konto: ")
           user.catch_msg("\n")
           if acc['password'] != Digest::SHA1.hexdigest(password.cmd)
-            user.catch_msg("Bledne haslo! Zaloguj sie ponownie. Do zobaczenia.\n")
+            user.catch_msg("Błędne hasło! Zaloguj się ponownie. Do zobaczenia.\n")
             user.disconnect
             break
           else
@@ -46,16 +48,16 @@ class Login
 
         player = @model_player.get_by_name(command.cmd)
         if player.nil?
-          user.catch_msg("Postac o takim imieniu nie istnieje. Sprobuj ponownie.\n")
+          user.catch_msg("Postać o takim imieniu nie istnieje. Spróbuj ponownie.\n")
         else
 #          account = @model_account.get_by_player_id(player['id'])
           account = player.account
 
           user.dont_echo
-          password = Engine.instance.read(user, "Witaj, #{player['name']}. Podaj swoje haslo: ")
+          password = Engine.instance.read(user, "Witaj, #{player['name']}. Podaj swoje hasło: ")
           user.catch_msg("\n")
           if account['player_password'] != Digest::SHA1.hexdigest(password.cmd)
-            user.catch_msg("Bledne haslo! Zaloguj sie ponownie. Do zobaczenia.\n")
+            user.catch_msg("Błędne haslo! Zaloguj się ponownie. Do zobaczenia.\n")
             user.disconnect
             break
           else
