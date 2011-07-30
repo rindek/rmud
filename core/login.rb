@@ -50,18 +50,22 @@ class Login
         if player.nil?
           user.catch_msg("Postać o takim imieniu nie istnieje. Spróbuj ponownie.\n")
         else
-#          account = @model_account.get_by_player_id(player['id'])
-          account = player.account
 
-          user.dont_echo
-          password = Engine.instance.read(user, "Witaj, #{player['name']}. Podaj swoje hasło: ")
-          user.catch_msg("\n")
-          if account['player_password'] != Digest::SHA1.hexdigest(password.cmd)
-            user.catch_msg("Błędne haslo! Zaloguj się ponownie. Do zobaczenia.\n")
-            user.disconnect
-            break
+          if !player['created']
+            user.catch_msg("Ta postać nie jest do końca utworzona. Skorzystaj z opcji tworzenia postaci z poziomu konta, aby dokończyć kreację postaci.\n")
           else
-            return player
+            account = player.account
+
+            user.dont_echo
+            password = Engine.instance.read(user, "Witaj, #{player['name']}. Podaj swoje hasło: ")
+            user.catch_msg("\n")
+            if account['player_password'] != Digest::SHA1.hexdigest(password.cmd)
+              user.catch_msg("Błędne haslo! Zaloguj się ponownie. Do zobaczenia.\n")
+              user.disconnect
+              break
+            else
+              return player
+            end
           end
         end
       end

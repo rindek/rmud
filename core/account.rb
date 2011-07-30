@@ -1,5 +1,6 @@
-require 'digest/sha1'
+# coding: utf-8
 
+require 'digest/sha1'
 require './core/account_player.rb'
 
 class Account
@@ -94,7 +95,7 @@ class Account
     current_user.catch_msg("[1] - lista stworzonych postaci\n")
     current_user.catch_msg("[2] - tworzenie nowej postaci\n")
     current_user.catch_msg("[3] - utworzenie/zmiana hasla postaci\n")
-    #    current_user.catch_msg("[4] - zmiana hasla konta\n")
+#    current_user.catch_msg("[4] - kontynuacja tworzenia postaci\n")
     current_user.catch_msg("[zakoncz] - zakonczenie zarzadzania kontem, powrot do ekranu logowania\n")
   end
 
@@ -134,6 +135,10 @@ class Account
       current_user.catch_msg("Oto lista twoich postaci:\n")
       players.each do |player|
         str = " * " + player['name'].capitalize
+
+        if !player['created']
+          str += " (postać nieukończona)"
+        end
 
         current_user.catch_msg str + "\n"
       end
@@ -255,15 +260,68 @@ class Account
 
   ## tworzenie nowego gracza
   def create_player(playername, account)
-    params = {:account_id => account['id'], :name => playername.downcase, :created => false}
+    playername.downcase!
+
+    params = {:account_id => account['id'], :name => playername, :created => false}
 
     player = Models::Player.new
     player.attributes = params
     player.save
 
 #    @player_model.save(0, params)
-    current_user.catch_msg "Postac o imieniu '" + playername.to_s + "' zostala utworzona.\n"
-    Engine.instance.read(current_user, "Wcisnij enter. ")
+#    current_user.catch_msg "Postac o imieniu '" + playername.to_s + "' zostala utworzona.\n"
+#    Engine.instance.read(current_user, "Wcisnij enter. ")
+    current_user.catch_msg "Tworzymy postać o imieniu '" + playername.capitalize + "'\n"
+
+    declension = Models::Declension.new
+    declension.nazwa = "player_" + playername
+    declension.mianownik = playername
+
+    current_user.catch_msg("Podaj poprawną odmianę swojego imienia.\n")
+    current_user.catch_msg("Mianownik (kto? / co?): " + playername + "\n")
+
+    loop do
+      command = Engine.instance.read(current_user, "Dopelniacz (kogo? / czego?): ")
+      declension.dopelniacz = command.cmd
+      command = Engine.instance.read(current_user, "Celownik (komu? / czemu?): ")
+      declension.celownik = command.cmd
+      command = Engine.instance.read(current_user, "Biernik (kogo? / co?): ")
+      declension.biernik = command.cmd
+      command = Engine.instance.read(current_user, "Narzednik (z kim? / z czym?): ")
+      declension.narzednik = command.cmd
+      command = Engine.instance.read(current_user, "Miejscownik (o kim? / o czym?): ")
+      declension.miejscownik = command.cmd
+
+      current_user.catch_msg("Oto odmiana podana przez ciebie: \n")
+      current_user.catch_msg(declension.show_declension)
+
+      declination_correct = false
+      loop do
+        command = Engine.instance.read(current_user, "Czy odmiana jest poprawna? ([t]ak/[n]ie): ")
+        if !command.cmd.match(/^(t|n|tak|nie)$/)
+          current_user.catch_msg("Mozliwe odpowiedzi: [t]ak/[n]ie.\n")
+        else
+					if command.cmd.match(/^t/)
+						declination_correct = true
+					end
+					break
+        end
+      end
+
+			if declination_correct
+				break
+			end
+    end
+
+    begin
+      declension.save
+      player.created = true
+      player.save
+      current_user.catch_msg("Postać #{playername.capitalize} została poprawnie stworzona. Możesz się na nią zalogować.\n")
+    rescue
+      current_user.catch_msg("Wystąpił błąd przy tworzeniu postaci.\n")
+    end
+
     ## todo - zrobić tworzenie graczy
     #
     #

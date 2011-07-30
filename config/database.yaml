@@ -9,3 +9,9 @@ production:
   host: localhost
   username: root
   password: root
+
+testing:
+  database: rmud_testing
+  host: localhost
+  username: rmud
+  password: rmudrmud
