@@ -9,7 +9,7 @@ module Cmd
 
       def glance(command)
         this_player.catch_msg(this_player.environment.long)
-        this_player.environment.filter(BaseObject, [this_player]).each do |obj|
+        this_player.environment.filter(GameObject, [this_player]).each do |obj|
           this_player.catch_msg(obj.short + ", ")
         end
         this_player.catch_msg("\n")

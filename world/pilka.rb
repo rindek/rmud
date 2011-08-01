@@ -1,7 +1,7 @@
 require './core/base_object'
 
 module World
-  class Pilka < BaseObject
+  class Pilka < GameObject
     def initialize
       super()
 

@@ -1,7 +1,7 @@
 require './core/modules/declension'
 require './core/modules/command'
 
-class BaseObject
+class GameObject
   include Modules::Command
 
   attr_accessor :short

@@ -1,6 +1,6 @@
 require './core/base_object'
 
-class Container < BaseObject
+class Container < GameObject
   include Declension
   # standard konteneru. każdy obiekt, który ma mieć możliwość posiadania
   # obiektów powinien po nim dziedziczyć

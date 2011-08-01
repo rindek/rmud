@@ -2,8 +2,6 @@
 
 require './core/room.rb'
 
-require './world/room2'
-
 module World
   class Room < Core::Room
     def initialize

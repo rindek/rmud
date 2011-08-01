@@ -81,10 +81,29 @@ class Object
   def loaded_files
     @@loaded_files
   end
+
 end
 
 class File
   def self.is_loaded?(path)
     @@loaded_files.include?(path)
+  end
+end
+
+class Module
+  def const_missing(name)
+    modules = self.to_s.split("::")
+    if modules.first == "World"
+      modules << name.to_s
+      filename = "./" + modules.map {|x| x.downcase}.join("/")
+      begin
+        require filename
+        if const_get(name)
+          return Object.module_eval(modules.join("::"))
+        end
+      rescue
+        p "file not found: " + filename
+      end
+    end
   end
 end
