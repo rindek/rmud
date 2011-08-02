@@ -60,6 +60,18 @@ def read_config(config_name)
   YAML.load_file("config/"+ config_name +".yaml")
 end
 
+def object_clones(modulename)
+  begin
+    if modulename.class == String
+      modulename = modulename.constantinize
+    end
+
+    ObjectSpace.each_object(modulename).to_a
+  rescue Exception => e
+    puts "not loaded: " + modulename.to_s
+  end
+end
+
 class Object
   @@loaded_files = []
 
@@ -96,14 +108,16 @@ class Module
     if modules.first == "World"
       modules << name.to_s
       filename = "./" + modules.map {|x| x.downcase}.join("/")
-      begin
-        require filename
-        if const_get(name)
-          return Object.module_eval(modules.join("::"))
-        end
-      rescue
-        p "file not found: " + filename
+      require filename
+      if const_get(name)
+        return modules.join("::").constantinize
       end
     end
+  end
+end
+
+class String
+  def constantinize
+    Object.module_eval(self)
   end
 end

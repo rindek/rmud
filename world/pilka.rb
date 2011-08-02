@@ -1,5 +1,3 @@
-require './core/base_object'
-
 module World
   class Pilka < GameObject
     def initialize

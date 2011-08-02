@@ -1,8 +1,9 @@
 require 'singleton'
+
+require './core/game_object.rb'
+
 require './core/connector.rb'
 require './core/alarm.rb'
-
-require './core/commands/loader'
 
 require './core/player.rb'
 
@@ -32,6 +33,18 @@ class Engine
     end
 
     DataMapper.finalize
+  end
+
+  def load_souls
+    souls_dirs = [Dir.pwd + "/core/commands/live/"]
+
+    souls_dirs.each do |soul_dir|
+      Dir.entries(soul_dir).each do |file|
+        if file.match(/.+.rb/)
+          require (soul_dir + file)
+        end
+      end
+    end
   end
 
   #  def load_accounts
@@ -69,6 +82,7 @@ class Engine
 
   def load_all
     load_models
+    load_souls
 
     #    load_accounts
   end
@@ -92,7 +106,7 @@ class Engine
     puts "Server started"
     @connector.join
     puts "Server terminated"
-  rescue
+  rescue Exception => e
     puts "Something went wrong"
   end
 
@@ -170,7 +184,7 @@ class Engine
         user.catch_msg("masz nowa pilke!\n")
       end
 
-    rescue => e
+    rescue Exception => e
       message  = "#=================================\n"
       message += "# Command: " + command.to_s + "\n"
       if current_environment

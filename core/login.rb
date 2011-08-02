@@ -64,7 +64,15 @@ class Login
               user.disconnect
               break
             else
-              return player
+              ## sprawdzamy czy juz nie jestesmy przypadkiem zalogowani...
+              active_connection = Connector.find_active_connection(player['name'].downcase)
+              unless active_connection.nil?
+                user.catch_msg("Ta postać już jest zalogowana!\n")
+                user.disconnect
+                break
+              else
+                return player
+              end
             end
           end
         end

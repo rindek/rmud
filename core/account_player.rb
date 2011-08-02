@@ -28,10 +28,10 @@ class AccountPlayer
     directory = Dir.pwd + AccountPlayer::DIR + letter + "/"
     begin
       Dir.entries(directory)
-    rescue
+    rescue Exception => e
       begin
         Dir.mkdir(directory)
-      rescue
+      rescue Exception => e
         puts "fatal error: cannot mkdir " + directory
       end
     end

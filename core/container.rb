@@ -1,5 +1,3 @@
-require './core/base_object'
-
 class Container < GameObject
   include Declension
   # standard konteneru. każdy obiekt, który ma mieć możliwość posiadania
@@ -47,21 +45,21 @@ class Container < GameObject
 #    end
 #    Event.instance.register('after_leave')
 
-    Event.hook(self, 'object_leaving_container') do |obj, from, to|
-      unless from.nil?
-        unless obj.is_a?(Core::Room)
-          from.leave(obj)
-        end
-      end
-    end
-
-    Event.hook(self, 'object_entering_container') do |obj, from, to|
-      unless to.nil?
-        unless obj.is_a?(Core::Room)
-          to.enter(obj)
-        end
-      end
-    end
+#    Event.hook(self, 'object_leaving_container') do |obj, from, to|
+#      unless from.nil?
+#        unless obj.is_a?(Core::Room)
+#          from.leave(obj)
+#        end
+#      end
+#    end
+#
+#    Event.hook(self, 'object_entering_container') do |obj, from, to|
+#      unless to.nil?
+#        unless obj.is_a?(Core::Room)
+#          to.enter(obj)
+#        end
+#      end
+#    end
   end
 
   def inventory
@@ -89,3 +87,13 @@ class Container < GameObject
   end
 end
 
+## kontener pustki
+class Void < Container
+  def enter(obj)
+    ## po przeniesieniu obiektu do tego kontenera ustawiamy my environment
+    ## nil, dzieki temu ten Void przestanie istniec po wykonaniu GC
+    if obj.is_a?(GameObject)
+      obj.environment = nil
+    end
+  end
+end

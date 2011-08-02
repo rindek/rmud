@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'singleton'
 require './core/modules/command'
 
@@ -22,6 +24,10 @@ module Cmd
 
       def logout(command)
         this_player.catch_msg("Do zobaczenia!\n")
+        this_player.environment.filter(Player, [this_player]).each do |p|
+          p.catch_msg(this_player.short + " opuszcza ten świat.\n")
+        end
+        this_player.move(Void.new)
         this_player.disconnect
       end
 

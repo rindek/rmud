@@ -40,10 +40,10 @@ module Cmd
       def init
         init_module_command
 
-        add_object_action(:go, "polnoc")
-        add_object_action(:go, "poludnie")
-        add_object_action(:go, "wschod")
-        add_object_action(:go, "zachod")
+#        add_object_action(:go, "polnoc")
+#        add_object_action(:go, "poludnie")
+#        add_object_action(:go, "wschod")
+#        add_object_action(:go, "zachod")
       end
     end
   end

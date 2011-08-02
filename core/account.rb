@@ -318,7 +318,7 @@ class Account
       player.created = true
       player.save
       current_user.catch_msg("Postać #{playername.capitalize} została poprawnie stworzona. Możesz się na nią zalogować.\n")
-    rescue
+    rescue Exception => e
       current_user.catch_msg("Wystąpił błąd przy tworzeniu postaci.\n")
     end
   end

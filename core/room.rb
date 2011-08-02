@@ -35,21 +35,7 @@ module Core
     def get_exit(direction)
       exit = @exits.select {|e| e[:direction] == direction}.first
       if exit
-        begin
-          exit[:room].instance
-        rescue LoadError => e
-          message = "#=================================\n"
-          message += "# Error: #{$!}\n"
-          message += "#=================================\n"
-          e.backtrace.each do |msg|
-            message += "# " + msg + "\n"
-          end
-          message += "#=================================\n"
-
-          puts message # na serwer
-          this_player.catch_msg(message) # na ekran
-          nil
-        end
+        exit[:room].instance
       else
         nil
       end

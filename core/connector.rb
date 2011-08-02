@@ -7,6 +7,10 @@ class Connector < GServer
 
   @@users = []
 
+  def self.find_active_connection(name)
+    self.get_users.select {|x| x.nick == name}.first
+  end
+
   def error(detail)
     log("-------------------------------------\n")
     log("Error: #{$!}\n")
@@ -53,7 +57,7 @@ class Connector < GServer
       # koniec kodu Pat'a
 
       Command.new(line)
-    rescue
+    rescue Exception => e
       nil
     end
   end

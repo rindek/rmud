@@ -23,6 +23,8 @@ class Player < Living
 
     @souls << Cmd::Live::Standard.instance
     @souls << Cmd::Live::Exits.instance
+    @souls << Cmd::Live::Items.instance
+
     @souls << Cmd::Live::Wiz.instance
 
     ## aby zainicjalizować komendy
