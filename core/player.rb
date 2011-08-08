@@ -61,7 +61,11 @@ class Player < Living
   end
 
   def socket
-    @user.socket
+    unless @user.nil?
+      @user.socket
+    else
+      nil
+    end
   end
 
   def catch_msg(msg)
@@ -70,11 +74,19 @@ class Player < Living
 
   def disconnect()
     @user.disconnect()
+
+    @user = nil
+    @player = nil
+    @souls = nil
   end
 
-  def remove()
-    super()
+  def before_destroy
+    disconnect
 
-    disconnect()
+    set_this_player(nil)
+  end
+
+  def after_destroy
+    p environment
   end
 end

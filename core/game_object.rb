@@ -11,6 +11,15 @@ class GameObject
     @short = "obiekt"
 
     init_module_command
+
+    ObjectSpace.define_finalizer(self, self.class.finalize())
+  end
+
+  def self.finalize
+    proc {
+    "Usuniecie obiektu "
+    p self
+    }
   end
 
   def environment
@@ -46,7 +55,10 @@ class GameObject
 
       ## wrzucamy obiekt do dest_obj
       dest_obj.enter(self)
-      @environment = dest_obj
+
+      unless dest_obj.is_a?(Destructor)
+        @environment = dest_obj
+      end
     end
 
 
@@ -73,12 +85,33 @@ class GameObject
 #  end
 
   # usuwamy obiekt z pamieci
-  def remove()
-    # jezeli istnieje obiekt w jakims kontenerze to go stamtad wyciagamy
-    if !@environment.nil?
-      @environment.leave(self, nil)
-      @environment = nil
+  def remove(&block)
+    if block_given?
+      hash = block.call
+
+      unless hash['before_destroy'].nil?
+        hash['before_destroy'].call(self)
+      end
     end
+
+    # jezeli istnieje obiekt w jakims kontenerze to go stamtad wyciagamy
+#    if !@environment.nil?
+#      @environment.leave(self)
+#      @environment = nil
+#    end
+#
+    self.move(Destructor.new)
     # garbage collector zajmie sie reszta...
+  end
+
+  def clear_all_variables
+    self.instance_variables.each do |var|
+      self.remove_instance_variable(var)
+    end
+  end
+
+  public
+  def remove_instance_variable(var)
+    super(var)
   end
 end

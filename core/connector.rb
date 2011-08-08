@@ -71,6 +71,7 @@ class Connector < GServer
     end
 
     @@users.delete_if { |x| x.socket.closed? }
+    set_current_user(nil)
     super(port)
   end
 
@@ -109,6 +110,10 @@ class Connector < GServer
 
     set_environment("game")
     loop do
+      if player.socket.nil?
+        break
+      end
+
       if player.socket.closed?
         break
       end

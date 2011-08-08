@@ -27,8 +27,9 @@ module Cmd
         this_player.environment.filter(Player, [this_player]).each do |p|
           p.catch_msg(this_player.short + " opuszcza ten świat.\n")
         end
-        this_player.move(Void.new)
-        this_player.disconnect
+        this_player.remove()
+#        this_player.move(Void.new)
+#        this_player.disconnect
       end
 
       def init

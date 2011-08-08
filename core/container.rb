@@ -85,15 +85,34 @@ class Container < GameObject
   def leave(obj)
     @inventory.delete(obj)
   end
+
+  def leave_force(obj)
+    @inventory.delete(obj)
+  end
 end
 
-## kontener pustki
-class Void < Container
+## kontener destruktora (pustki)
+class Destructor < Container
   def enter(obj)
     ## po przeniesieniu obiektu do tego kontenera ustawiamy my environment
     ## nil, dzieki temu ten Void przestanie istniec po wykonaniu GC
+
+    if obj.respond_to?("before_destroy")
+      obj.before_destroy
+    end
+
     if obj.is_a?(GameObject)
+      unless obj.environment.nil?
+        obj.environment.leave_force(obj)
+      end
       obj.environment = nil
     end
+    p obj
+
+    if obj.respond_to?("after_destroy")
+      obj.after_destroy
+    end
+
+    ## resztą powinien zająć się GC
   end
 end

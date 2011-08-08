@@ -49,6 +49,8 @@ module Cmd
       end
 
       def irb(command)
+        ## po 2-3 odpaleniu irb na roznych zalogowaniach
+        ## wywala sie blad o no such job Thread...
         IRB.start_session(binding)
       end
 
