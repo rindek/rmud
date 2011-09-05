@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'singleton'
 require './core/modules/command'
 
@@ -36,14 +38,36 @@ module Cmd
           return true ## komenda zakończona sukcesem
         end
       end
+      
+      def try_go_short(command)
+        dir = Modules::Direction.new(command.cmd)
+        cmd = Command.new(dir.long)
+        try_go(cmd)
+      end
+      
+      def try_go(command)
+        return go(command)
+      end
 
       def init
         init_module_command
 
-#        add_object_action(:go, "polnoc")
-#        add_object_action(:go, "poludnie")
-#        add_object_action(:go, "wschod")
-#        add_object_action(:go, "zachod")
+        directions_short = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw', 'u', 'd'] 
+        directions_long = [
+          'północ', 'północny-wschód', 'wschód', 
+          'południowy-wschód', 'południe', 'południowy-zachód', 'zachód', 
+          'północny-zachód', 'góra', 'dół'
+        ]
+        
+        directions_short.each do |dir|
+          add_object_action(:try_go_short, dir)
+        end
+        
+        directions_long.each do |dir|
+          add_object_action(:try_go, dir)
+          add_object_action(:try_go, dir.depolonize)
+        end
+        
       end
     end
   end

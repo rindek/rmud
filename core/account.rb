@@ -211,8 +211,17 @@ class Account
         current_password = nil
         new_password = nil
         temp_pass = nil
-
+        tries = 0
+        
+        
         while new_password.nil?
+          if tries > 3
+            current_user.catch_msg("Limit prób został wyczerpany, spróbuj ponownie.\n")
+            break
+          end
+          
+          tries += 1
+          
           current_user.dont_echo
           current_password = Engine.instance.read(current_user, "Podaj aktualne haslo gracza: ")
           current_user.catch_msg("\n")
@@ -238,6 +247,10 @@ class Account
               end
             end
           end
+        end
+        
+        if new_password.nil?
+          break
         end
 
         new_password = Digest::SHA1.hexdigest(new_password)

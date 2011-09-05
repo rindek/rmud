@@ -48,10 +48,8 @@ module Cmd
         this_player.catch_msg("\n")
       end
 
-      def irb(command)
-        ## po 2-3 odpaleniu irb na roznych zalogowaniach
-        ## wywala sie blad o no such job Thread...
-        IRB.start_session(binding)
+      def pry(command)
+        binding.pry
       end
 
 
@@ -60,7 +58,7 @@ module Cmd
 
         add_object_action(:load, "load")
         add_object_action(:ls, "ls")
-        add_object_action(:irb, "irb")
+        add_object_action(:pry, "pry")
       end
     end
   end

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 def set_server_environment(envi)
   Thread.current[:server_environment] = envi
 end
@@ -119,5 +120,27 @@ end
 class String
   def constantinize
     Object.module_eval(self)
+  end
+  
+  def depolonize_string(str)
+    str.gsub!(/ą/, "a")
+    str.gsub!(/ć/, "c")
+    str.gsub!(/ł/, "l")
+    str.gsub!(/ń/, "n")
+    str.gsub!(/ó/, "o")
+    str.gsub!(/ś/, "s")
+    str.gsub!(/ź/, "z")
+    str.gsub!(/ż/, "z")
+    
+    str
+  end
+  
+  def depolonize
+    str = self.clone
+    depolonize_string(str)
+  end
+  
+  def depolonize!
+    depolonize_string(self)
   end
 end

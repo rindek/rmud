@@ -3,7 +3,7 @@
 require './core/efuns.rb'
 
 ## for irb
-require './core/irb.rb'
+require 'pry'
 
 set_server_environment("devel")
 

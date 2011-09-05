@@ -33,7 +33,7 @@ module Core
     end
 
     def get_exit(direction)
-      exit = @exits.select {|e| e[:direction] == direction}.first
+      exit = @exits.select {|e| e[:direction] == direction || e[:direction] == direction.depolonize}.first
       if exit
         exit[:room].instance
       else

@@ -1,5 +1,7 @@
 require 'singleton'
 
+require './core/modules/direction.rb'
+
 require './core/game_object.rb'
 
 require './core/connector.rb'
