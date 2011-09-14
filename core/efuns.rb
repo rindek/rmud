@@ -58,7 +58,7 @@ end
 
 ## config
 def read_config(config_name)
-  YAML.load_file("config/"+ config_name +".yaml")
+  YAML.load_file("gamedriver/config/"+ config_name +".yaml")
 end
 
 def object_clones(modulename)

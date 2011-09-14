@@ -2,5 +2,4 @@ accounts/*
 players/*
 nbproject/*
 .idea/*
-Gemfile.lock
 /.redcar/

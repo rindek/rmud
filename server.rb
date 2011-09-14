@@ -50,7 +50,10 @@ if $0 == __FILE__
       Process.exit
     end
 
+    ## Ładujemy wszystkie najpotrzebniejsze rzeczy
     Engine.instance.load_all
+    
+    ## Odpalamy nasłuchiwanie
     Engine.instance.accept_connections
   end
 end

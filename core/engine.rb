@@ -49,44 +49,24 @@ class Engine
     end
   end
 
-  #  def load_accounts
-  #    acc_dir = Dir.pwd + Account::DIR
-  #
-  #    Dir.entries(acc_dir).each do |letter|
-  #      if letter.match(/[a-z]/)
-  #        Dir.entries(acc_dir + letter).each do |acc|
-  #          if acc.match(/[a-z]+\.yaml/)
-  #            load_account(acc_dir + letter + "/" + acc)
-  #          end
-  #        end
-  #      end
-  #    end
-  #
-  #
-  #    puts("Loaded "+ @accounts.size.to_s + " accounts.")
-  #  end
-  #
-  #  def load_account(file)
-  #    acc = File.open(file) {|y| YAML::load(y)}
-  #    @accounts.push(acc)
-  #    puts "nowe konto zaladowane " + acc.inspect
-  #  end
-  #
-  #  def load_player(playername)
-  #    playername.downcase!
-  #    filename = Dir.pwd + AccountPlayer::DIR + playername[0..0] + "/" + playername + ".yaml"
-  #    if File.exists?(filename)
-  #      return File.open(filename) {|y| YAML::load(y)}
-  #    end
-  #
-  #    return nil
-  #  end
-
+  ## ładujemy wszystkie pliki znajdujące się w ['core', 'gamedriver', 'mudlib']
   def load_all
-    load_models
-    load_souls
-
-    #    load_accounts
+    dirs = [Dir.pwd + "/core/", Dir.pwd + "/gamedriver/", Dir.pwd + "/mudlib/"]
+    dirs.each do |subdir|
+      load_dir_recursive(subdir)
+    end
+  end
+  
+  def load_dir_recursive(dir)
+    Dir.entries(dir).each do |file|
+      if file.match(/.+.rb/)
+        require (dir + file)
+      else
+        if file != "." && file != ".." && File.directory?(dir + file)
+          load_dir_recursive(dir + file + "/")
+        end
+      end
+    end
   end
 
   def read(user, prompt = "> ")
