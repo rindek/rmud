@@ -51,10 +51,12 @@ class Engine
 
   ## ładujemy wszystkie pliki znajdujące się w ['core', 'gamedriver', 'mudlib']
   def load_all
+    puts "Loading all files from " + ['core', 'gamedriver', 'mudlib'].join(", ") + " dirs"
     dirs = [Dir.pwd + "/core/", Dir.pwd + "/gamedriver/", Dir.pwd + "/mudlib/"]
     dirs.each do |subdir|
       load_dir_recursive(subdir)
     end
+    puts "Finished loading all files"
   end
   
   def load_dir_recursive(dir)
