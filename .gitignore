@@ -3,3 +3,4 @@ players/*
 nbproject/*
 .idea/*
 /.redcar/
+gamedriver/config/database.yml

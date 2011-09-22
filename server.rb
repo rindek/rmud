@@ -1,19 +1,12 @@
 # coding: utf-8
 
+require './boot.rb'
 require './core/efuns.rb'
-
-## for irb
-require 'pry'
 
 set_server_environment("devel")
 
 require './core/event.rb'
 require './core/engine.rb'
-
-require 'yaml'
-
-require 'datamapper'
-
 
 def test_database
   adapter = DataMapper.repository(:default).adapter

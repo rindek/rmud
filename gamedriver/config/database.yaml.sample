@@ -1,8 +1,8 @@
 devel:
   database: rmud
   host: localhost
-  username: rmud
-  password: rmudrmud
+  username: root
+  password: root
 
 production:
   database: rmud
