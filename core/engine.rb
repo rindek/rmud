@@ -81,7 +81,9 @@ class Engine
   end
 
   def accept_connections
-    @connector = Connector.new(4001) if @connector.nil?
+    game_config = read_config("game")[server_environment]
+    
+    @connector = Connector.new(game_config["port"]) if @connector.nil?
     @connector.debug = true
     @connector.audit = true
     @connector.start
