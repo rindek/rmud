@@ -24,6 +24,12 @@ class Connector < GServer
     log("-------------------------------------\n")
   end
 
+  def read_console(prompt = "[console] ")
+    print prompt
+    line = gets
+    line
+  end
+
   def read (user, prompt = "> ")
     if prompt
       user.catch_msg prompt
@@ -60,6 +66,40 @@ class Connector < GServer
     rescue Exception => e
       nil
     end
+  end
+  
+  ## i really like the idea, but it needs to be a seperate app,
+  ## where i tell rmud to do things. 
+  ## right now if i want to reboot it it generates another process
+  ## thread in thread, which is not very good :]
+  def create_console
+    loop do
+      command = read_console
+      
+      if command =~ /shutdown/
+        self.stop
+      end
+      
+      if command =~ /quit/
+        ## trigger stop process
+        self.stop
+        Process.exit
+      end
+      
+      if command =~ /reboot/
+        self.stop
+        Engine.instance.reload_all
+        Engine.instance.accept_connections
+      end
+    end
+  end
+  
+  def join_with_terminal
+    console = Thread.new do
+      create_console
+    end
+    console.join
+    self.join
   end
 
   def disconnecting(port)

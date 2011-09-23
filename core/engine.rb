@@ -24,12 +24,8 @@ class Engine
   def load_models
     model_dir = Dir.pwd + "/core/models/"
 
-    ## model.rb jest wymagany
-    ## require (model_dir + "model.rb")
-
     Dir.entries(model_dir).each do |file|
       if file.match(/.+\.rb/)
-        puts "Loading " + file + "...\n"
         require (model_dir + file)
       end
     end
@@ -37,35 +33,37 @@ class Engine
     DataMapper.finalize
   end
 
-  def load_souls
-    souls_dirs = [Dir.pwd + "/core/commands/live/"]
-
-    souls_dirs.each do |soul_dir|
-      Dir.entries(soul_dir).each do |file|
-        if file.match(/.+.rb/)
-          require (soul_dir + file)
-        end
-      end
-    end
-  end
-
   ## ładujemy wszystkie pliki znajdujące się w ['core', 'gamedriver', 'mudlib']
   def load_all
-    puts "Loading all files from " + ['core', 'gamedriver', 'mudlib'].join(", ") + " dirs"
+    log_notice("[core] - Loading all files from " + ['core', 'gamedriver', 'mudlib'].join(", ") + " dirs")
     dirs = [Dir.pwd + "/core/", Dir.pwd + "/gamedriver/", Dir.pwd + "/mudlib/"]
     dirs.each do |subdir|
       load_dir_recursive(subdir)
     end
-    puts "Finished loading all files"
+    log_notice("[core] - Finished loading all files")
   end
   
-  def load_dir_recursive(dir)
+  ## przeladowujemy wszystkie pliki znajdujace sie w ['core', 'gamedriver', 'mudlib']
+  def reload_all
+    log_notice("[core] - Reloading all files from " + ['core', 'gamedriver', 'mudlib'].join(", ") + " dirs")
+    dirs = [Dir.pwd + "/core/", Dir.pwd + "/gamedriver/", Dir.pwd + "/mudlib/"]
+    dirs.each do |subdir|
+      load_dir_recursive(subdir, true)
+    end
+    log_notice("[core] - Finished reloading all files")
+  end
+  
+  def load_dir_recursive(dir, are_we_loading = false)
     Dir.entries(dir).each do |file|
       if file.match(/.+.rb/)
-        require (dir + file)
+        if are_we_loading
+          load (dir + file)
+        else
+          require (dir + file)
+        end
       else
         if file != "." && file != ".." && File.directory?(dir + file)
-          load_dir_recursive(dir + file + "/")
+          load_dir_recursive(dir + file + "/", are_we_loading)
         end
       end
     end
@@ -83,15 +81,27 @@ class Engine
   end
 
   def accept_connections
-    @connector = Connector.new(4001)
+    @connector = Connector.new(4001) if @connector.nil?
     @connector.debug = true
     @connector.audit = true
     @connector.start
-    puts "Server started"
-    @connector.join
-    puts "Server terminated"
+    log_notice("[engine, connector] - Server started")
+    @connector.join_with_terminal
+    log_notice("[engine, connector] - Server terminated")
   rescue Exception => e
-    puts "Something went wrong"
+      message  = "#=================================\n"
+      if current_environment
+        message += "# Environment: " + current_environment + "\n"
+      end
+      message += "#=================================\n"
+      message += "# Error: #{$!}\n"
+      message += "#=================================\n"
+      e.backtrace.each do |msg|
+        message += "# " + msg + "\n"
+      end
+      message += "#=================================\n"
+
+      log_error("\n" + message) # na serwer
   end
 
   ## user => Player

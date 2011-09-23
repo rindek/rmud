@@ -4,6 +4,7 @@ GEM
     addressable (2.2.6)
     bcrypt-ruby (2.1.4)
     coderay (0.9.8)
+    colorize (0.5.8)
     data_objects (0.10.6)
       addressable (~> 2.1)
     datamapper (1.1.0)
@@ -69,6 +70,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  colorize
   datamapper (~> 1.1.0)
   dm-mysql-adapter
   pry

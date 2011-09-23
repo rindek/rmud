@@ -1,12 +1,11 @@
 # coding: utf-8
 
+require './boot.rb'
 require './core/efuns.rb'
 
 set_server_environment("devel")
 
 require './core/engine.rb'
-
-require 'datamapper'
 
 
 def test_database
@@ -45,15 +44,15 @@ if $0 == __FILE__
     end
 
     Engine.instance.load_models
-    puts "All models are loaded. Next step will create in your database"
-    puts "This will WIPE any existing tables if you have any already"
-    puts "Database we're going to migrate to is: " + db_config['database']
+    puts "All models are loaded. Next step will create in your database".colorize(:green)
+    puts "This will ".colorize(:green) + "WIPE".colorize(:red) +" any existing tables if you have any already".colorize(:green)
+    puts "Database we're going to migrate to is: ".colorize(:green) + (db_config['database'] + "@" + db_config["host"]).colorize(:red)
 
     STDOUT.flush
     answer = nil
     loop do
       if answer != 'yes' && answer != 'no'
-        puts "Type in 'yes' to process, 'no' to cancel..."
+        puts "Type in '"+ "yes".colorize(:green) +"' to process, '"+ "no".colorize(:red) +"' to cancel..."
         answer = gets.chomp
       else
         break
@@ -61,12 +60,12 @@ if $0 == __FILE__
     end
 
     if answer == 'no'
-      puts "Installation cancelled"
+      puts "Installation cancelled".colorize(:red)
       Process.exit
     end
 
     DataMapper.auto_migrate!
 
-    puts "Database has been installed properly, now run: 'ruby server.rb'"
+    puts "Database has been installed properly, now run: 'ruby server.rb'".colorize(:green)
   end
 end

@@ -52,8 +52,26 @@ def get_fail_message
   Thread.current[:fail_message]
 end
 
-def log(str)
-  puts "[" + Time.now.strftime("%Y-%m-%d %H:%M:%S") + "] " + str + "\n"
+def log(str, color=nil)
+  line = "[" + Time.now.strftime("%Y-%m-%d %H:%M:%S") + "] " + str
+  unless color.nil?
+    line = line.colorize(color)
+  end
+  
+  line += "\n"
+  puts line
+end
+
+def log_error(str)
+  log("ERROR: "+ str, :red)
+end
+
+def log_warning(str)
+  log("WARNING: "+ str, :yellow)
+end
+
+def log_notice(str)
+  log(str, :green)
 end
 
 ## config
@@ -69,7 +87,7 @@ def object_clones(modulename)
 
     ObjectSpace.each_object(modulename).to_a
   rescue Exception => e
-    puts "not loaded: " + modulename.to_s
+    log_warning("Not loaded: " + modulename.to_s)
   end
 end
 
@@ -78,15 +96,15 @@ class Object
 
   def require(path)
     if super(path)
-      log("Loaded: " + path)
+      log_notice("Required: " + path)
     end
   end
 
   def load(path)
     if super(path)
+      log_notice("Loaded: " + path)
       unless @@loaded_files.include?(path)
         @@loaded_files << path
-        p @@loaded_files
       end
     end
   end
