@@ -1,3 +1,10 @@
+## ruby 1.9.2 required
+require 'rbconfig'
+unless RbConfig::CONFIG['ruby_version'] >= "1.9.1"
+  puts "Ruby version 1.9.2 or higher is required to run the program"
+  Process.exit
+end
+
 begin
   require 'bundler' unless defined?(Bundler)
 rescue LoadError

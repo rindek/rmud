@@ -70,7 +70,7 @@ class Engine
   end
 
   def read(user, prompt = "> ")
-    @connector.read(user, prompt)
+    Connector.read(user, prompt)
   end
 
   def welcome(user)
@@ -197,5 +197,10 @@ class Engine
       puts message # na serwer
       user.catch_msg(message) # na ekran
     end
+  end
+  
+  def shutdown!
+    World::Wrapper.before_shutdown
+    Runner.stop!
   end
 end

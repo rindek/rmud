@@ -52,7 +52,12 @@ def get_fail_message
   Thread.current[:fail_message]
 end
 
-def log(str, color=nil)
+def log(str)
+  line = "[" + Time.now.strftime("%Y-%m-%d %H:%M:%S") + "] " + str + "\n"
+  puts line
+end
+
+def log_colored(str, color=nil)
   line = "[" + Time.now.strftime("%Y-%m-%d %H:%M:%S") + "] " + str
   unless color.nil?
     line = line.colorize(color)
@@ -63,15 +68,15 @@ def log(str, color=nil)
 end
 
 def log_error(str)
-  log("ERROR: "+ str, :red)
+  log_colored("ERROR: "+ str, :red)
 end
 
 def log_warning(str)
-  log("WARNING: "+ str, :yellow)
+  log_colored("WARNING: "+ str, :yellow)
 end
 
 def log_notice(str)
-  log(str, :green)
+  log_colored(str, :green)
 end
 
 ## config
@@ -160,5 +165,23 @@ class String
   
   def depolonize!
     depolonize_string(self)
+  end
+end
+
+class CallChain
+  def self.caller_method(depth=1)
+    parse_caller(caller(depth+1).first).last
+  end
+
+  private
+
+  #Stolen from ActionMailer, where this was used but was not made reusable
+  def self.parse_caller(at)
+    if /^(.+?):(\d+)(?::in `(.*)')?/ =~ at
+      file   = Regexp.last_match[1]
+      line   = Regexp.last_match[2].to_i
+      method = Regexp.last_match[3]
+      [file, line, method]
+    end
   end
 end

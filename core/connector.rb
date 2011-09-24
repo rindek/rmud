@@ -30,7 +30,7 @@ class Connector < GServer
     line
   end
 
-  def read (user, prompt = "> ")
+  def self.read (user, prompt = "> ")
     if prompt
       user.catch_msg prompt
     end
@@ -158,7 +158,7 @@ class Connector < GServer
         break
       end
 
-      command = read(player)
+      command = self.class.read(player)
       if command.nil?
         # utracono połączenie, przenosimy do link_dead obiektu
         # .. jak go zakoduje :-) na razie przenosimy do nil, czyli usuwamy ze swiata

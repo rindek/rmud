@@ -4,6 +4,12 @@ require './core/room.rb'
 
 module World
   class Room < Core::Room
+    def omglolrun!
+      filter(Player).each do |p|
+        p.catch_msg("Nadchodzi jeździec Apoki. Świat zostaje zniszczony!")
+      end
+    end
+    
     def initialize
       super()
 
