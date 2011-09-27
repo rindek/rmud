@@ -2,7 +2,14 @@ require 'optparse'
 
 class ConsoleCommands
   def self.help(args)
-    
+    puts "List of commands that you can use: "
+    self.singleton_methods(false).each do |m|
+      puts "* #{m.to_s}"
+    end
+  end
+  
+  def self.pry(args)
+    binding.pry
   end
   
   def self.daemon(args)
@@ -12,7 +19,7 @@ class ConsoleCommands
   ## start rmud
   def self.start(args)
     if Runner.running?
-      puts "Game is already running on port " + Runner.connector.port.to_s
+      puts "Game is already running on port #{Runner.connector.port.to_s}" 
       return
     end
     
@@ -57,14 +64,27 @@ class ConsoleCommands
   def self.quit(args)
     options = ConsoleCommandOptions.new({
       options: [
-        [:yes, "-y", "--yes", "Really quit!"],
+        [:yes, "-y", "--yes", "Quit console and send shutdown signal to game"],
+        [:force, "-f", "--force", "Force quitting game without shutdown signal to game"]
       ],
-      banner: "Usage: quit --yes"
+      banner: "Usage: quit [options]"
     }, args).parsed
     
-    if options.empty?
-      puts "You need to use --yes option if you really want to quit"
-    elsif options[:yes]
+    if Runner.running?
+      puts "Game is currently running, if you really want to quit, use --yes option."
+      puts "It will send a shutdown signal to game."
+      puts "If you want to force-quit, use --force option, but be preapred for some data-loss"
+    end
+    
+    if Runner.running?
+      if options[:yes] && options[:force]
+        Process.exit
+      elsif options[:yes] && options[:force].nil?
+        Engine.instance.shutdown!
+        Process.exit
+      end
+    else
+      ## Game not running, we quit normally
       Process.exit
     end
   end

@@ -1,6 +1,5 @@
 ## ruby 1.9.2 required
-require 'rbconfig'
-unless RbConfig::CONFIG['ruby_version'] >= "1.9.1"
+unless RUBY_VERSION >= "1.9.2"
   puts "Ruby version 1.9.2 or higher is required to run the program"
   Process.exit
 end
@@ -19,5 +18,5 @@ rescue Bundler::GemNotFound => e
   puts "Bundler couldn't find some gems. Did you run 'bundle install'?"
   Process.exit
 end
-
+## let's load all required gems
 Bundler.require

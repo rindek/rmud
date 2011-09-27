@@ -35,8 +35,9 @@ class Runner
     ## testujemy połączenie
     begin
       self.test_database
-    rescue DataObjects::ConnectionError
+    rescue DataObjects::SQLError
       puts $!
+      puts "Can't establish connection to your database. Check your configuration and/or your db server, and try again".colorize(:red)
       Process.exit
     end
     
@@ -46,8 +47,7 @@ class Runner
 
   def self.run!
     self.configure!
-    
-    ## Ładujemy wszystkie najpotrzebniejsze rzeczy
+    ## load oll nessecery files unless we want to re-run game
     Engine.instance.load_all
     
     ## Odpalamy nasłuchiwanie
