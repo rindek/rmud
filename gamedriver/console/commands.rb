@@ -8,6 +8,11 @@ class ConsoleCommands
     end
   end
   
+  def self.kill(args)
+    puts "Trying to stop process: #{Runner.instance.child}"
+    Process.kill("STOP", Runner.instance.child)
+  end
+  
   def self.pry(args)
     binding.pry
   end
@@ -18,12 +23,12 @@ class ConsoleCommands
   
   ## start rmud
   def self.start(args)
-    if Runner.running?
+    if Runner.instance.running?
       puts "Game is already running on port #{Runner.connector.port.to_s}" 
       return
     end
     
-    unless Runner.run!
+    unless Runner.instance.fork_and_run!
       puts "Couldn't launch game"
     end
   end
@@ -38,7 +43,7 @@ class ConsoleCommands
       banner: "Usage: stop [options]"
     }, args).parsed
     
-    unless Runner.running?
+    unless Runner.instance.running?
       puts "Game is not running, so you can't stop it, eh?"
       return
     end
@@ -70,13 +75,13 @@ class ConsoleCommands
       banner: "Usage: quit [options]"
     }, args).parsed
     
-    if Runner.running?
+    if Runner.instance.running?
       puts "Game is currently running, if you really want to quit, use --yes option."
       puts "It will send a shutdown signal to game."
       puts "If you want to force-quit, use --force option, but be preapred for some data-loss"
     end
     
-    if Runner.running?
+    if Runner.instance.running?
       if options[:yes] && options[:force]
         Process.exit
       elsif options[:yes] && options[:force].nil?

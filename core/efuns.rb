@@ -131,7 +131,7 @@ class Module
     modules = self.to_s.split("::")
     if modules.first == "World"
       modules << name.to_s
-      filename = "./" + modules.map {|x| x.downcase}.join("/")
+      filename = "./" + modules.map(&:downcase).join("/")
       require filename
       if const_get(name)
         return modules.join("::").constantinize

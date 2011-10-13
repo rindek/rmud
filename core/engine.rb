@@ -201,6 +201,6 @@ class Engine
   
   def shutdown!
     World::Wrapper.before_shutdown
-    Runner.stop!
+    Runner.instance.stop!
   end
 end

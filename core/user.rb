@@ -6,9 +6,9 @@ class User
   def initialize(conn)
     @connection = conn
     @nick = ""
-    @port = conn.peeraddr[1]
+#    @port = conn.peeraddr[1]
 
-    puts conn.peeraddr.inspect
+ #   puts conn.peeraddr.inspect
 
     @logged_in = false
   end
@@ -35,8 +35,12 @@ class User
 
   def write_socket(msg)
     begin
-      @connection.write(msg)
-      @connection.flush
+      if @connection.respond_to?(:write)
+        @connection.write(msg)
+        @connection.flush
+      elsif @connection.respond_to?(:send_data)
+        @connection.send_data(msg)
+      end
     rescue IOError => e
       puts "Connection lost!"
     end

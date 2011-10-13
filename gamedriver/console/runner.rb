@@ -4,21 +4,27 @@ require './core/event.rb'
 require './core/engine.rb'
 
 class Runner
-  def self.running?
+  include Singleton
+  
+  def child
+    @child
+  end
+  
+  def running?
     return false if @connector.nil?
     !@connector.stopped?
   end
   
-  def self.connector
+  def connector
     @connector
   end
   
-  def self.test_database
+  def test_database
     adapter = DataMapper.repository(:default).adapter
     adapter.execute("SELECT NOW()")
   end
 
-  def self.configure!
+  def configure!
     ## konfigurujemy bazę
     DataMapper::Logger.new($stdout, :debug)
 
@@ -34,7 +40,7 @@ class Runner
 
     ## testujemy połączenie
     begin
-      self.test_database
+      test_database
     rescue DataObjects::SQLError
       puts $!
       puts "Can't establish connection to your database. Check your configuration and/or your db server, and try again".colorize(:red)
@@ -45,7 +51,17 @@ class Runner
     require './world/init.rb'
   end
 
-  def self.run!
+  def fork_and_run!
+    @child = Process.fork do 
+      Signal.trap("STOP") do
+        p "caught STOP signal, stopping teh game"
+        Engine.instance.shutdown!
+      end      
+      run!
+    end
+  end
+
+  def run!
     self.configure!
     ## load oll nessecery files unless we want to re-run game
     Engine.instance.load_all
@@ -59,6 +75,8 @@ class Runner
       @connector.audit = true
       @connector.start
       log_notice("[engine, connector] - Server started")
+      @connector.join
+      log_notice("[engine, connector] - Server stopped")
       true
     rescue Exception => e
       message  = "#=================================\n"
@@ -74,7 +92,8 @@ class Runner
     end
   end
   
-  def self.stop!
+  def stop!
     @connector.stop
+    Process.exit
   end
 end
