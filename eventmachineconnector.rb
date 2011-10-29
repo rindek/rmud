@@ -6,6 +6,7 @@ require './boot'
 require './core/efuns'
 require './core/engine'
 
+Engine.instance.load_important_files  
 Engine.instance.load_all
 
 module Rmud
@@ -23,7 +24,6 @@ module Rmud
     return if data == ''
     @player_connection.input_handler.input(data)
     ## prompt for next command
-    binding.pry if @player_connection.input_handler.is_a?(AnyKeyNextHandler)
     @player_connection.input_handler.send_prompt
   end
   
@@ -41,9 +41,9 @@ module Rmud
     string.gsub!(/#{IAC}(
         [#{IAC}#{AO}#{AYT}#{DM}#{IP}#{NOP}]|
         [#{DO}#{DONT}#{WILL}#{WONT}]
-    [#{OPT_BINARY}-#{OPT_COMPRESS2}#{OPT_EXOPL}]|
-    #{SB}[^#{IAC}]*#{IAC}#{SE}
-    )/xno) do
+        [#{OPT_BINARY}-#{OPT_COMPRESS2}#{OPT_EXOPL}]|
+        #{SB}[^#{IAC}]*#{IAC}#{SE}
+        )/xno) do
       if    IAC == $1  # handle escaped IAC characters
         IAC
       elsif AYT == $1  # respond to "IAC AYT" (are you there)

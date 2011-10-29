@@ -33,6 +33,20 @@ class Engine
     DataMapper.finalize
   end
 
+  ## ładujemy wszystkie niezbędne pliki
+  def load_important_files
+    log_notice("[code] - Loading all important files")
+    files = [
+      Dir.pwd + "/gamedriver/handlers/base_handler.rb",
+      Dir.pwd + "/gamedriver/handlers/handler.rb",
+      Dir.pwd + "/gamedriver/handlers/next_handler.rb",
+    ]
+    files.each do |file|
+      require file
+    end
+    log_notice("[core] - Finished loading all important files")
+  end
+
   ## ładujemy wszystkie pliki znajdujące się w ['core', 'gamedriver', 'mudlib']
   def load_all
     log_notice("[core] - Loading all files from " + ['core', 'gamedriver', 'mudlib'].join(", ") + " dirs")

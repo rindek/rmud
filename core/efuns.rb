@@ -136,6 +136,8 @@ class Module
       if const_get(name)
         return modules.join("::").constantinize
       end
+    else
+      raise "uninitialized constant #{name}"
     end
   end
 end
