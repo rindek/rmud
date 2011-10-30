@@ -5,6 +5,10 @@ class NextHandler < BaseHandler
   end
 
   def input(data)
-    @player_connection.input_handler = @next_handler.new(@player_connection)
+    if @next_handler.is_a?(Class)
+      @player_connection.input_handler = @next_handler.new(@player_connection)
+    else
+      @player_connection.input_handler = @next_handler
+    end
   end
 end

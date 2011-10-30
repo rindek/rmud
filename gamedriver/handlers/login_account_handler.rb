@@ -42,7 +42,8 @@ class LoginAccountHandler < Handler
   end
 
   def login_success
-    p "login success"
-    @player_connection.disconnect
+    oo
+    @player_connection.input_handler = AccountManagementHandler.new(@player_connection)
+    @player_connection.input_handler.init(@account)
   end
 end
