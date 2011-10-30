@@ -14,6 +14,7 @@ module Rmud
   def post_init
     @player_connection = PlayerConnectionLib.new(self)
     @player_connection.input_handler = LoginHandler.new(@player_connection)
+    @player_connection.print(File.read("doc/LOGIN_MESSAGE"))
     ## prompt for next command
     @player_connection.input_handler.send_prompt
   end

@@ -4,7 +4,8 @@ module Models
 
     storage_names[:default] = 'options_players'
 
-    property :value, Text
+    property :id,     Serial
+    property :value,  Text
 
     belongs_to :player, :key => true
     belongs_to :option, :key => true

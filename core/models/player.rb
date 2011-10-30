@@ -12,6 +12,7 @@ module Models
 
 
     has n, :options, :through => :option_players
+    has n, :banishes
 
     def get_by_name(name)
       Models::Player.first(:name => name)

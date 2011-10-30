@@ -44,8 +44,8 @@ if $0 == __FILE__
     end
 
     Engine.instance.load_models
-    puts "All models are loaded. Next step will create in your database".colorize(:green)
-    puts "This will ".colorize(:green) + "WIPE".colorize(:red) +" any existing tables if you have any already".colorize(:green)
+    puts "All models are loaded. Next step will try to upgrade your database".colorize(:green)
+    puts "This may ".colorize(:green) + "WIPE".colorize(:red) +" any existing tables if you have any already".colorize(:green)
     puts "Database we're going to migrate to is: ".colorize(:green) + (db_config['database'] + "@" + db_config["host"]).colorize(:red)
 
     STDOUT.flush
@@ -60,12 +60,12 @@ if $0 == __FILE__
     end
 
     if answer == 'no'
-      puts "Installation cancelled".colorize(:red)
+      puts "Migration cancelled".colorize(:red)
       Process.exit
     end
 
-    DataMapper.auto_migrate!
+    DataMapper.auto_upgrade!
 
-    puts "Database has been installed properly, now run: 'ruby server.rb'".colorize(:green)
+    puts "Database has been migrated".colorize(:green)
   end
 end

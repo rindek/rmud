@@ -10,8 +10,10 @@ class NewAccountHandler < Handler
     when :account_name then
       "Podaj nazwe dla swojego konta: "
     when :account_password then
+      echo_off
       "Podaj haslo na konto: "
     when :account_password_confirmation then
+      echo_off
       "Potwierdz haslo: "
     when :account_email then
       "Podaj email na konto: "
@@ -35,7 +37,6 @@ class NewAccountHandler < Handler
         @name = data.cmd.downcase
         oo("Twoja nazwa konta to '#{@name}'")
         @state = :account_password
-        echo_off
       end
     else
       oo("Nazwa konta moze skladac sie tylko z liter a-z")
@@ -49,7 +50,6 @@ class NewAccountHandler < Handler
     else
       @password = Digest::SHA1.hexdigest(data.cmd)
       @state = :account_password_confirmation
-      echo_off
     end
   end
   
@@ -58,7 +58,6 @@ class NewAccountHandler < Handler
     if Digest::SHA1.hexdigest(data.cmd) != @password
       oo("Podane hasla sie nie zgadzaja, sprobuj ponownie")
       @state = :account_password
-      echo_off
     else
       @state = :account_email
     end
