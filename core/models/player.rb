@@ -9,6 +9,9 @@ module Models
     property :name,       String
     property :created,    Boolean
     timestamps :created_at
+    belongs_to :declension, 'Declension', 
+      :parent_key => 'nazwa', :child_key => 'declension_nazwa', 
+      :required => false, :default => nil
 
 
     has n, :options, :through => :option_players

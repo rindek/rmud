@@ -55,8 +55,8 @@ class AccountManagementHandler < Handler
       oo("Musisz najpierw ustawic haslo na postac korzystajac z opcji 'haslo'")
       @player_connection.input_handler = AnyKeyNextHandler.new(@player_connection, self)
     else
-      # @player_connection.input_handler = AccountManagementPlayerCreationHandler.new(@player_connection)
-      # @player_connection.input_handler.init(@account)
+      @player_connection.input_handler = AccountManagementPlayerCreationHandler.new(@player_connection)
+      @player_connection.input_handler.init(@account)
     end
   end
 

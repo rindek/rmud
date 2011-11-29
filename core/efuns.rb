@@ -1,4 +1,6 @@
 # -*- encoding : utf-8 -*-
+RMUD_ROOT = Dir.pwd
+
 def set_server_environment(envi)
   Thread.current[:server_environment] = envi
 end

@@ -1,3 +1,4 @@
+# coding: utf-8
 class AccountManagementPasswordChangerHandler < Handler
   def init(account, menu_handler)
     @account = account
