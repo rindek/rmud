@@ -2,7 +2,7 @@ module Models
   class Declension
     include DataMapper::Resource
 
-    storage_names[:default] = 'declension'
+    storage_names[:default] = 'declensions'
 
     property :nazwa,        String, :key => true, :unique => true, :length => 150
     property :mianownik,    String, :length => 150

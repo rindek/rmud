@@ -34,11 +34,17 @@ module Cmd
 #        add_object_action(:logout, "zakoncz")
 #      end
 
-      def inventory(command)
+      def inventory(command, this_player)
         this_player.inventory.each do |obj|
           this_player.catch_msg(obj.short + ", ")
         end
         this_player.catch_msg("\n")
+      end
+
+      def pilka(command, tp) 
+        pilka = World::Objects::Pilka.new
+        pilka.move(tp)
+        tp.catch_msg("Masz pilke.\n")
       end
 
       def init
@@ -47,6 +53,8 @@ module Cmd
         add_object_action(:inventory, "i")
         add_object_action(:inventory, "inwentarz")
         add_object_action(:inventory, "ekwipunek")
+
+        add_object_action(:pilka, "pilka")
       end
     end
   end

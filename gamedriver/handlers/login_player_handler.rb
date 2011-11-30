@@ -42,8 +42,11 @@ class LoginPlayerHandler < Handler
   end
 
   def login_success
-    p "login success"
-    @player_connection.disconnect
+    player = Std::Player.new(@player_connection, @player.id)
+    room   = World::Rooms::Room.instance
+    player.move(room)
+    @player_connection.input_handler = GameHandler.new(@player_connection)
+    @player_connection.input_handler.init(player)
   end
 end
 

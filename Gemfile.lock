@@ -57,6 +57,7 @@ GEM
       dm-core (~> 1.1.0)
     do_mysql (0.10.6)
       data_objects (= 0.10.6)
+    eventmachine (0.12.10)
     fastercsv (1.5.4)
     json (1.4.6)
     method_source (0.6.0)
@@ -89,5 +90,6 @@ DEPENDENCIES
   datamapper (~> 1.1.0)
   dm-migrations!
   dm-mysql-adapter
+  eventmachine
   pry
   rspec

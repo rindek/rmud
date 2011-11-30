@@ -42,4 +42,8 @@ class BaseHandler
   def oo(msg = "")
     @player_connection.println(msg)
   end
+
+  def selfclass
+    (class << self; self; end)
+  end
 end

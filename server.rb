@@ -1,8 +1,9 @@
-require 'eventmachine'
-require 'digest/sha1'
-
+Dir.chdir(File.dirname(__FILE__))
 
 require './boot'
+
+require 'digest/sha1'
+
 require './core/efuns'
 require './core/engine'
 
@@ -10,6 +11,9 @@ Engine.instance.load_important_files
 Engine.instance.load_all
 
 module Rmud
+  # include AutoCode
+  # auto_load true, :directories => [ :world ]
+
   ## connection
   def post_init
     @player_connection = PlayerConnectionLib.new(self)
@@ -101,60 +105,14 @@ connection_string["DATABASE"] = db_config['database']
 
 DataMapper.setup(:default, connection_string)
 
+shall_i_restart(true)
+
 EventMachine::run do
+  load_world ## :-(
   EventMachine::start_server 'localhost', 8000, Rmud
 end
 
+if shall_i_restart?
+  Kernel.exec("ruby server.rb")
+end
 
-# client.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY, 1)
-# 
-# user = User.new(client)
-# 
-# @@users.push(user)
-# 
-# set_current_user(user)
-# 
-# Engine.instance.welcome(user)
-# accplayer = Login.instance.login(user)
-# 
-# if user.socket.closed?
-#   return
-# end
-# 
-# puts "Logujemy gracza " + accplayer['name'] + " do gry."
-# user.nick = accplayer['name']
-# 
-# #    user.disconnect()
-# player = Player.new(user, accplayer)
-# 
-# ## jeżeli gracz nie jest jeszcze do końca stworzony, to musi
-# ## zostać przeniesiony do specjalnego miejsca, gdzie
-# ## postać jest tworzona.
-# 
-# require './world/room.rb'
-# room = World::Room.instance
-# player.move(room)
-# room.filter(Player, [player]).each do |p|
-#   p.catch_msg(player.short.capitalize + " wchodzi do gry.\n")
-# end
-# 
-# set_environment("game")
-# loop do
-#   if player.socket.nil?
-#     break
-#   end
-# 
-#   if player.socket.closed?
-#     break
-#   end
-# 
-#   command = self.class.read(player)
-#   if command.nil?
-#     # utracono połączenie, przenosimy do link_dead obiektu
-#     # .. jak go zakoduje :-) na razie przenosimy do nil, czyli usuwamy ze swiata
-#     player.move(nil)
-#     break
-#   end
-# 
-#   Engine.instance.serve(player, command)
-# end

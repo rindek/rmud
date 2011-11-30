@@ -3,34 +3,25 @@ module Modules
   class Direction
     attr_accessor :short, :long
     
+    DIRECTIONS_SHORT = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw', 'u', 'd'] 
+    DIRECTIONS_LONG = [
+      'polnoc', 'polnocny-wschod', 'wschod', 
+      'poludniowy-wschod', 'poludnie', 'poludniowy-zachod', 'zachod', 
+      'polnocny-zachod', 'gora', 'dol'
+    ]
+
     SHORT       = 0
     LONG        = 1
-    DEPOLONIZED = 2
         
     def initialize(direction)
-      @connections = [
-        ['n', 'północ'],
-        ['ne', 'północny-wschód'],
-        ['e', 'wschód'],
-        ['se', 'południowy-wschód'],
-        ['s', 'południe'],
-        ['sw', 'południowy-zachód'],
-        ['w', 'zachód'],
-        ['nw', 'północny-zachód'],
-        ['u', 'góra'],
-        ['d', 'dół']
-      ]
+      @connections = []
 
-      update_connections
-      
+      DIRECTIONS_SHORT.each_index do |i|
+        @connections << [DIRECTIONS_SHORT[i], DIRECTIONS_LONG[i]]
+      end
+
       find_short_direction(direction)
       find_long_direction(direction)
-    end
-    
-    def update_connections
-      (@connections.size).times do |i|
-        @connections[i - 1] << @connections[i - 1][LONG].depolonize
-      end
     end
     
     def find_short_direction(direction)

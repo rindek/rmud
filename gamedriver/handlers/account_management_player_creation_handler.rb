@@ -4,13 +4,44 @@ class AccountManagementPlayerCreationHandler < Handler
     @account = account
 
     @state = :name
-    @player = Models::Player.new(:account => @account)
+    @player = Models::Player.new(:account => @account, :created => false)
+
+    @declension = {:mianownik => nil, :dopelniacz => nil, :celownik => nil, 
+      :biernik => nil, :narzednik => nil, :miejscownik => nil}
+
+    @declension.keys.each_index do |i|
+      selfclass.send(:define_method, @declension.keys[i]) do |data|
+        @declension[@declension.keys[i]] = data.cmd
+        unless @declension.keys[i.succ].nil?
+          @state = @declension.keys[i.succ]
+        else
+          oo("Oto podana przez ciebie odmiana: ")
+          @declension.each do |k, v|
+            oo("#{k.to_s.capitalize}: #{v}")
+          end
+          oo("Jezeli wszystko sie zgadza, wpisz 'tak', jezeli chcesz ja poprawic, wpisz 'popraw'")
+          @state = :confirmation
+        end
+      end
+    end
   end
 
   def prompt
     case @state
     when :name
       "Podaj imie dla twojej postaci: "
+    when :dopelniacz
+      "Dopelniacz (kogo/czego nie ma?): "
+    when :celownik
+      "Celownik (komu/czemu sie przygladam/przedstawiam?): "
+    when :biernik
+      "Biernik (kogo/co widze?): "
+    when :narzednik
+      "Narzednik (z kim/czym jestem?): "
+    when :miejscownik
+      "Miejscownik (o kim/czym rozmawiam?): "
+    when :confirmation
+      "Twoj wybor: 'tak' / 'popraw': "
     else 
       "Wystapil blad..."
     end
@@ -28,8 +59,38 @@ class AccountManagementPlayerCreationHandler < Handler
       oo("Postac o takim imieniu juz istnieje, sprobuj ponownie.")
     else
       @player.name = data.cmd
-      @player.save
-      oo("Tworzymy postac o imieniu: '#{@player.name.capitalize}'")
+      if @player.save
+        oo("Tworzymy postac o imieniu: '#{@player.name.capitalize}'")
+        @declension[:mianownik] = @player.name.downcase
+        @state = :dopelniacz
+      else
+        oo("Wystapil blad w tworzeniu postaci, sprobuj ponownie.")
+      end
+    end
+  end
+
+  def confirmation(data)
+    oo
+    if data.cmd != "tak" && data.cmd != "popraw"
+      oo("Niepoprawny wybor.")
+    else
+      if data.cmd == 'tak'
+        @dec = Models::Declension.new(@declension)
+        @dec.nazwa = "player_#{@declension[:mianownik]}"
+        if @dec.save 
+          @player.declension_nazwa = @dec.nazwa
+          if @player.save
+            oo("Postac zostala poprawnie utworzona. Mozesz sie juz na nia zalogowac.")
+            @player_connection.input_handler = AnyKeyNextHandler.new(@player_connection, LoginHandler)
+          else
+            oo("Wystapil blad przy tworzeniu postaci (zapis odmiany)")
+          end
+        else
+          oo("Wystapil blad przy probie zapisu odmiany")
+        end
+      elsif data.cmd == 'popraw'
+        @state = :dopelniacz
+      end
     end
   end
 

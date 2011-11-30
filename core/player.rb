@@ -1,92 +1,94 @@
-require './core/living.rb'
 
-class Player < Living
 
-  attr_accessor :commands
+# require './core/living.rb'
 
-  def initialize(user, player)
-    super()
+# class Player < Living
 
-    @player = nil
-    #    @commands = {}
-    @souls = []
+#   attr_accessor :commands
 
-    #    add_action("zakoncz") do |*args|
-    #     p args
-    #     catch_msg("zakanczamy!\n")
-    #   end
+#   def initialize(user, player)
+#     super()
 
-    set_user(user)
-    set_player(player)
+#     @player = nil
+#     #    @commands = {}
+#     @souls = []
 
-    set_this_player(self)
+#     #    add_action("zakoncz") do |*args|
+#     #     p args
+#     #     catch_msg("zakanczamy!\n")
+#     #   end
 
-    @souls << Cmd::Live::Standard.instance
-    @souls << Cmd::Live::Exits.instance
-    @souls << Cmd::Live::Items.instance
+#     set_user(user)
+#     set_player(player)
 
-    @souls << Cmd::Live::Wiz.instance
+#     set_this_player(self)
 
-    ## aby zainicjalizować komendy
-    update_hooks
-  end
+#     @souls << Cmd::Live::Standard.instance
+#     @souls << Cmd::Live::Exits.instance
+#     @souls << Cmd::Live::Items.instance
 
-  def set_user(user)
-    @user = user
-  end
+#     @souls << Cmd::Live::Wiz.instance
 
-  def set_player(player)
-    @player = player
-    @short = @player['name']
-  end
+#     ## aby zainicjalizować komendy
+#     update_hooks
+#   end
 
-  def is_player?
-    true
-  end
+#   def set_user(user)
+#     @user = user
+#   end
 
-  def update_hooks
-    @souls.each do |soul|
-      soul.init
-    end
-  end
+#   def set_player(player)
+#     @player = player
+#     @short = @player['name']
+#   end
 
-  def get_souls
-    @souls
-  end
+#   def is_player?
+#     true
+#   end
 
-  ## wywołanie komendy na graczu
-  def command(str)
-    cmd = Command.new(str)
-    Engine.instance.serve(self, cmd)
-  end
+#   def update_hooks
+#     @souls.each do |soul|
+#       soul.init
+#     end
+#   end
 
-  def socket
-    unless @user.nil?
-      @user.socket
-    else
-      nil
-    end
-  end
+#   def get_souls
+#     @souls
+#   end
 
-  def catch_msg(msg)
-    @user.catch_msg(msg)
-  end
+#   ## wywołanie komendy na graczu
+#   def command(str)
+#     cmd = Command.new(str)
+#     Engine.instance.serve(self, cmd)
+#   end
 
-  def disconnect()
-    @user.disconnect()
+#   def socket
+#     unless @user.nil?
+#       @user.socket
+#     else
+#       nil
+#     end
+#   end
 
-    @user = nil
-    @player = nil
-    @souls = nil
-  end
+#   def catch_msg(msg)
+#     @user.catch_msg(msg)
+#   end
 
-  def before_destroy
-    disconnect
+#   def disconnect()
+#     @user.disconnect()
 
-    set_this_player(nil)
-  end
+#     @user = nil
+#     @player = nil
+#     @souls = nil
+#   end
 
-  def after_destroy
-    p environment
-  end
-end
+#   def before_destroy
+#     disconnect
+
+#     set_this_player(nil)
+#   end
+
+#   def after_destroy
+#     p environment
+#   end
+# end
