@@ -204,8 +204,6 @@ class CallChain
     parse_caller(caller(depth+1).first).last
   end
 
-  private
-
   #Stolen from ActionMailer, where this was used but was not made reusable
   def self.parse_caller(at)
     if /^(.+?):(\d+)(?::in `(.*)')?/ =~ at
@@ -259,36 +257,41 @@ def generate_empty_module(filename)
   log_notice("[code] - module #{modules.map(&:capitalize).join("::")} generated")
 end
 
-def load_file_using_eval(filename)
-  d = filename.gsub(RMUD_ROOT + "/", "")
-  modules = d.split("/")
-  file = modules.pop
+# def load_file_using_eval(filename)
+#   d = filename.gsub(RMUD_ROOT + "/", "")
+#   modules = d.split("/")
+#   file = modules.pop
 
-  evaled = ""
-  modules.each do |m|
-    evaled << "module #{m.capitalize} "
-  end
-  evaled << File.read(filename) + "\n"
-  modules.each do
-    evaled << "end\n"
-  end
+#   evaled = ""
+#   modules.each do |m|
+#     evaled << "module #{m.capitalize} "
+#   end
+#   evaled << File.read(filename) + "\n"
+#   modules.each do
+#     evaled << "end\n"
+#   end
 
-  begin
-    eval(evaled)
-    log_notice("[core] - load_file_using_eval- loaded file #{filename}")
-  rescue SyntaxError => e
-    log_error("[core] - load_file_using_eval - failed to load file #{filename} due to syntax error")
-    log_error("[code] - load_file_using_eval - #{e.message}")
-  rescue Exception => e
-    log_error("[core] - load_file_using_eval - failed to load file #{filename} due to FATAL error")
-    log_error("[code] - load_file_using_eval - #{e.message}")
-  end
+#   begin
+#     eval(evaled)
+#     log_notice("[core] - load_file_using_eval- loaded file #{filename}")
+#   rescue SyntaxError => e
+#     log_error("[core] - load_file_using_eval - failed to load file #{filename} due to syntax error")
+#     log_error("[code] - load_file_using_eval - #{e.message}")
+#   rescue Exception => e
+#     log_error("[core] - load_file_using_eval - failed to load file #{filename} due to FATAL error")
+#     log_error("[code] - load_file_using_eval - #{e.message}")
+#   end
+# end
+
+def load_file(filename)
+  log_notice("[core] - load file - loading file #{filename}")
+  require filename
 end
 
 def load_world_recursive(dir)
   Dir.entries(dir).each do |file|
     if file.match(/.+rb/)
-      load_file_using_eval(dir + file)
+      load_file(dir + file)
     else
       if file != "." && file != ".." && File.directory?(dir + file)
         load_world_recursive(dir + file + "/")
@@ -302,5 +305,111 @@ def load_world
   load_world_recursive(world_dir)
 end
 
+def before_start
+  $boot_time = Time.now
+end
+
 module World
 end
+
+def current_namespace(lvl=0)
+  file = CallChain.parse_caller(caller.first).first
+  file.gsub!(/#{Dir.pwd}/, '')
+  file = file.split("/")
+
+  filename = file.pop
+
+  lvl.times { file.pop }
+
+  file.map(&:capitalize).join("::").constantinize
+end
+
+
+def time2hash(f)
+  i = f.to_i
+
+  years = i / 1.years
+  i -= years.years
+  months = i / 1.months
+  i -= months.months
+  days = i / 1.days
+  i -= days.days
+  hours = i / 1.hours
+  i -= hours.hours
+  minutes = i / 1.minutes
+  i -= minutes.minutes
+  seconds = i
+
+  {years: years, months: months, days: days, 
+    hours: hours, minutes: minutes, seconds: seconds}
+end
+
+def time2str(f, precision = :years)
+  hash = time2hash(f)
+
+  if precision == :years
+    str = "#{hash[:years]} y #{hash[:months]} mo #{hash[:days]} d #{hash[:hours]} h #{hash[:minutes]} m #{hash[:seconds]} s"
+  elsif precision == :months
+    hash[:months] += hash[:years] * 12
+
+    str = "#{hash[:months]} mo #{hash[:days]} d #{hash[:hours]} h #{hash[:minutes]} m #{hash[:seconds]} s"
+  elsif precision == :days
+    hash[:months] += hash[:years] * 12
+    hash[:days] += hash[:months] * 30
+
+    str = "#{hash[:days]} d #{hash[:hours]} h #{hash[:minutes]} m #{hash[:seconds]} s"
+  elsif precision == :hours
+    hash[:months] += hash[:years] * 12
+    hash[:days] += hash[:months] * 30
+    hash[:hours] += hash[:days] * 24
+
+    str = "#{hash[:hours]} h #{hash[:minutes]} m #{hash[:seconds]} s"
+  elsif precision == :minutes
+    hash[:months] += hash[:years] * 12
+    hash[:days] += hash[:months] * 30
+    hash[:hours] += hash[:days] * 24
+    hash[:minutes] += hash[:hours] * 60
+
+    str = "#{hash[:minutes]} m #{hash[:seconds]} s"
+  elsif precision == :seconds
+    hash[:months] += hash[:years] * 12
+    hash[:days] += hash[:months] * 30
+    hash[:hours] += hash[:days] * 24
+    hash[:minutes] += hash[:hours] * 60
+    hash[:seconds] += hash[:minutes] * 60
+
+    str = "#{hash[:seconds]} s"
+  else
+    hash[:months] += hash[:years] * 12
+    hash[:days] += hash[:months] * 30
+
+    str = "#{hash[:days]} d #{hash[:hours]} h #{hash[:minutes]} m #{hash[:seconds]} s"
+  end
+
+
+  str
+end
+
+class Fixnum
+  def minutes
+    self * 60
+  end
+
+  def hours
+    self * 60.minutes
+  end
+
+  def days
+    self * 24.hours
+  end
+
+  def months
+    self * 30.days
+  end
+
+  def years
+    self * 12.months
+  end
+end
+
+

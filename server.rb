@@ -19,6 +19,16 @@ module Rmud
     @player_connection = PlayerConnectionLib.new(self)
     @player_connection.input_handler = LoginHandler.new(@player_connection)
     @player_connection.print(File.read("doc/LOGIN_MESSAGE"))
+
+    port, ip = Socket.unpack_sockaddr_in(self.get_peername)
+    if ip == "127.0.0.1" && autolog
+      log_notice("[Rmud::post_init] - auto logging in Rindek")
+      player = Std::Player.new(@player_connection, Models::Player.first(:name => 'rindek').id)
+      room   = World::Rooms::Room.instance
+      player.move(room)
+      @player_connection.input_handler = GameHandler.new(@player_connection)
+      @player_connection.input_handler.init(player)
+    end
     ## prompt for next command
     @player_connection.input_handler.send_prompt
   end
@@ -107,8 +117,16 @@ DataMapper.setup(:default, connection_string)
 
 shall_i_restart(true)
 
+def autolog
+  true
+end
+
 EventMachine::run do
   load_world ## :-(
+
+  log_notice("[server.rb] - accepting connections on port 8000")
+  
+  before_start
   EventMachine::start_server 'localhost', 8000, Rmud
 end
 

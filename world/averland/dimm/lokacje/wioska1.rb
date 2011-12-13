@@ -1,5 +1,5 @@
 # coding: utf-8
-class Wioska1 < Std::Room
+class current_namespace::Wioska1 < Std::Room
   include Singleton
 
   def initialize
@@ -14,7 +14,7 @@ class Wioska1 < Std::Room
     @long << "kierunku najwyzszego budynku. Przy drodze stoi slup z nazwa wioski. "    
 
     # add_exit('zachod', DIMM_PATH_LOKACJE::Droga5)
-    add_exit('wschod', Wioska2)
+    add_exit('wschod', current_namespace::Wioska2)
 
   end
 

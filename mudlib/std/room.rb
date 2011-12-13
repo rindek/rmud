@@ -14,6 +14,24 @@ module Std
       @exits = []
       @short = "Pokoj"
       @long = "To jest przykladowy pokoj.\n"
+      @events = []
+    end
+
+    def set_event_time time
+      @events_time = time
+      if @events_time > 0
+        alarm = Alarm.new
+        alarm.repeat(time, time) do
+          event = @events[rand(@events.size)]
+          filter(Std::Player).each do |p|
+            p.catch_msg(event)
+          end
+        end
+      end
+    end
+
+    def add_event(event)
+      @events << event
     end
 
     def add_exit(direction, room)

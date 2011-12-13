@@ -36,12 +36,21 @@ module Cmd
         this_player.disconnect
       end
 
+      def system(command, tp)
+        tp.catch_msg("Swiat odrodzil sie\t: #{$boot_time}\n")
+        tp.catch_msg("Lokalny czas\t\t: #{Time.now}\n")
+        tp.catch_msg("Swiat istnieje\t\t: #{time2str(Time.now - $boot_time, :days)}\n")
+        tp.catch_msg("Utworzonych obiektow\t: #{GameObject.count}\n")
+        tp.catch_msg("Ilosc alarmow\t\t: #{Alarm.alarms.count}\n")
+      end
+
       def init
         init_module_command
 
         add_object_action(:glance, "spojrz")
         add_object_action(:glance, "sp")
 
+        add_object_action(:system, "system")
         add_object_action(:logout, "zakoncz")
       end
     end

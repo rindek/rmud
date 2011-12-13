@@ -9,6 +9,10 @@ class GameHandler < Handler
 
     @player.fail_message = "Slucham?"
 
+    if command.cmd[0] == "'"
+      command = ("powiedz #{data[1..data.length]}").to_c
+    end
+
     ## najpierw obiekty, które mam przy sobie
     inv = @player.inventory
     inv.each do |obj|

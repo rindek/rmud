@@ -2,7 +2,7 @@ require "./mudlib/std/living"
 
 module Std
   class Player < Std::Living
-    attr_accessor :fail_message
+    attr_accessor :fail_message, :id
 
     def initialize(connection, id)
       super(connection, id)
@@ -15,6 +15,7 @@ module Std
       @souls << Cmd::Live::Standard.instance
       @souls << Cmd::Live::Exits.instance
       @souls << Cmd::Live::Items.instance
+      @souls << Cmd::Live::Social.instance
 
       @souls << Cmd::Live::Wiz.instance
 

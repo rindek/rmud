@@ -1,5 +1,5 @@
 # coding: utf-8
-class Karczma < Std::Room
+class current_namespace::Karczma < Std::Room
   include Singleton
 
   def initialize
@@ -9,7 +9,7 @@ class Karczma < Std::Room
 
     @long = "Karczma. O.\n"    
 
-    add_exit('wyjscie', Wioska2)
+    add_exit('wyjscie', current_namespace(1)::Wioska2)
 
   end
 

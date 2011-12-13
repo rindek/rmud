@@ -1,5 +1,5 @@
 # coding: utf-8
-class Wioska2 < Std::Room
+class current_namespace::Wioska2 < Std::Room
   include Singleton
 
   def initialize
@@ -15,9 +15,9 @@ class Wioska2 < Std::Room
     @long << " Zauwazasz niestarannie wbita w ziemie mala "
     @long << "drewniana tabliczke."    
 
-    add_exit('zachod', Wioska1)
+    add_exit('zachod', current_namespace::Wioska1)
     add_exit('startowa', World::Rooms::Room)
-    add_exit('karczma', Karczma::Karczma)
+    add_exit('karczma', current_namespace::Karczma::Karczma)
 
   end
 

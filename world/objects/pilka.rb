@@ -1,4 +1,4 @@
-class Pilka < GameObject
+class current_namespace::Pilka < GameObject
   def initialize
     super()
 

@@ -42,34 +42,53 @@ module Cmd
       #   return true
       # end
 
-      # def ls(command)
-      #   dir = Dir.pwd + "/world"
-      #   this_player.catch_msg(dir + "\n")
+      def ls(command, this_player)
+        dir = Dir.pwd + "/world"
+        this_player.catch_msg(dir + "\n")
 
-      #   entries = Dir.entries(dir)
-      #   entries.map! do |f|
-      #     if File.is_loaded?(dir + "/" + f)
-      #       f += "*"
-      #     else
-      #       f
-      #     end
-      #   end
+        entries = Dir.entries(dir)
+        entries.map! do |f|
+          if File.is_loaded?(dir + "/" + f)
+            f += "*"
+          else
+            f
+          end
+        end
 
-      #   this_player.catch_msg(entries.join("  "))
-      #   this_player.catch_msg("\n")
-      # end
+        this_player.catch_msg(entries.join("  "))
+        this_player.catch_msg("\n")
+      end
 
-      # def pry(command)
-      #   binding.pry
-      # end
+      def pry(command, tp)
+        Thread.new do
+          binding.pry
+        end.join
+      end
 
+      def exec(command, tp)
+        exec_str = command.args.join(" ")
+        begin
+          tp.catch_msg("----------------------------\n")
+          tp.catch_msg("Executing: #{exec_str}\n")
+          tp.catch_msg("----------------------------\n")
+          tp.catch_msg(eval(exec_str))
+          tp.catch_msg("\n")
+          tp.catch_msg("----------------------------\n")
+        rescue Exception => e
+          tp.catch_msg("Error: #{$!}\n")
+          e.backtrace.each do |msg|
+            tp.catch_msg("#{msg}\n")
+          end
+        end
+      end
 
       def init
         init_module_command
 
         # add_object_action(:load, "load")
-        # add_object_action(:ls, "ls")
-        # add_object_action(:pry, "pry")
+        add_object_action(:ls, "ls")
+        add_object_action(:pry, "pry")
+        add_object_action(:exec, "exec")
 
         add_object_action(:shutdown, "shutdown")
         add_object_action(:reboot, "reboot")

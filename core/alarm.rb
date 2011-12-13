@@ -1,31 +1,37 @@
 class Alarm
   @@alarms = []
 
+  attr_reader :current, :next_tick
+
   @current = nil
 
-  def in(sec)
-    @current = Thread.new {
-      sleep sec
-      yield
-      stop
-    }
-    @@alarms << self
+  def next_tick_in(round=6)
+    (@next_tick - Time.now.to_f).round(round)
+  end
 
-    self
+  def in(sec)
+    Alarm.new.repeat(sec, sec, 1) do
+      yield
+    end
   end
 
   def repeat(first, every, tick_count = -1)
-    @thread = Thread.new {
+    @current = Thread.new {
+      @next_tick = (Time.now.to_f + first)
       sleep first
-      if tick_count > 0
+      yield
+
+      if tick_count > 1
         tick_count.times do
-          yield
+          @next_tick = (Time.now.to_f + every)
           sleep every
+          yield
         end
-      else
+      elsif tick_count == -1
         loop do
-          yield
+          @next_tick = (Time.now.to_f + every)
           sleep every
+          yield
         end
       end
       stop
@@ -37,7 +43,7 @@ class Alarm
 
   def stop
     @@alarms.delete(self)
-    @thread.kill
+    @current.kill
   end
 
   def self.alarms

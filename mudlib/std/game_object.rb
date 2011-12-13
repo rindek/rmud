@@ -2,6 +2,10 @@
 class GameObject
   include Modules::Command
 
+  def self.count
+    ObjectSpace.each_object(self).count
+  end
+
   def initialize(*args)
 
     init_module_command
