@@ -69,7 +69,7 @@ class Engine
   end
   
   def load_dir_recursive(dir, are_we_loading = false)
-    Dir.entries(dir).each do |file|
+    Dir.entries(dir).sort.each do |file|
       if file.match(/.+.rb/)
         if are_we_loading
           load (dir + file)
