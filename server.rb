@@ -124,10 +124,12 @@ end
 EventMachine::run do
   load_world ## :-(
 
-  log_notice("[server.rb] - accepting connections on port 8000")
-  
+  server_config = read_config("game")[server_environment]
+  log_notice("[server.rb] - accepting connections on #{server_config["host"]}:#{server_config["port"]}")
+
   before_start
-  EventMachine::start_server 'localhost', 8000, Rmud
+
+  EventMachine::start_server server_config["host"], server_config["port"], Rmud
 end
 
 if shall_i_restart?
