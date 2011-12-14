@@ -30,4 +30,11 @@ class GameObject
     self.environment = dest
     environment.add(self)
   end
+
+  def __destruct__
+    if environment
+      environment.remove(self)
+    end
+    :freed
+  end
 end

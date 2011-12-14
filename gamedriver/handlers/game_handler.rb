@@ -15,6 +15,7 @@ class GameHandler < Handler
 
     ## najpierw obiekty, które mam przy sobie
     inv = @player.inventory
+
     inv.each do |obj|
       if obj.respond_to_command?(command)
         func = obj.get_command(command)

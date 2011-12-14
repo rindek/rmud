@@ -4,6 +4,7 @@ source :rubygems
 #gem 'dbd-mysql'
 
 gem 'colorize'
+gem 'free'
 
 gem 'eventmachine'
 gem 'rspec' ## for testing

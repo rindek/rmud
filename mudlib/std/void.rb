@@ -7,6 +7,7 @@ module Std
     end
 
     def add(obj)
+      obj.environment = nil
       obj = nil
     end
   end

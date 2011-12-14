@@ -48,6 +48,7 @@ module Std
 
     def disconnect
       @connection.disconnect
+      free
     end
 
     def command(str)

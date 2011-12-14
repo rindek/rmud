@@ -44,6 +44,8 @@ module Rmud
   
   ## disconnection
   def unbind
+    @player_connection.input_handler = nil
+    @player_connection = nil
   end
   
   def preprocess_input(string)
