@@ -18,29 +18,42 @@ module Cmd
         EventMachine::stop_event_loop
       end
 
-      # def load(command)
-      #   unless command.has_args?
-      #     this_player.catch_msg("load [file]?\n")
-      #     return true
-      #   end
+      def load(command, tp)
+        unless command.has_args?
+          tp.fail_message = "load [file]?"
+          return false
+        end
 
-      #   file = Dir.pwd + "/" + command.args
+        file = Dir.pwd + "/" + command.args.join(" ")
 
-      #   this_player.catch_msg("Trying to load "+ command.args + "... ")
+        tp.catch_msg("Trying to load "+ file + "... ")
 
-      #   if File.exist?(file)
-      #     if File.file?(file)
-      #       super(file)
-      #       this_player.catch_msg("loaded!\n")
-      #     else
-      #       this_player.catch_msg("fail! (file is a directory)\n")
-      #     end
-      #   else
-      #     this_player.catch_msg("fail! (file not found)\n")
-      #   end
+        if File.exist?(file)
+          if File.file?(file)
+            ## make it simplier, plz...
+            sp = command.args.join.split("/")
+            filename = sp.pop
+            sp = sp.map(&:capitalize).join("::")
+            filename = filename[0..filename.length - 4]
+            filename = filename.capitalize
+            sp = sp.constantinize
+            binding.pry
+            if sp.send(:const_defined?, filename.to_sym)
+              log_notice("[wiz::load] - removing constant #{sp.to_s}::#{filename}")
+              sp.send(:remove_const, filename.to_sym)
+            end
 
-      #   return true
-      # end
+            super(file)
+            tp.catch_msg("loaded!\n")
+          else
+            tp.catch_msg("fail! (file is a directory)\n")
+          end
+        else
+          tp.catch_msg("fail! (file not found)\n")
+        end
+
+        return true
+      end
 
       def ls(command, this_player)
         dir = Dir.pwd + "/world"
@@ -85,7 +98,7 @@ module Cmd
       def init
         init_module_command
 
-        # add_object_action(:load, "load")
+        add_object_action(:load, "load")
         add_object_action(:ls, "ls")
         add_object_action(:pry, "pry")
         add_object_action(:exec, "exec")

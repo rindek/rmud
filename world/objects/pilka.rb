@@ -2,7 +2,7 @@ class current_namespace::Pilka < GameObject
   def initialize
     super()
 
-    @short = "pilka"
+    set_declension "pilka"
 
     add_object_action(:podrzuc, "podrzuc")
   end

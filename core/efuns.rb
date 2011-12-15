@@ -305,6 +305,10 @@ def load_world
   load_world_recursive(world_dir)
 end
 
+# def game_path_to_constant_string path
+#   path.split("/").map(&:capitalize).join("::")
+# end
+
 def before_start
   $boot_time = Time.now
 end
@@ -412,4 +416,12 @@ class Fixnum
   end
 end
 
+
+class Hash
+  def softmerge(other_hash)
+    self.keys.each do |key|
+      self[key] = other_hash[key] unless other_hash[key].nil?
+    end
+  end
+end
 

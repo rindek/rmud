@@ -24,6 +24,8 @@ module Std
 
       ## 
       @fail_message = "Slucham?"
+
+      set_declension Models::Player.get(@id).declension
     end
 
     def update_hooks
@@ -32,10 +34,6 @@ module Std
 
     def get_souls
       @souls
-    end
-
-    def short
-      Models::Player.get(@id).name
     end
 
     def is_player?

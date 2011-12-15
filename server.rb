@@ -35,11 +35,16 @@ module Rmud
   
   ## input
   def receive_data(data)
-    data = preprocess_input(data)
-    return if data == ''
-    @player_connection.input_handler.input(data)
-    ## prompt for next command
-    @player_connection.input_handler.send_prompt
+    # begin
+      data = preprocess_input(data)
+      return if data == ''
+      @player_connection.input_handler.input(data)
+      ## prompt for next command
+      @player_connection.input_handler.send_prompt
+    # rescue Exception => e
+    #   p 'receive data excp'
+    #   p e
+    # end
   end
   
   ## disconnection
@@ -131,7 +136,11 @@ EventMachine::run do
 
   before_start
 
-  EventMachine::start_server server_config["host"], server_config["port"], Rmud
+  begin
+    EventMachine::start_server server_config["host"], server_config["port"], Rmud
+  rescue Exception => e
+    p 'server exception'
+  end
 end
 
 if shall_i_restart?

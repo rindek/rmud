@@ -1,55 +1,67 @@
-module Declension
-  attr_reader :declination
+class DeclensionNotFoundException < Exception; end
+class DeclensionWrongDataException < Exception; end
 
-  def init_declension
-    @declination = {
-      :mia => nil, :dop => nil, :cel => nil, :bie => nil, :nar => nil, :mie => nil
-    }
-  end
+module Modules
+  module Declension
+    attr_reader :declination
 
-  def mia= (mia)
-    puts @declination
-    @declination[:mia] = mia
-  end
+    def set_declension dec
+      @declension = {
+        mianownik: '',
+        dopelniacz: '',
+        celownik: '',
+        biernik: '',
+        narzednik: '',
+        miejscownik: '',
+        rodzaj: ''
+      }
+        
+      if dec.is_a?(DataMapper::Resource)
+        @declension.softmerge(dec.attributes)
+      elsif dec.is_a?(String)
+        decl = Models::Declension.first(:nazwa => dec)
+        if decl.nil?
+          raise DeclensionNotFoundException, dec
+        end
+        @declension.softmerge(decl.attributes)
+      elsif dec.is_a?(Hash)
+        @declension.softmerge(dec)
+      else
+        raise DeclensionWrongDataException
+      end
+    end
 
-  def dop= (dop)
-    @declination[:dop] = dop
-  end
+    def mianownik
+      @declension[:mianownik]
+    end
 
-  def cel= (cel)
-    @declination[:cel] = cel
-  end
+    def dopelniacz
+      @declension[:dopelniacz]
+    end
 
-  def bie= (bie)
-    @declination[:bie] = bie
-  end
+    def celownik
+      @declension[:celownik]
+    end
 
-  def nar= (nar)
-    @declination[:nar] = nar
-  end
+    def biernik
+      @declension[:biernik]
+    end
 
-  def mie= (mie)
-    @declination[:mie] = mie
-  end
+    def narzednik
+      @declension[:narzednik]
+    end
 
-  def decline
-    declination = ""
-    declination += "Mianownik: " + @declination[:mia] + "\n"
-    declination += "Dopelniacz: " + @declination[:dop] + "\n"
-    declination += "Celownik: " + @declination[:cel] + "\n"
-    declination += "Biernik: " + @declination[:bie] + "\n"
-    declination += "Narzednik: " + @declination[:nar] + "\n"
-    declination += "Miejscownik: " + @declination[:mia] + "\n"
+    def miejscownik
+      @declension[:miejscownik]
+    end
 
-    declination
-  end
+    def rodzaj
+      @declension[:rodzaj]
+    end
 
-  def set_declination(mia, dop, cel, bie, nar, mie)
-    mia = mia
-    dop = dop
-    cel = cel
-    bie = bie
-    nar = nar
-    mie = mie
+    def declension(przypadek)
+      @declension[przypadek]
+    end
+
   end
 end

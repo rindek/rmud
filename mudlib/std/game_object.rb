@@ -1,6 +1,8 @@
 ## this is the base class for all in-game objects
 class GameObject
   include Modules::Command
+  include Modules::Declension
+  include Modules::Props
 
   def self.count
     ObjectSpace.each_object(self).count
@@ -11,8 +13,8 @@ class GameObject
     init_module_command
   end
 
-  def short
-    "game_object"
+  def short(przypadek = :mianownik)
+    declension(przypadek)
   end
 
   def environment
