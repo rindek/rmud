@@ -9,6 +9,7 @@ class GameObject
   end
 
   def initialize(*args)
+    set_declension "obiekt"
 
     init_module_command
   end

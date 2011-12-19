@@ -10,15 +10,7 @@ module Std
       @connection = connection
       @id = id
 
-      @souls = []
-
-      @souls << Cmd::Live::Standard.instance
-      @souls << Cmd::Live::Exits.instance
-      @souls << Cmd::Live::Items.instance
-      @souls << Cmd::Live::Social.instance
-
       @souls << Cmd::Live::Wiz.instance
-
       ## aby zainicjalizować komendy
       update_hooks
 
@@ -26,14 +18,6 @@ module Std
       @fail_message = "Slucham?"
 
       set_declension Models::Player.get(@id).declension
-    end
-
-    def update_hooks
-      @souls.each {|soul| soul.init(self) }
-    end
-
-    def get_souls
-      @souls
     end
 
     def is_player?

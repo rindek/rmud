@@ -200,6 +200,11 @@ class String
   def depolonize!
     depolonize_string(self)
   end
+
+  def respond_to_command?(*args)
+    log_notice("[string::respond_to_command] - ???? #{args.to_s}")
+    false
+  end
 end
 
 class CallChain
