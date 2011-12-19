@@ -87,6 +87,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  coderay
   colorize
   datamapper (~> 1.1.0)
   dm-migrations!

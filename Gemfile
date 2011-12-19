@@ -4,6 +4,7 @@ source :rubygems
 #gem 'dbd-mysql'
 
 gem 'colorize'
+gem 'coderay'
 gem 'free'
 
 gem 'eventmachine'

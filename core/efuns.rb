@@ -113,6 +113,9 @@ class Object
   def require(path)
     if super(path)
       log_notice("Required: " + path)
+      unless @@loaded_files.include?(path)
+        @@loaded_files << path
+      end
     end
   end
 
@@ -425,3 +428,9 @@ class Hash
   end
 end
 
+def unload obj, const
+  if obj.send(:const_defined?, const)
+    log_notice("[efun::unload] - removing constant #{obj.to_s}::#{const}")
+    obj.send(:remove_const, const)
+  end
+end

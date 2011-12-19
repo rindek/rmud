@@ -47,7 +47,7 @@ module Cmd
         tp.catch_msg("Masz pilke.\n")
       end
 
-      def init
+      def init(player)
         init_module_command
 
         add_object_action(:inventory, "i")

@@ -29,7 +29,7 @@ module Std
     end
 
     def update_hooks
-      @souls.each {|soul| soul.init }
+      @souls.each {|soul| soul.init(self) }
     end
 
     def get_souls
@@ -40,7 +40,11 @@ module Std
       true
     end
 
-    def catch_msg(msg)
+    def catch_msg(msg, newline = false)
+      if newline
+        msg = "#{msg}\n"
+      end
+
       @connection.print(msg)
     end
 

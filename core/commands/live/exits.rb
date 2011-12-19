@@ -48,7 +48,7 @@ module Cmd
         return go(command, this_player)
       end
 
-      def init
+      def init(player)
         init_module_command
 
         directions_short  = Modules::Direction::DIRECTIONS_SHORT

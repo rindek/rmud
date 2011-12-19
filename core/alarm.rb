@@ -1,3 +1,5 @@
+unload Object, :Alarm
+
 class Alarm
   @@alarms = []
 

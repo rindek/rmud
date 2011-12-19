@@ -18,7 +18,7 @@ module Cmd
         end
       end
 
-      def init
+      def init(player)
         init_module_command
 
         add_object_action(:say, "powiedz")

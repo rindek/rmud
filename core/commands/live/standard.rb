@@ -28,9 +28,6 @@ module Cmd
         this_player.environment.filter(Std::Player, [this_player]).each do |p|
           p.catch_msg(this_player.short + " opuszcza ten swiat.\n")
         end
-        # this_player.remove()
-#        this_player.move(Void.new)
-#        this_player.disconnect
 
         this_player.move(Std::Void.new)
         this_player.disconnect
@@ -44,7 +41,7 @@ module Cmd
         tp.catch_msg("Ilosc alarmow\t\t: #{Alarm.alarms.count}\n")
       end
 
-      def init
+      def init(player)
         init_module_command
 
         add_object_action(:glance, "spojrz")
