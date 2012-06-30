@@ -1,5 +1,6 @@
 RmudWebapp::Application.routes.draw do
   devise_for :accounts
+  match '/accounts/my', to: "accounts#my"
 
-  root to: "home#index"
+  root to: "accounts#my"
 end

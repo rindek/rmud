@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120630111829) do
+ActiveRecord::Schema.define(:version => 20120630114000) do
 
   create_table "accounts", :force => true do |t|
     t.string   "email",               :default => "", :null => false
@@ -27,5 +27,35 @@ ActiveRecord::Schema.define(:version => 20120630111829) do
   end
 
   add_index "accounts", ["email"], :name => "index_accounts_on_email", :unique => true
+
+  create_table "dictionary", :force => true do |t|
+    t.string  "nominative"
+    t.string  "genitive"
+    t.string  "dative"
+    t.string  "accusative"
+    t.string  "instrumental"
+    t.string  "locative"
+    t.string  "plu_nominative"
+    t.string  "plu_genitive"
+    t.string  "plu_dative"
+    t.string  "plu_accusative"
+    t.string  "plu_instrumental"
+    t.string  "plu_locative"
+    t.integer "gender_id"
+  end
+
+  create_table "gender", :force => true do |t|
+    t.string "name"
+    t.string "description"
+  end
+
+  create_table "players", :force => true do |t|
+    t.string   "name",          :null => false
+    t.integer  "account_id"
+    t.integer  "dictionary_id"
+    t.datetime "last_login"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
 
 end
