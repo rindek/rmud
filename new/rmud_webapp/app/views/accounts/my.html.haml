@@ -1,0 +1,16 @@
+Moje konto
+
+%br
+
+= link_to "+ stwórz nową postać", new_player_path
+
+%table
+  %thead
+    %tr
+      %td Imię
+      %td Utworzono
+  %tbody
+    - @players.each do |player|
+      %tr
+        %td= player.name
+        %td= player.created_at

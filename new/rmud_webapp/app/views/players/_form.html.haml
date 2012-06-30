@@ -1,0 +1,12 @@
+= simple_form_for @player do |f|
+  = f.input :name
+  = f.simple_fields_for @player.dictionary do |ff|
+    = ff.input :nominative
+    = ff.input :genitive
+    = ff.input :dative
+    = ff.input :accusative
+    = ff.input :instrumental
+    = ff.input :locative
+    = ff.input :gender_id, :as => :select, :collection => Gender.to_select_for_player, :include_blank => false
+
+  = f.submit
