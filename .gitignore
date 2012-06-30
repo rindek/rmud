@@ -1,7 +1,4 @@
-accounts/*
-players/*
-nbproject/*
-.idea/*
-/.redcar/
-gamedriver/config/database.yaml
-gamedriver/config/game.yaml
+old/accounts/*
+old/players/*
+old/gamedriver/config/database.yaml
+old/gamedriver/config/game.yaml

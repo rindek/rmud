@@ -59,7 +59,6 @@ GEM
       data_objects (= 0.10.6)
     eventmachine (0.12.10)
     fastercsv (1.5.4)
-    free (0.2.7)
     json (1.4.6)
     method_source (0.6.0)
       ruby_parser (>= 2.0.5)
@@ -93,6 +92,5 @@ DEPENDENCIES
   dm-migrations!
   dm-mysql-adapter
   eventmachine
-  free
   pry
   rspec

@@ -5,7 +5,7 @@ source :rubygems
 
 gem 'colorize'
 gem 'coderay'
-gem 'free'
+# gem 'free'
 
 gem 'eventmachine'
 gem 'rspec' ## for testing
