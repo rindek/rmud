@@ -18,3 +18,5 @@ gem 'jquery-rails'
 
 gem 'pry'
 gem 'devise'
+gem 'haml'
+gem 'simple_form'
