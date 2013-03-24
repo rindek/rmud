@@ -21,7 +21,7 @@ class current_namespace::Pilka < GameObject
     end
 
     ## wyświetlamy info graczom
-    this_player.environment.filter(Player, [this_player]).each do |p|
+    this_player.environment.filter(Std::Player, [this_player]).each do |p|
       p.catch_msg(this_player.short + " podrzuca pilke.\n")
     end
 
