@@ -158,10 +158,6 @@ def load_world
   load_world_recursive(world_dir)
 end
 
-def before_start
-  $boot_time = Time.now
-end
-
 module World
 end
 

@@ -3,6 +3,7 @@ require './core/engine'
 
 Engine.instance.load_all
 
+
 module RmudConnector
   ## connection
   def post_init
@@ -116,7 +117,7 @@ EventMachine::run do
   server_config = read_config("game")[Rmud.env]
   log_notice("[server.rb] - accepting connections on #{server_config["host"]}:#{server_config["port"]}")
 
-  before_start
+  Callbacks.execute(:before_server_start)
 
   begin
     EventMachine::start_server server_config["host"], server_config["port"], RmudConnector

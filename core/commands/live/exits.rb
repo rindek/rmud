@@ -59,7 +59,7 @@ module Cmd
         end
         
         directions_long.each do |dir|
-          add_object_action(:try_go, dir.depolonize)
+          add_object_action(:try_go, dir)
         end
         
       end
