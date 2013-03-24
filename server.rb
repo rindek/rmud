@@ -1,7 +1,6 @@
 require './boot'
 require './core/engine'
 
-Engine.instance.load_important_files  
 Engine.instance.load_all
 
 module RmudConnector
@@ -12,30 +11,39 @@ module RmudConnector
     @player_connection.print(File.read("doc/LOGIN_MESSAGE"))
 
     port, ip = Socket.unpack_sockaddr_in(self.get_peername)
-    if ip == "127.0.0.1" && autolog
-      log_notice("[Rmud::post_init] - auto logging in Rindek")
-      player = Std::Player.new(@player_connection, Models::Player.find_by(:name => "rindek"))
-      room   = World::Rooms::Room.instance
-      player.move(room)
-      @player_connection.input_handler = GameHandler.new(@player_connection)
-      @player_connection.input_handler.init(player)
-    end
+    # if ip == "127.0.0.1" && autolog
+    #   log_notice("[Rmud::post_init] - auto logging in Rindek")
+    #   player = Std::Player.new(@player_connection, Models::Player.find_by(:name => "rindek"))
+    #   room   = World::Rooms::Room.instance
+    #   player.move(room)
+    #   @player_connection.input_handler = GameHandler.new(@player_connection)
+    #   @player_connection.input_handler.init(player)
+    # end
     ## prompt for next command
     @player_connection.input_handler.send_prompt
   end
   
   ## input
   def receive_data(data)
-    # begin
+    begin
       data = preprocess_input(data)
       return if data == ''
       @player_connection.input_handler.input(data)
       ## prompt for next command
       @player_connection.input_handler.send_prompt
-    # rescue Exception => e
-    #   p 'receive data excp'
-    #   p e
-    # end
+    rescue Exception => e
+      @player_connection.println("Wystapil powazny blad.")
+      message  = "#=================================\n"
+      message += "# Environment: " + Rmud.env + "\n"
+      message += "#=================================\n"
+      message += "# Error: #{$!}\n"
+      message += "#=================================\n"
+      e.backtrace.each do |msg|
+        message += "# " + msg + "\n"
+      end
+      message += "#=================================\n"
+      puts message
+    end
   end
   
   ## disconnection

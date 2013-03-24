@@ -1,3 +1,5 @@
+require_relative "next_handler"
+
 class AnyKeyNextHandler < NextHandler
   def prompt
     "Wcisnij 'enter'..."

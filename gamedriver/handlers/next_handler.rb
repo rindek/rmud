@@ -1,3 +1,5 @@
+require_relative "base_handler"
+
 class NextHandler < BaseHandler
   def initialize(player_connection, next_handler)
     @next_handler = next_handler

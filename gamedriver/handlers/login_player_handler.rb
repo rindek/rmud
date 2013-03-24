@@ -1,4 +1,5 @@
-# coding: utf-8
+require_relative "handler"
+
 class LoginPlayerHandler < Handler
   def init(player)
     @player = player
@@ -24,7 +25,7 @@ class LoginPlayerHandler < Handler
   end
 
   def password_input(data)
-    if Digest::SHA1.hexdigest(data.cmd) != @player.account.player_password
+    if Digest::SHA1.hexdigest(data.cmd) != @player.password
       oo("Haslo jest niepoprawne, sprobuj wpisac ponownie.")
       @state = :password_input_2nd_try
     else
@@ -33,7 +34,7 @@ class LoginPlayerHandler < Handler
   end
 
   def password_input_2nd_try(data)
-    if Digest::SHA1.hexdigest(data.cmd) != @player.account.player_password
+    if Digest::SHA1.hexdigest(data.cmd) != @player.password
       oo("Haslo jest niepoprawne, do zobaczenia!")
       @player_connection.disconnect
     else

@@ -1,3 +1,5 @@
+require_relative "handler"
+
 class GameHandler < Handler
   def init(player)
     @player = player
