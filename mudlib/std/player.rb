@@ -17,7 +17,7 @@ module Std
       ## 
       @fail_message = "Slucham?"
 
-      # set_declension Models::Player.get(@id).declension
+      set_declension Models::Player.find(@id).entry
     end
 
     def is_player?

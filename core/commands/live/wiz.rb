@@ -8,13 +8,13 @@ module Cmd
       include Modules::Command
 
       def shutdown(command, this_player)
-        shall_i_restart(false)
         p "Server shutdown executed in-game"
         EventMachine::stop_event_loop
       end
 
       def reboot(command, this_player)
         p "Server reboot, executed in-game"
+        $reboot = true
         EventMachine::stop_event_loop
       end
 
@@ -35,7 +35,7 @@ module Cmd
           if File.exist?(file)
             if File.file?(file)
               ## make it simplier, plz...
-              sp = file.gsub(/#{RMUD_ROOT}/, '').split("/")
+              sp = file.gsub(/#{Rmud.root}/, '').split("/")
               filename = sp.pop
               if sp.first == "world"
                 sp = sp.map(&:capitalize).join("::")
@@ -63,7 +63,7 @@ module Cmd
 
       def cd(command, tp)
         unless command.has_args?
-          tp.prop(:current_path, RMUD_ROOT)
+          tp.prop(:current_path, Rmud.root)
           tp.catch_msg(tp.prop(:current_path), true)
         else
           old = Dir.pwd
@@ -156,8 +156,7 @@ module Cmd
 
       def init(player)
         init_module_command
-        player.prop(:current_path, RMUD_ROOT)
-
+        player.prop(:current_path, Rmud.root)
 
         add_object_action(:load, "load")
         add_object_action(:ls, "ls")

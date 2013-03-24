@@ -1,53 +1,49 @@
 class DeclensionNotFoundException < Exception; end
-class DeclensionWrongDataException < Exception; end
 
 module Modules
   module Declension
-    attr_reader :declination
+    attr_accessor :declension_entry
 
-    def set_declension dec
-      @declension = {
-        mianownik: '',
-        dopelniacz: '',
-        celownik: '',
-        biernik: '',
-        narzednik: '',
-        miejscownik: '',
-        rodzaj: ''
-      }
+    def set_declension entry
       
+      if entry.is_a? String
+        self.declension_entry = Models::Entry.find_by(mianownik: entry)
+        raise DeclensionNotFoundException, entry if self.declension_entry.nil?
+      else
+        self.declension_entry = entry
+      end
     end
 
     def mianownik
-      @declension[:mianownik]
+      self.declension_entry.mianownik
     end
 
     def dopelniacz
-      @declension[:dopelniacz]
+      self.declension_entry.dopelniacz
     end
 
     def celownik
-      @declension[:celownik]
+      self.declension_entry.celownik
     end
 
     def biernik
-      @declension[:biernik]
+      self.declension_entry.biernik
     end
 
     def narzednik
-      @declension[:narzednik]
+      self.declension_entry.narzednik
     end
 
     def miejscownik
-      @declension[:miejscownik]
+      self.declension_entry.miejscownik
     end
 
     def rodzaj
-      @declension[:rodzaj]
+      self.declension_entry.rodzaj
     end
 
     def declension(przypadek)
-      @declension[przypadek]
+      self.declension_entry.send(przypadek)
     end
 
   end

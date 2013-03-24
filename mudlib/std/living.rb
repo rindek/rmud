@@ -47,12 +47,5 @@ module Std
     def command(command)
       @handler.input(command)
     end
-
-    def __destruct__
-      if @random_move_alarm
-        @random_move_alarm.stop
-      end
-      :killed
-    end
   end
 end

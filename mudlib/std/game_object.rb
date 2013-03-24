@@ -9,13 +9,13 @@ class GameObject
   end
 
   def initialize(*args)
-    # set_declension "obiekt"
+    set_declension "obiekt"
 
     init_module_command
   end
 
   def short(przypadek = :mianownik)
-    # declension(przypadek)
+    declension(przypadek)
   end
 
   def environment

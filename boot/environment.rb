@@ -1,3 +1,5 @@
+$reboot = false
+
 class Rmud
   class << self
     def root

@@ -1,73 +1,3 @@
-# -*- encoding : utf-8 -*-
-RMUD_ROOT = Dir.pwd
-
-
-def shall_i_restart(val)
-  Thread.current[:restart_request] = val
-end
-
-def shall_i_restart?
-  Thread.current[:restart_request]
-end
-
-def set_server_environment(envi)
-  Thread.current[:server_environment] = envi
-end
-
-def server_environment
-  Thread.current[:server_environment]
-end
-
-def current_environment
-  Thread.current[:environment]
-end
-
-def set_environment(envi)
-  Thread.current[:environment] = envi
-end
-
-def current_user
-  Thread.current[:user]
-end
-
-def set_current_user(user)
-  Thread.current[:user] = user
-end
-
-def current_connection
-  Thread.current[:user].socket unless Thread.current[:user].nil?
-end
-
-def load_player(player_name)
-  Engine.instance.load_player(player_name)
-end
-
-def set_this_player(player)
-  Thread.current[:player] = player
-end
-
-def this_player
-  Thread.current[:player]
-end
-
-def add_action(s_method, verb)
-  this_player.commands[verb] = method(s_method)
-end
-
-## setter
-def fail_message(message)
-  Thread.current[:fail_message] = message
-end
-
-def get_fail_message
-  Thread.current[:fail_message]
-end
-
-def log(str)
-  line = "[" + Time.now.strftime("%Y-%m-%d %H:%M:%S") + "] " + str + "\n"
-  puts line
-end
-
 def log_colored(str, color=nil)
   line = "[" + Time.now.strftime("%Y-%m-%d %H:%M:%S") + "] " + str
   unless color.nil?
@@ -140,67 +70,11 @@ class File
   end
 end
 
-# class Module
-#   def const_missing(name)
-#     binding.pry
-#   end
-# end
-# class Module
-#   def const_missing(name)
-#     binding.pry
-#     modules = self.to_s.split("::")
-#     if modules.first == "World"
-
-#       curr_mod = ""
-#       modules.each do |m|
-#         if curr_mod == ""
-#           curr_mod = m
-#         else
-#           curr_mod = "#{curr_mod}::#{m}"
-#         end
-#         Object.const_set(name, Module.new)
-#       end
-#       binding.pry
-
-#       modules << name.to_s
-#       filename = "./" + modules.map(&:downcase).join("/")
-#       require filename
-#       if const_get(name)
-#         return modules.join("::").constantinize
-#       end
-#     else
-#       raise "uninitialized constant #{name}"
-#     end
-#   end
-# end
-
 class String
   def constantinize
     Object.module_eval(self)
   end
   
-  def depolonize_string(str)
-    str.gsub!(/ą/, "a")
-    str.gsub!(/ć/, "c")
-    str.gsub!(/ł/, "l")
-    str.gsub!(/ń/, "n")
-    str.gsub!(/ó/, "o")
-    str.gsub!(/ś/, "s")
-    str.gsub!(/ź/, "z")
-    str.gsub!(/ż/, "z")
-    
-    str
-  end
-  
-  def depolonize
-    str = self.clone
-    depolonize_string(str)
-  end
-  
-  def depolonize!
-    depolonize_string(self)
-  end
-
   def respond_to_command?(*args)
     log_notice("[string::respond_to_command] - ???? #{args.to_s}")
     false
@@ -235,12 +109,9 @@ class Module
     if modules.first == "World"
       modules << name.to_s
 
-      filename = RMUD_ROOT + "/" + modules.map(&:downcase).join("/")
+      filename = Rmud.root + "/" + modules.map(&:downcase).join("/")
 
-      # binding.pry
-      if File.exists?(filename + ".rb") && File.file?(filename + ".rb")
-        load_file_using_eval(filename + ".rb")
-      elsif File.exists?(filename) && File.directory?(filename)
+      if File.exists?(filename) && File.directory?(filename)
         generate_empty_module(filename)
       end
 
@@ -254,7 +125,7 @@ class Module
 end
 
 def generate_empty_module(filename)
-  d = filename.gsub(RMUD_ROOT + "/", "")
+  d = filename.gsub(Rmud.root + "/", "")
   modules = d.split("/")
 
   evaled = ""
@@ -264,32 +135,6 @@ def generate_empty_module(filename)
   eval(evaled)
   log_notice("[code] - module #{modules.map(&:capitalize).join("::")} generated")
 end
-
-# def load_file_using_eval(filename)
-#   d = filename.gsub(RMUD_ROOT + "/", "")
-#   modules = d.split("/")
-#   file = modules.pop
-
-#   evaled = ""
-#   modules.each do |m|
-#     evaled << "module #{m.capitalize} "
-#   end
-#   evaled << File.read(filename) + "\n"
-#   modules.each do
-#     evaled << "end\n"
-#   end
-
-#   begin
-#     eval(evaled)
-#     log_notice("[core] - load_file_using_eval- loaded file #{filename}")
-#   rescue SyntaxError => e
-#     log_error("[core] - load_file_using_eval - failed to load file #{filename} due to syntax error")
-#     log_error("[code] - load_file_using_eval - #{e.message}")
-#   rescue Exception => e
-#     log_error("[core] - load_file_using_eval - failed to load file #{filename} due to FATAL error")
-#     log_error("[code] - load_file_using_eval - #{e.message}")
-#   end
-# end
 
 def load_file(filename)
   log_notice("[core] - load file - loading file #{filename}")
@@ -309,13 +154,9 @@ def load_world_recursive(dir)
 end
 
 def load_world
-  world_dir = RMUD_ROOT + "/world/"
+  world_dir = Rmud.root + "/world/"
   load_world_recursive(world_dir)
 end
-
-# def game_path_to_constant_string path
-#   path.split("/").map(&:capitalize).join("::")
-# end
 
 def before_start
   $boot_time = Time.now

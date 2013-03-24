@@ -34,9 +34,8 @@ module RmudConnector
     rescue Exception => e
       @player_connection.println("Wystapil powazny blad.")
       message  = "#=================================\n"
+      message += "# Error: #{e.class}: #{$!}\n"
       message += "# Environment: " + Rmud.env + "\n"
-      message += "#=================================\n"
-      message += "# Error: #{$!}\n"
       message += "#=================================\n"
       e.backtrace.each do |msg|
         message += "# " + msg + "\n"
@@ -126,7 +125,5 @@ EventMachine::run do
   end
 end
 
-if shall_i_restart?
-  Kernel.exec("ruby server.rb")
-end
+Kernel.exec("ruby server.rb") if $reboot
 
