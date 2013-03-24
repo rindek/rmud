@@ -48,6 +48,8 @@ class LoginPlayerHandler < Handler
     player.move(room)
     @player_connection.input_handler = GameHandler.new(@player_connection)
     @player_connection.input_handler.init(player)
+    player.command("system")
+    player.command("spojrz")
   end
 end
 
