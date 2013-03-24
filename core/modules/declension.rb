@@ -15,20 +15,7 @@ module Modules
         miejscownik: '',
         rodzaj: ''
       }
-        
-      if dec.is_a?(DataMapper::Resource)
-        @declension.softmerge(dec.attributes)
-      elsif dec.is_a?(String)
-        decl = Models::Declension.first(:nazwa => dec)
-        if decl.nil?
-          raise DeclensionNotFoundException, dec
-        end
-        @declension.softmerge(decl.attributes)
-      elsif dec.is_a?(Hash)
-        @declension.softmerge(dec)
-      else
-        raise DeclensionWrongDataException
-      end
+      
     end
 
     def mianownik

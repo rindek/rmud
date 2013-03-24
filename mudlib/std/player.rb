@@ -17,7 +17,7 @@ module Std
       ## 
       @fail_message = "Slucham?"
 
-      set_declension Models::Player.get(@id).declension
+      # set_declension Models::Player.get(@id).declension
     end
 
     def is_player?
@@ -34,7 +34,6 @@ module Std
 
     def disconnect
       @connection.disconnect
-      free
     end
 
     def command(str)

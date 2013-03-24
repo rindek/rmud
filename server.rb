@@ -14,7 +14,7 @@ module RmudConnector
     port, ip = Socket.unpack_sockaddr_in(self.get_peername)
     if ip == "127.0.0.1" && autolog
       log_notice("[Rmud::post_init] - auto logging in Rindek")
-      player = Std::Player.new(@player_connection, Models::Player.first(:name => 'rindek').id)
+      player = Std::Player.new(@player_connection, Models::Player.find_by(:name => "rindek"))
       room   = World::Rooms::Room.instance
       player.move(room)
       @player_connection.input_handler = GameHandler.new(@player_connection)

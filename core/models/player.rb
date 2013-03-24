@@ -1,17 +1,21 @@
-class Player
-  include Mongoid::Document
-  include Mongoid::Timestamps
+module Models
+  class Player
+    include Mongoid::Document
+    include Mongoid::Timestamps
 
-  field :name, type: String
-  belongs_to :account
-  has_one :entry, autobuild: true
+    store_in collection: "players"
 
-  attr_accessible :name, :entry_attributes
+    field :name, type: String
+    belongs_to :account
+    has_one :entry, autobuild: true
 
-  validates_presence_of :name, :entry, :account
-  validates_uniqueness_of :name
+    attr_accessible :name, :entry_attributes
 
-  accepts_nested_attributes_for :entry
+    validates_presence_of :name, :entry, :account
+    validates_uniqueness_of :name
+
+    accepts_nested_attributes_for :entry
+  end
 end
 
 # module Models
