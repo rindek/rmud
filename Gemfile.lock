@@ -1,67 +1,27 @@
-GIT
-  remote: git://github.com/rindek/dm-migrations.git
-  revision: 02c27f87f0fd078b2d847986e0f202be0c933568
-  branch: release-1.1
-  specs:
-    dm-migrations (1.1.0)
-      dm-core (~> 1.1.0)
-
 GEM
-  remote: http://rubygems.org/
   specs:
-    addressable (2.2.6)
-    bcrypt-ruby (2.1.4)
+    activemodel (3.2.13)
+      activesupport (= 3.2.13)
+      builder (~> 3.0.0)
+    activesupport (3.2.13)
+      i18n (= 0.6.1)
+      multi_json (~> 1.0)
+    builder (3.0.4)
     coderay (0.9.8)
     colorize (0.5.8)
-    data_objects (0.10.6)
-      addressable (~> 2.1)
-    datamapper (1.1.0)
-      dm-aggregates (= 1.1.0)
-      dm-constraints (= 1.1.0)
-      dm-core (= 1.1.0)
-      dm-migrations (= 1.1.0)
-      dm-serializer (= 1.1.0)
-      dm-timestamps (= 1.1.0)
-      dm-transactions (= 1.1.0)
-      dm-types (= 1.1.0)
-      dm-validations (= 1.1.0)
     diff-lcs (1.1.2)
-    dm-aggregates (1.1.0)
-      dm-core (~> 1.1.0)
-    dm-constraints (1.1.0)
-      dm-core (~> 1.1.0)
-    dm-core (1.1.0)
-      addressable (~> 2.2.4)
-    dm-do-adapter (1.1.0)
-      data_objects (~> 0.10.2)
-      dm-core (~> 1.1.0)
-    dm-mysql-adapter (1.1.0)
-      dm-do-adapter (~> 1.1.0)
-      do_mysql (~> 0.10.2)
-    dm-serializer (1.1.0)
-      dm-core (~> 1.1.0)
-      fastercsv (~> 1.5.4)
-      json (~> 1.4.6)
-    dm-timestamps (1.1.0)
-      dm-core (~> 1.1.0)
-    dm-transactions (1.1.0)
-      dm-core (~> 1.1.0)
-    dm-types (1.1.0)
-      bcrypt-ruby (~> 2.1.4)
-      dm-core (~> 1.1.0)
-      fastercsv (~> 1.5.4)
-      json (~> 1.4.6)
-      stringex (~> 1.2.0)
-      uuidtools (~> 2.1.2)
-    dm-validations (1.1.0)
-      dm-core (~> 1.1.0)
-    do_mysql (0.10.6)
-      data_objects (= 0.10.6)
     eventmachine (0.12.10)
-    fastercsv (1.5.4)
-    json (1.4.6)
+    i18n (0.6.1)
     method_source (0.6.0)
       ruby_parser (>= 2.0.5)
+    mongoid (3.1.2)
+      activemodel (~> 3.2)
+      moped (~> 1.4.2)
+      origin (~> 1.0)
+      tzinfo (~> 0.3.22)
+    moped (1.4.4)
+    multi_json (1.7.2)
+    origin (1.0.11)
     pry (0.9.3)
       coderay (>= 0.9.8)
       method_source (>= 0.6.0)
@@ -79,8 +39,7 @@ GEM
       sexp_processor (~> 3.0)
     sexp_processor (3.0.6)
     slop (1.9.1)
-    stringex (1.2.2)
-    uuidtools (2.1.2)
+    tzinfo (0.3.37)
 
 PLATFORMS
   ruby
@@ -88,9 +47,7 @@ PLATFORMS
 DEPENDENCIES
   coderay
   colorize
-  datamapper (~> 1.1.0)
-  dm-migrations!
-  dm-mysql-adapter
   eventmachine
+  mongoid
   pry
   rspec
