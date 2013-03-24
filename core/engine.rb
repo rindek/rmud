@@ -1,3 +1,4 @@
+require_relative "efuns"
 require 'singleton'
 
 # require './core/modules/direction.rb'

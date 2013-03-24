@@ -1,16 +1,10 @@
-Dir.chdir(File.dirname(__FILE__))
-
 require './boot'
-
-require 'digest/sha1'
-
-require './core/efuns'
 require './core/engine'
 
 Engine.instance.load_important_files  
 Engine.instance.load_all
 
-module Rmud
+module RmudConnector
   ## connection
   def post_init
     @player_connection = PlayerConnectionLib.new(self)
@@ -105,22 +99,6 @@ module Rmud
   end
 end
 
-set_server_environment("devel")
-
-# DataMapper::Logger.new($stdout, :debug)
-
-# ## konfigurujemy połączenie z bazą
-# db_config = read_config("database")[server_environment]
-# connection_string = "mysql://USER:PASS@HOST/DATABASE"
-# connection_string["USER"] = db_config['username']
-# connection_string["PASS"] = db_config['password']
-# connection_string["HOST"] = db_config['host']
-# connection_string["DATABASE"] = db_config['database']
-
-# DataMapper.setup(:default, connection_string)
-
-shall_i_restart(true)
-
 def autolog
   true
 end
@@ -128,13 +106,13 @@ end
 EventMachine::run do
   load_world ## :-(
 
-  server_config = read_config("game")[server_environment]
+  server_config = read_config("game")[Rmud.env]
   log_notice("[server.rb] - accepting connections on #{server_config["host"]}:#{server_config["port"]}")
 
   before_start
 
   begin
-    EventMachine::start_server server_config["host"], server_config["port"], Rmud
+    EventMachine::start_server server_config["host"], server_config["port"], RmudConnector
   rescue Exception => e
     p 'server exception'
   end
