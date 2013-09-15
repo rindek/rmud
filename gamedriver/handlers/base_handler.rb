@@ -1,6 +1,9 @@
 class BaseHandler
   def initialize(player_connection)
-    @player_connection = player_connection
+    unless player_connection.nil?
+      @player_connection = player_connection
+      @player_connection.input_handler = self
+    end
   end
   
   def send_prompt
