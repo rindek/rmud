@@ -104,36 +104,14 @@ end
 
 class Module
   def const_missing(name)
-    log_warning("const missing: #{self.to_s + "::" + name.to_s} - trying to load/generate...")
     modules = self.to_s.split("::")
     if modules.first == "World"
-      modules << name.to_s
-
-      filename = Rmud.root + "/" + modules.map(&:downcase).join("/")
-
-      if File.exists?(filename) && File.directory?(filename)
-        generate_empty_module(filename)
-      end
-
-      if const_get(name)
-        return modules.join("::").constantinize
-      end
+      log_warning("Const missing: #{self.to_s}::#{name} - adding new constant")
+      const_set(name, Module.new)
     else
-      raise "uninitialized constant #{name}"
+      raise NameError, "uninitialized constant #{name}"
     end
   end
-end
-
-def generate_empty_module(filename)
-  d = filename.gsub(Rmud.root + "/", "")
-  modules = d.split("/")
-
-  evaled = ""
-  modules.each {|m| evaled << "module #{m.capitalize} "}
-  modules.each {|m| evaled << "end; "}
-
-  eval(evaled)
-  log_notice("[code] - module #{modules.map(&:capitalize).join("::")} generated")
 end
 
 def load_file(filename)
