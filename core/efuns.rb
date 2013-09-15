@@ -114,26 +114,19 @@ class Module
   end
 end
 
-def load_file(filename)
-  log_notice("[core] - load file - loading file #{filename}")
-  require filename
+def load_file(file)
+  require file.to_s if file.extname == ".rb"
 end
 
 def load_world_recursive(dir)
-  Dir.entries(dir).each do |file|
-    if file.match(/.+rb/)
-      load_file(dir + file)
-    else
-      if file != "." && file != ".." && File.directory?(dir + file)
-        load_world_recursive(dir + file + "/")
-      end
-    end
+  dir.each_child do |p|
+    p.directory? ? load_world_recursive(p) : load_file(p)
   end
 end
 
 def load_world
-  world_dir = Rmud.root + "/world/"
-  load_world_recursive(world_dir)
+  world_dir = Pathname(Rmud.root + "/world/")
+  load_world_recursive world_dir
 end
 
 module World
