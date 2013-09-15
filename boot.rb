@@ -6,5 +6,6 @@ end
 
 require './boot/environment'
 require './boot/bundler'
+require './boot/connector'
 
 Dir.glob(Rmud.root + "/boot/initializers/*.rb").each {|f| require f}
