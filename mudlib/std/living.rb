@@ -33,7 +33,7 @@ module Std
     end
 
     def set_random_move(seconds)
-      @random_move_alarm = Alarm.new.repeat(seconds, seconds) do
+      @random_move_alarm = Alarm.repeat(seconds, seconds) do
         if environment
           ex = environment.get_exits.collect {|exit| exit[:direction]}.sample
           command(ex)

@@ -20,8 +20,7 @@ module Std
     def set_event_time time
       @events_time = time
       if @events_time > 0
-        alarm = Alarm.new
-        alarm.repeat(time, time) do
+        Alarm.repeat(time, time) do
           event = @events[rand(@events.size)]
           filter(Std::Player).each do |p|
             p.catch_msg(event)

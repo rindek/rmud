@@ -3,12 +3,20 @@ unload Object, :Alarm
 class Alarm
   @@alarms = []
 
-  attr_reader :current, :next_tick
+  attr_accessor :current, :next_tick
 
-  @current = nil
+  class << self
+    def alarms
+      @@alarms
+    end
 
-  def next_tick_in(round=6)
-    (@next_tick - Time.now.to_f).round(round)
+    def in(*args, &block)
+      Alarm.new.in(*args, &block)
+    end
+
+    def repeat(*args, &block)
+      Alarm.new.repeat(*args, &block)
+    end
   end
 
   def in(sec)
@@ -18,20 +26,20 @@ class Alarm
   end
 
   def repeat(first, every, tick_count = -1)
-    @current = Thread.new {
-      @next_tick = (Time.now.to_f + first)
+    self.current = Thread.new {
+      self.next_tick = (Time.now.to_f + first)
       sleep first
       yield
 
       if tick_count > 1
         tick_count.times do
-          @next_tick = (Time.now.to_f + every)
+          self.next_tick = (Time.now.to_f + every)
           sleep every
           yield
         end
       elsif tick_count == -1
         loop do
-          @next_tick = (Time.now.to_f + every)
+          self.next_tick = (Time.now.to_f + every)
           sleep every
           yield
         end
@@ -45,11 +53,12 @@ class Alarm
 
   def stop
     @@alarms.delete(self)
-    @current.kill
+    current.kill
   end
 
-  def self.alarms
-    @@alarms
-  end
+  private
+    def next_tick_in(round = 6)
+      (next_tick - Time.now.to_f).round(round)
+    end
 end
 
