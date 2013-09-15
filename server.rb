@@ -16,11 +16,7 @@ EventMachine::run do
 
   Callbacks.execute(:before_server_start)
 
-  begin
-    EventMachine::start_server server_config["host"], server_config["port"], RmudConnector
-  rescue Exception => e
-    p 'server exception'
-  end
+  EventMachine::start_server server_config["host"], server_config["port"], RmudConnector
 end
 
 Kernel.exec("ruby server.rb") if $reboot
