@@ -46,4 +46,19 @@ class BaseHandler
   def selfclass
     (class << self; self; end)
   end
+
+  def handle_command_or(data)
+    command = data.to_c
+    method = "__#{command.to_s}"
+    if respond_to?(method)
+      send(method, command.args)
+    else
+      yield
+    end
+  end
+
+  def change_handler handler_class
+    handler_obj = handler_class.new @player_connection
+    yield(handler_obj) if block_given?
+  end
 end

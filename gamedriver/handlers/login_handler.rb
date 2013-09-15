@@ -1,29 +1,25 @@
 require_relative "handler"
 
 class LoginHandler < Handler
-  @@commands = [:zakoncz]
-  
   def prompt
     "Podaj swoje imie: "
   end
-  
+
   def input(data)
-    data = data.to_c
-    if @@commands.include?(data.to_sym)
-      send(data.to_sym, data.args)
-    else
-      player = Models::Player.find_by(:name => data.to_s)
+    handle_command_or(data) do
+      player = Models::Player.find_by(name: data)
       if player.nil?
         oo("Postac o takim imieniu nie istnieje. Sprobuj ponownie.")
       else
-        @player_connection.input_handler = LoginPlayerHandler.new(@player_connection)
-        @player_connection.input_handler.init(player)
+        change_handler LoginPlayerHandler do |handler|
+          handler.init player
+        end
       end
     end
   end
   
-  def zakoncz(args)
-    oo("Do zobaczenia!")
+  def __zakoncz(args = nil)
+    oo "Do zobaczenia!"
     @player_connection.disconnect
   end
 end

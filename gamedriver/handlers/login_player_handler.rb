@@ -46,8 +46,11 @@ class LoginPlayerHandler < Handler
     player = Std::Player.new(@player_connection, @player.id)
     room   = World::Rooms::Room.instance
     player.move(room)
-    @player_connection.input_handler = GameHandler.new(@player_connection)
-    @player_connection.input_handler.init(player)
+
+    change_handler GameHandler do |handler|
+      handler.init player
+    end
+    
     player.command("system")
     player.command("spojrz")
   end
