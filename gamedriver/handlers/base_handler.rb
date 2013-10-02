@@ -1,11 +1,11 @@
 class BaseHandler
-  def initialize(player_connection)
-    unless player_connection.nil?
-      @player_connection = player_connection
-      @player_connection.input_handler = self
-    end
+  attr_accessor :player
+
+  def initialize(player: player)
+    self.player = player
+    self.player.input_handler = self
   end
-  
+
   def send_prompt
     o(prompt)
   end
@@ -38,12 +38,12 @@ class BaseHandler
     msg = msg.is_a?(Array) ? msg : [msg]
     
     msg.each do |m|
-      @player_connection.print(m)
+      player.print(m)
     end
   end
   
   def oo(msg = "")
-    @player_connection.println(msg)
+    player.println(msg)
   end
 
   def selfclass
@@ -61,7 +61,7 @@ class BaseHandler
   end
 
   def change_handler handler_class
-    handler_obj = handler_class.new @player_connection
+    handler_obj = handler_class.new player: self.player
     yield(handler_obj) if block_given?
   end
 end

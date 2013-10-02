@@ -1,8 +1,9 @@
 class PlayerConnectionLib
   attr_accessor :input_handler
   
-  def initialize(connection)
+  def initialize(connection, handler)
     @connection = connection
+    self.input_handler = handler.new player: self
   end
   
   def print(data)

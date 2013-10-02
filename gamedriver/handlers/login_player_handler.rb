@@ -1,13 +1,15 @@
 require_relative "handler"
 
 class LoginPlayerHandler < Handler
-  def init(player)
-    @player = player
-    @state = :password_input
+  attr_accessor :db_player, :state
+
+  def init(model: model)
+    self.db_player = model
+    self.state = :password_input
   end
   
   def prompt
-    case @state
+    case self.state
     when :password_input then
       echo_off
       "Podaj haslo: "
@@ -21,38 +23,38 @@ class LoginPlayerHandler < Handler
   
   def input(data)
     echo_on
-    send(@state, data.to_c)
+    send(self.state, data.to_c)
   end
 
   def password_input(data)
-    if Digest::SHA1.hexdigest(data.cmd) != @player.password
+    if Digest::SHA1.hexdigest(data.cmd) != self.db_player.password
       oo("Haslo jest niepoprawne, sprobuj wpisac ponownie.")
-      @state = :password_input_2nd_try
+      self.state = :password_input_2nd_try
     else
       login_success
     end
   end
 
   def password_input_2nd_try(data)
-    if Digest::SHA1.hexdigest(data.cmd) != @player.password
+    if Digest::SHA1.hexdigest(data.cmd) != self.db_player.password
       oo("Haslo jest niepoprawne, do zobaczenia!")
-      @player_connection.disconnect
+      self.player.disconnect
     else
       login_success
     end
   end
 
   def login_success
-    player = Std::Player.new(@player_connection, @player.id)
+    game_player = Std::Player.new(self.player, self.db_player.id)
     room   = World::Rooms::Room.instance
-    player.move(room)
+    game_player.move(room)
 
     change_handler GameHandler do |handler|
-      handler.init player
+      handler.init game_player: game_player
     end
     
-    player.command("system")
-    player.command("spojrz")
+    game_player.command("system")
+    game_player.command("spojrz")
   end
 end
 

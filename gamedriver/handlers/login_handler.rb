@@ -7,12 +7,12 @@ class LoginHandler < Handler
 
   def input(data)
     handle_command_or(data) do
-      player = Models::Player.find_by(name: data)
-      if player.nil?
+      player_db = Models::Player.find_by(name: data)
+      if player_db.nil?
         oo("Postac o takim imieniu nie istnieje. Sprobuj ponownie.")
       else
         change_handler LoginPlayerHandler do |handler|
-          handler.init player
+          handler.init model: player_db
         end
       end
     end

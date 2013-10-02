@@ -22,8 +22,7 @@ end
 module RmudConnector
   ## connection
   def post_init
-    @player_connection = PlayerConnectionLib.new(self)
-    @player_connection.input_handler = LoginHandler.new(@player_connection)
+    @player_connection = PlayerConnectionLib.new(self, LoginHandler)
     @player_connection.print(File.read("doc/LOGIN_MESSAGE"))
 
     # port, ip = Socket.unpack_sockaddr_in(self.get_peername)

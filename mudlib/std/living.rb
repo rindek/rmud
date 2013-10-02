@@ -15,8 +15,6 @@ module Std
 
       update_hooks
 
-      @handler = GameHandler.new(nil)
-      @handler.init(self)
       @fail_message = ""
     end
 
@@ -45,7 +43,7 @@ module Std
     end
 
     def command(command)
-      @handler.input(command)
+      # @handler.input(command)
     end
   end
 end
