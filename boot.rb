@@ -8,4 +8,10 @@ require './boot/environment'
 require './boot/bundler'
 require './boot/connector'
 
-Dir.glob(Rmud.root + "/boot/initializers/*.rb").each {|f| require f}
+Dir.glob(Rmud.root.join("boot/initializers/*.rb")).each {|f| require f}
+
+$: << Rmud.root
+$: << Rmud.root.join("core")
+
+Dir[Rmud.root.join('core/models/*.rb')].each { |f| require f }
+

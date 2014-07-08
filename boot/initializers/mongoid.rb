@@ -1,4 +1,4 @@
-Mongoid.load!(Rmud.root + "/gamedriver/config/mongoid.yml", Rmud.env)
+Mongoid.load!(Rmud.root.join("gamedriver/config/mongoid.yml"), Rmud.env)
 
 Moped.logger = Logger.new($stdout)
 Mongoid.logger = Logger.new($stdout)

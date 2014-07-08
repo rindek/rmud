@@ -3,7 +3,7 @@ def log_colored(str, color=nil)
   unless color.nil?
     line = line.colorize(color)
   end
-  
+
   line += "\n"
   puts line
 end
@@ -74,7 +74,7 @@ class String
   def constantinize
     Object.module_eval(self)
   end
-  
+
   def respond_to_command?(*args)
     log_notice("[string::respond_to_command] - ???? #{args.to_s}")
     false
@@ -125,7 +125,7 @@ def load_dir_recursive(dir)
 end
 
 def load_world
-  world_dir = Pathname(Rmud.root + "/world/")
+  world_dir = Pathname(Rmud.world)
   load_dir_recursive world_dir
 end
 
@@ -160,7 +160,7 @@ def time2hash(f)
   i -= minutes.minutes
   seconds = i
 
-  {years: years, months: months, days: days, 
+  {years: years, months: months, days: days,
     hours: hours, minutes: minutes, seconds: seconds}
 end
 

@@ -3,7 +3,11 @@ $reboot = false
 class Rmud
   class << self
     def root
-      Dir.pwd
+      Pathname(Dir.pwd)
+    end
+
+    def world
+      root.join("world")
     end
 
     def env
