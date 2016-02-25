@@ -1,25 +1,6 @@
-class ConnectionsJar
-  @@connections = []
+class RmudConnector < EventMachine::Connection
+  attr_accessor :server
 
-  def self.add(connection)
-    @@connections << connection
-  end
-
-  def self.remove(connection)
-    @@connections.delete(connection)
-  end
-
-  def self.connections
-    @@connections
-  end
-
-  def self.count
-    @@connections.count
-  end
-end
-
-
-module RmudConnector
   ## connection
   def post_init
     @player_connection = PlayerConnectionLib.new(self, LoginHandler)
@@ -36,10 +17,8 @@ module RmudConnector
     # end
     ## prompt for next command
     @player_connection.input_handler.send_prompt
-
-    ConnectionsJar.add @player_connection
   end
-  
+
   ## input
   def receive_data(data)
     data = preprocess_input(data)
@@ -66,15 +45,22 @@ module RmudConnector
 
     EventMachine.defer(result, callback)
   end
-  
-  ## disconnection
-  def unbind
-    ConnectionsJar.remove @player_connection
 
+  def disconnect
+    before_disconnect
+    server.connections.delete(self)
+  end
+
+  def before_disconnect
     @player_connection.input_handler = nil
     @player_connection = nil
   end
-  
+
+  ## disconnection
+  def unbind
+    disconnect
+  end
+
   def preprocess_input(string)
     # combine CR+NULL into CR
     string = string.gsub(/#{CR}#{NULL}/no, CR)

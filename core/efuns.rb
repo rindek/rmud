@@ -247,3 +247,37 @@ def unload obj, const
     obj.send(:remove_const, const)
   end
 end
+
+def GameObject(name, parent_class, &block)
+  file = CallChain.parse_caller(caller(1, 1).first).first
+  patt = Regexp.new("(\\A#{Rmud.root}|.rb\\z)")
+  file.gsub! patt, ''
+
+  name = %{
+    def __name__
+      "#{gamepath(file)}"
+    end
+  }
+
+  name += %q{
+    def inspect
+      "<#{__name__}##{object_id.to_s(32)}>"
+    end
+  }
+
+  puts name
+  klass = Class.new
+  klass.class_eval(name)
+  klass.class_eval &block
+  register! gamepath(file), klass
+end
+
+def gamepath(path)
+  path.split("/").reject(&:empty?).join(".")
+end
+
+$klasses = {}
+
+def register! path, klass
+  $klasses[path] = klass
+end

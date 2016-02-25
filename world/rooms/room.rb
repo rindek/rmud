@@ -1,4 +1,26 @@
 # coding: utf-8
+
+# GameObject("room", Std::Room) do
+#   def initialize
+#     puts 'hi'
+#   end
+# end
+
+Room {
+  short "przykladowy pokoj 1"
+  exits N => "room.1",
+        S => "room.2"
+
+  events_time 10
+  events "Wiatr delikatnie kolysze drzewa.\n",
+         "Masz wrazenie, ze ktos za toba stoi.\n",
+         "Usmiechasz sie mimowolnie, bo to dziala :-)\n"
+
+  command "test" do |tp|
+    tp.msg("hi")
+  end
+}
+
 class current_namespace::Room < Std::Room
 
   def initialize

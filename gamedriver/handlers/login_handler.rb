@@ -17,9 +17,9 @@ class LoginHandler < Handler
       end
     end
   end
-  
+
   def __zakoncz(args = nil)
     oo "Do zobaczenia!"
-    @player_connection.disconnect
+    player.disconnect
   end
 end

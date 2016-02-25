@@ -11,7 +11,7 @@ GEM
     coderay (1.1.0)
     colorize (0.5.8)
     diff-lcs (1.1.2)
-    eventmachine (1.0.3)
+    eventmachine (1.0.7)
     i18n (0.6.1)
     method_source (0.8.2)
     mongoid (3.1.2)
