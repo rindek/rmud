@@ -9,14 +9,8 @@ class Rmud
     end
 
     def start
-      Engine.instance.load_all
-      load_world
-      server_config = read_config("game")[Rmud.env]
-
-      log_notice("[server.rb] - accepting connections on #{server_config["host"]}:#{server_config["port"]}")
-      @sig = EventMachine.start_server(server_config["host"], server_config["port"], RmudConnector) do |connection|
-        @connections << connection
-        connection.server = self
+      @sig = EventMachine.start_server('localhost', '4001', RmudConnector) do |connection|
+        connections << connection
       end
     end
 
@@ -30,10 +24,10 @@ class Rmud
     end
 
     def wait_for_connections_and_stop
-      if @connections.empty?
+      if connections.empty?
         EventMachine.stop
       else
-        puts "Waiting for #{@connections.size} connection(s) to finish ..."
+        puts "Waiting for #{connections.size} connection(s) to finish ..."
       end
     end
   end

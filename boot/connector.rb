@@ -3,62 +3,22 @@ class RmudConnector < EventMachine::Connection
 
   ## connection
   def post_init
-    @player_connection = PlayerConnectionLib.new(self, LoginHandler)
-    @player_connection.print(File.read("doc/LOGIN_MESSAGE"))
-
-    # port, ip = Socket.unpack_sockaddr_in(self.get_peername)
-    # if ip == "127.0.0.1" && autolog
-    #   log_notice("[Rmud::post_init] - auto logging in Rindek")
-    #   player = Std::Player.new(@player_connection, Models::Player.find_by(:name => "rindek"))
-    #   room   = World::Rooms::Room.instance
-    #   player.move(room)
-    #   @player_connection.input_handler = GameHandler.new(@player_connection)
-    #   @player_connection.input_handler.init(player)
-    # end
-    ## prompt for next command
-    @player_connection.input_handler.send_prompt
+    p 'new connection'
   end
 
   ## input
   def receive_data(data)
-    data = preprocess_input(data)
-    return if data == ''
+    p data
+    # data = preprocess_input(data)
 
-    result = proc do
-      begin
-        @player_connection.input_handler.input(data)
-      rescue Exception => e
-        @player_connection.println("Wystapil powazny blad.")
-        message  = "#=================================\n"
-        message += "# Error: #{e.class}: #{$!}\n"
-        message += "# Environment: " + Rmud.env + "\n"
-        message += "#=================================\n"
-        e.backtrace.each do |msg|
-          message += "# " + msg + "\n"
-        end
-        message += "#=================================\n"
-        puts message
-      end
-    end
+    # callback = proc { |r| @player_connection.input_handler.send_prompt }
 
-    callback = proc { |r| @player_connection.input_handler.send_prompt }
-
-    EventMachine.defer(result, callback)
-  end
-
-  def disconnect
-    before_disconnect
-    server.connections.delete(self)
-  end
-
-  def before_disconnect
-    @player_connection.input_handler = nil
-    @player_connection = nil
+    # EventMachine.defer(result, callback)
   end
 
   ## disconnection
   def unbind
-    disconnect
+    p 'connection closed'
   end
 
   def preprocess_input(string)

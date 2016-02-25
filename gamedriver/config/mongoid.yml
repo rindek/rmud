@@ -1,6 +1,0 @@
-development:
-  sessions:
-    default:
-      database: rmud_webapp_development
-      hosts:
-        - localhost:27017

@@ -6,9 +6,11 @@ $boot_time = Time.now
 server = Rmud::Server.new
 
 Thread.new do
-  EventMachine.run {
-    server.start
-  }
+  begin
+    EventMachine.run { server.start }
+  rescue Exception => e
+    Thread.main.raise(e)
+  end
 end
 
 binding.pry
