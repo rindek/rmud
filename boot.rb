@@ -6,3 +6,7 @@ loader.log!
 loader.ignore("./spec")
 loader.setup
 # loader.eager_load
+
+module Types
+  include Dry.Types()
+end
