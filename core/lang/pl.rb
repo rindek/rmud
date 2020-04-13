@@ -7,6 +7,5 @@ class PL
   MIE = "miejscownik"
 
   def self.QCIMIE(obj, przyp)
-    
   end
 end

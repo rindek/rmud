@@ -57,8 +57,8 @@ class Alarm
   end
 
   private
-    def next_tick_in(round = 6)
-      (next_tick - Time.now.to_f).round(round)
-    end
-end
 
+  def next_tick_in(round = 6)
+    (next_tick - Time.now.to_f).round(round)
+  end
+end

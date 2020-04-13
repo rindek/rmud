@@ -9,7 +9,7 @@ class Rmud
     end
 
     def start
-      @sig = EventMachine.start_server('localhost', '4001', RmudConnector) do |connection|
+      @sig = EventMachine.start_server("localhost", "4001", RmudConnector) do |connection|
         connections << connection
       end
     end

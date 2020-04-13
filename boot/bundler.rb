@@ -1,5 +1,5 @@
 begin
-  require 'bundler' unless defined?(Bundler)
+  require "bundler" unless defined?(Bundler)
 rescue LoadError
   raise "Could not load the bundler gem. Install it with 'gem install bundler'"
 end

@@ -1,5 +1,5 @@
-require './boot'
-require './core/server'
+require "./boot"
+require "./core/server"
 
 $boot_time = Time.now
 

@@ -4,12 +4,11 @@ unless RUBY_VERSION >= "2.0.0"
   Process.exit
 end
 
-require './boot/environment'
-require './boot/bundler'
-require './boot/connector'
+require "./boot/environment"
+require "./boot/bundler"
+require "./boot/connector"
 
-Dir.glob(Rmud.root.join("boot/initializers/*.rb")).each {|f| require f}
+Dir.glob(Rmud.root.join("boot/initializers/*.rb")).each { |f| require f }
 
 $: << Rmud.root
 $: << Rmud.root.join("core")
-
