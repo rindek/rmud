@@ -5,6 +5,7 @@ module Engine
       extend Dry::Container::Mixin
 
       register(:zakoncz) { |tp| Engine::Command::Zakoncz.new(tp) }
+      register(:_login) { |tp| Engine::Command::Login.new(tp) }
     end
   end
 end

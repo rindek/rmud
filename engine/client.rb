@@ -10,7 +10,14 @@ module Engine
 
     def listen
       loop do
-        handler.new(tp).receive(tcpsocket.gets.chomp)
+        begin
+          handler.new(tp).receive(tcpsocket.gets.chomp)
+        rescue => e
+          # TODO - rollbar
+          puts Backtrace.new(e)
+          write("Wystapil powazny blad.\n")
+        end
+
         break if tcpsocket.closed?
       end
     end

@@ -4,6 +4,7 @@ module Engine
     class Zakoncz < Base
       def call
         tp.close
+        Success()
       end
     end
   end

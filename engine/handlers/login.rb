@@ -11,9 +11,13 @@ module Engine
         cmd, *args = message.split
 
         commands.resolve(String(cmd).to_sym).(tp).(*args)
+          .or { |msg| tp.write(msg) }
       rescue Dry::Container::Error => e
-        raise unless e.message.match(/Nothing registered with the key/)
-        tp.write(e.message + "\n")
+        raise(e) unless e.message.match(/Nothing registered with the key/)
+
+        ## Try to login
+        commands.resolve(:_login).(tp).(cmd)
+          .or { |msg| tp.writeln(msg) }
       end
     end
   end
