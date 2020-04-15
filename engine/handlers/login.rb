@@ -17,7 +17,7 @@ module Engine
 
         ## Try to login
         commands.resolve(:_login).(tp).(cmd)
-          .or { |msg| tp.writeln(msg) }
+          .or { |msg| tp.write(msg) }
       end
     end
   end
