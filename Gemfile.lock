@@ -1,6 +1,12 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    activesupport (6.0.2.2)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+      zeitwerk (~> 2.2)
     coderay (1.1.0)
     concurrent-ruby (1.1.6)
     dry-configurable (0.11.5)
@@ -30,18 +36,25 @@ GEM
       dry-equalizer (~> 0.3)
       dry-inflector (~> 0.1, >= 0.1.2)
       dry-logic (~> 1.0, >= 1.0.2)
+    i18n (1.8.2)
+      concurrent-ruby (~> 1.0)
     method_source (0.8.2)
+    minitest (5.14.0)
     pry (0.10.0)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
     slop (3.5.0)
+    thread_safe (0.3.6)
+    tzinfo (1.2.7)
+      thread_safe (~> 0.1)
     zeitwerk (2.3.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport
   dry-initializer
   dry-monads
   dry-types

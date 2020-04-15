@@ -4,10 +4,16 @@ module Engine
     class Login
       extend Dry::Initializer
 
-      param :client, type: Types.Instance(Engine::Client)
+      param :tp, type: Types.Instance(Engine::Player)
+      option :commands, default: -> { Engine::Commands::Login }
 
       def receive(message)
-        # binding.pry
+        cmd, *args = message.split
+
+        commands.resolve(String(cmd).to_sym).(tp).(*args)
+      rescue Dry::Container::Error => e
+        raise unless e.message.match(/Nothing registered with the key/)
+        tp.write(e.message + "\n")
       end
     end
   end
