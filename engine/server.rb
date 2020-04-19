@@ -7,8 +7,9 @@ module Engine
     end
 
     def start!
+      mutex = Mutex.new
       loop do
-        Thread.start(@server.accept) { |client| new_client(client) }
+        Thread.start(@server.accept) { |client| mutex.synchronize { new_client(client) } }
       end
     end
 

@@ -22,6 +22,10 @@ module Engine
       end
     end
 
+    def handler=(new_handler)
+      @handler = new_handler
+    end
+
     private
 
     def tp
