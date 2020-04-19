@@ -4,8 +4,11 @@ module Models
     many_to_one :from, key: :from_room_id, class: :"Models::Room"
     many_to_one :to, key: :to_room_id, class: :"Models::Room"
 
-    def link
-      Engine::Rooms::Exit.new(name: name, to_id: to.link)
+    def to_entity
+      Entities::RoomExit.new(
+        id: String(to_room_id),
+        name: name,
+      )
     end
   end
 end

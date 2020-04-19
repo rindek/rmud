@@ -5,10 +5,10 @@ module Engine
       def self.load!(container)
         Models::Room.eager(:exits).all.each do |room|
           container.register(room.link) do
-            Engine::Rooms::Base.new(
+            Entities::Room.new(
               short: room.short,
               long: room.long,
-              exits: room.exits.map(&:link),
+              exits: room.exits.map(&:to_entity),
             )
           end
         end
