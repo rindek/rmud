@@ -8,7 +8,6 @@ module Engine
 
         yield authenticate(player, password)
         switch_handler(Engine::Handlers::Game)
-        # move to world
 
         Success(player)
       end

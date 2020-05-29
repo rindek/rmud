@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Entities
-  class RoomExit < Dry::Struct
-    attribute :id, Types::String
-    attribute :name, Types::String
+  class RoomExit < Abstract
+    option :id, type: Types::String
+    option :name, type: Types::String
   end
 end
