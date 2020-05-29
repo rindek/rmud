@@ -1,0 +1,20 @@
+FROM ruby:2.7-alpine
+
+RUN mkdir -p /app/vendor/cache
+WORKDIR /app
+
+# RUN bootstrap node
+RUN apk --update add git libpq libxslt tzdata
+
+RUN apk --update add --virtual build_deps \
+    build-base libc-dev linux-headers \
+    openssl-dev postgresql-dev libxml2-dev libxslt-dev
+
+# add Gemfile & install dependencies
+ADD Gemfile* /app/
+ADD vendor/cache /app/vendor/cache
+
+RUN bundle install --jobs=8 --retry=3
+
+# add application code
+COPY . /app
