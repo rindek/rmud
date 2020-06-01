@@ -15,7 +15,9 @@ module Engine
       end
 
       def remove(item)
-        items.delete(item)
+        Maybe(
+          items.delete(item)
+        ).to_result
       end
 
       def has?(item)

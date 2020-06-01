@@ -8,7 +8,7 @@ services:
     entrypoint: sh -c
     env_file: ${ENVFILE}
     environment:
-      DATABASE_URL: postgres://postgres@database/rmud_dev
+      STAGE: development
     volumes: [$VOLUMES]
     ports:
       - 3000:3000
