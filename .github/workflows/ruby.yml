@@ -22,7 +22,7 @@ jobs:
       database:
         image: postgres:11
         env:
-          POSTGRES_PASSWORD: ''
+          POSTGRES_PASSWORD: x
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
