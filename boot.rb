@@ -1,3 +1,6 @@
+module Rmud; end
+
+require "socket"
 require "bundler"
 Bundler.require
 

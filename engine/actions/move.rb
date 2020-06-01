@@ -3,11 +3,9 @@ module Engine
   module Actions
     class Move < Abstract
       option :object, type: Types::MovableObject
-      option :dest, type: Types::GameObject
+      option :dest, type: Types.Interface(:inventory)
 
       def call
-        yield validate_dest(dest: dest)
-
         yield check_if_can_move
 
         ## remove object from previous inventory
@@ -20,19 +18,13 @@ module Engine
         ## set object's new environment
         object.environment = dest
 
-        ## validate is everything is fine
+        ## validate if everything is fine
         yield validate_after_move(object: object, dest: dest)
 
         Success(object)
       end
 
       private
-
-      def validate_dest(dest:)
-        return Failure(:has_no_inventory) unless dest.respond_to?(:inventory)
-
-        Success()
-      end
 
       def check_if_can_move
         Success()
