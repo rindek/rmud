@@ -52,4 +52,4 @@ jobs:
       run: |
         ruby ci.rb
         bundle exec rake sequel:migrate
-        bundle exec rspec -f d
+        bundle exec rspec -f progress
