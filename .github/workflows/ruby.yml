@@ -19,12 +19,14 @@ jobs:
     strategy:
       matrix:
         ruby: [ '2.5', '2.6', '2.7' ]
+        postgres: [ '13', '12', '11', '10', '9.6' ]
 
     runs-on: ubuntu-latest
 
+    name: Ruby ${{ matrix.ruby }}, PG ${{ matrix.postgres }}
     services:
       database:
-        image: postgres:11
+        image: postgres:${{ matrix.postgres }}
         env:
           POSTGRES_PASSWORD: x
         options: >-
@@ -35,7 +37,6 @@ jobs:
         ports:
           - 5432:5432
 
-    name: Ruby ${{ matrix.ruby }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
