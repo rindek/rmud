@@ -14,6 +14,7 @@ loader.ignore("./db")
 loader.ignore("./gamedriver")
 loader.ignore("./database.rb")
 loader.ignore("./boot.rb")
+loader.ignore("./ci.rb")
 loader.setup
 
 module Types
