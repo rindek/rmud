@@ -42,6 +42,7 @@ jobs:
     - name: Setup db, run tests
       env:
         STAGE: test
+        DATABASE_URL: postgres://postgres:x@localhost:5432/rmud_test
       run: |
         ruby ci.rb
         bundle exec rake sequel:migrate
