@@ -16,6 +16,10 @@ on:
 jobs:
   test:
 
+    strategy:
+      matrix:
+        ruby: [ '2.5', '2.6', '2.7' ]
+
     runs-on: ubuntu-latest
 
     services:
@@ -31,12 +35,13 @@ jobs:
         ports:
           - 5432:5432
 
+    name: Ruby ${{ matrix.ruby }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7
+        ruby-version: ${{ matrix.ruby }}
     - name: Install dependencies
       run: bundle install
     - name: Setup db, run tests
