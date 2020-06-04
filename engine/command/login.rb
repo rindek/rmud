@@ -10,8 +10,8 @@ module Engine
 
         yield authenticate(model, password)
 
-        entity = Entities::Player.new(model: model, engine: tp)
-        tp.client.handler = Engine::Handlers::Game.new(tp: tp, player: entity)
+        entity = Entities::Player.new(model: model)
+        client.handler = Engine::Handlers::Game.new(client: client, tp: entity)
         yield spawn(entity)
 
         write_client("Zalogowano!\n")
@@ -28,7 +28,7 @@ module Engine
 
       def get_password
         write_client("Podaj haslo: ")
-        Success(tp.read_client)
+        Success(client.read_client)
       end
 
       def authenticate(player, password)

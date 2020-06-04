@@ -4,7 +4,7 @@ module Engine
     class Game
       extend Dry::Container::Mixin
 
-      register(:zakoncz) { |tp, po| Engine::Command::Zakoncz.new(tp, po) }
+      register(:zakoncz) { |**args| Engine::Command::Zakoncz.new(**args) }
     end
   end
 end

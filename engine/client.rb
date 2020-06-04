@@ -16,12 +16,13 @@ module Engine
       em_connection.send_data(msg)
     end
 
+    ## triggered from EM
     def receive_data(data)
       process_command((queue << data.chomp).shift)
     end
 
     def process_command(data)
-      return tp.continue(data) if tp.reading?
+      return continue(data) if reading?
 
       Thread.new do
         lock!
@@ -41,6 +42,14 @@ module Engine
       @current_handler = new_handler
     end
 
+    def read_client
+      # asynchronously wait for this variable to be set by next
+      # received data, name of method is for simplicity when
+      # implementing
+      @ivar = Concurrent::IVar.new
+      @ivar.value(60 * 5) # 5 minutes is good enough
+    end
+
     private
 
     def lock!
@@ -52,12 +61,17 @@ module Engine
       write("> ")
     end
 
-    def current_handler
-      @current_handler ||= handler.new(tp)
+    def continue(data)
+      @ivar.set(data)
+      @ivar = nil
     end
 
-    def tp
-      @tp ||= Engine::Player.new(client: self)
+    def reading?
+      @ivar && @ivar.pending?
+    end
+
+    def current_handler
+      @current_handler ||= handler.new(client: self)
     end
   end
 end
