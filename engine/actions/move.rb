@@ -34,7 +34,7 @@ module Engine
         return Failure(:wrong_object_environment) unless object.environment == dest
         return Failure(:missing_object_in_inventory) unless dest.inventory.has?(object)
 
-        return Success()
+        Success()
       end
     end
   end
