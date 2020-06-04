@@ -15,6 +15,7 @@ module Engine
         yield spawn(entity)
 
         write_client("Zalogowano!\n")
+        client.receive_data("spojrz")
 
         Success(entity)
       end

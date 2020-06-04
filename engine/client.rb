@@ -3,6 +3,8 @@ module Engine
   class Client
     extend Dry::Initializer
 
+    include Dry::Monads[:try]
+
     option :em_connection
     option :handler, default: -> { Engine::Handlers::Login }
     option :semaphore, default: -> { Concurrent::Semaphore.new(1) }
