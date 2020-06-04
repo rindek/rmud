@@ -17,8 +17,7 @@ module Engine
     end
 
     def receive_data(data)
-      queue << data.chomp
-      process_command(queue.shift)
+      process_command((queue << data.chomp).shift)
     end
 
     def process_command(data)
