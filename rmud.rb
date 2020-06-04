@@ -5,7 +5,9 @@ require "./boot"
 
 Thread.new do
   EventMachine.run do
-    EventMachine.start_server "0.0.0.0", 2300, Engine::Server
+    port = 2300
+    EventMachine.start_server "0.0.0.0", port, Engine::Server
+    puts "Now accepting connections on address port #{port}..."
   end
 end
 

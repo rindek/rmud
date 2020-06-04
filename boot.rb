@@ -7,7 +7,7 @@ Bundler.require
 require "./database"
 
 loader = Zeitwerk::Loader.for_gem
-loader.log!
+loader.log! unless ENV["STAGE"] == "test"
 loader.ignore("./spec")
 loader.ignore("./boot")
 loader.ignore("./db")

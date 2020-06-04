@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 require "logger"
 
-DB = Sequel.connect(ENV["DATABASE_URL"] || "postgres://postgres@database:5432/rmud_#{ENV["STAGE"]}")
-DB.loggers << Logger.new($stdout)
+connection_string = ENV["DATABASE_URL"] || "postgres://postgres@database:5432/rmud_#{ENV["STAGE"]}"
+puts "Connecting to #{connection_string}..."
+
+DB = Sequel.connect(connection_string)
+DB.loggers << Logger.new($stdout) unless ENV["STAGE"] == "test"
 
 Sequel::Model.plugin :timestamps, update_on_create: true
