@@ -15,9 +15,11 @@ module Engine
       rescue Dry::Container::Error => e
         raise(e) unless e.message.match(/Nothing registered with the key/)
 
-        ## Try to login
         commands.resolve(:_login).(tp).(cmd)
-          .or { |msg| tp.write(msg) }
+          .or do |msg|
+          tp.write(msg)
+          tp.reset!
+        end
       end
     end
   end

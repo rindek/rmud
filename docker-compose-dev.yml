@@ -11,6 +11,6 @@ services:
       STAGE: development
     volumes: [$VOLUMES]
     ports:
-      - 3000:3000
+      - 2300:2300
     depends_on:
       - database

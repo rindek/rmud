@@ -14,7 +14,11 @@ module Engine
       end
 
       def read_client
-        tp.client.tcpsocket.gets.chomp
+        # binding.pry
+        # Maybe(tp.client.em_connection.send(:gets))
+        #   .to_result
+        #   .fmap { |msg| msg.chomp }
+        #   .or { Failure("Polaczenie zostalo zerwane\n") }
       end
     end
   end

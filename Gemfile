@@ -9,6 +9,8 @@ gem "dry-types"
 gem "dry-initializer"
 gem "dry-struct"
 
+gem "eventmachine"
+
 gem "logger"
 gem "pry"
 gem "rake"
