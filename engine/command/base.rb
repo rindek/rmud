@@ -6,19 +6,12 @@ module Engine
       include Dry::Monads[:result, :do, :maybe]
 
       param :tp, type: Types.Instance(Engine::Player)
+      param :po, type: Types::PlayerObject, optional: true
 
       private
 
       def write_client(msg)
         tp.write(msg)
-      end
-
-      def read_client
-        # binding.pry
-        # Maybe(tp.client.em_connection.send(:gets))
-        #   .to_result
-        #   .fmap { |msg| msg.chomp }
-        #   .or { Failure("Polaczenie zostalo zerwane\n") }
       end
     end
   end

@@ -19,6 +19,7 @@ loader.setup
 
 module Types
   include Dry.Types()
+  PlayerObject = Types.Instance(Entities::Player)
   GameObject = Types.Instance(Entities::GameObject)
   MovableObject = Types.Instance(Entities::MovableObject)
 end

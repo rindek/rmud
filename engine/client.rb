@@ -38,8 +38,7 @@ module Engine
     end
 
     def handler=(new_handler)
-      @handler = new_handler
-      @current_handler = nil
+      @current_handler = new_handler
     end
 
     private

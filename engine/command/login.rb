@@ -10,9 +10,11 @@ module Engine
 
         yield authenticate(model, password)
 
-        entity = Entities::Player.new(model: model, origin: tp)
-        switch_handler(Engine::Handlers::Game)
+        entity = Entities::Player.new(model: model, engine: tp)
+        tp.client.handler = Engine::Handlers::Game.new(tp: tp, player: entity)
         yield spawn(entity)
+
+        write_client("Zalogowano!\n")
 
         Success(entity)
       end
@@ -35,11 +37,6 @@ module Engine
         else
           Failure("Niepoprawne haslo.\n")
         end
-      end
-
-      def switch_handler(handler)
-        tp.client.handler = handler
-        write_client("Zalogowany!\n")
       end
 
       def spawn(entity)
