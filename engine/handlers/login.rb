@@ -18,7 +18,6 @@ module Engine
         commands.resolve(:_login).(tp).(cmd)
           .or do |msg|
           tp.write(msg)
-          tp.reset!
         end
       end
     end

@@ -17,26 +17,24 @@ module Engine
     end
 
     def receive_data(data)
-      puts "adding '#{data.chomp}' to cmd queue"
       queue << data.chomp
+      process_command(queue.shift)
+    end
 
-      begin
-        puts "WAITING: #{tp.waiting?}"
-        if tp.waiting?
-          tp.resume(queue.shift)
-        else
-          Thread.new do
-            puts "acquiring semaphore"
-            semaphore.acquire
-            current_handler.receive(queue.shift)
-            puts "releasing semaphore"
-            semaphore.release
-            tp.write("> ")
-          end
+    def process_command(data)
+      return tp.continue(data) if tp.reading?
+
+      Thread.new do
+        lock!
+
+        begin
+          current_handler.receive(data)
+        rescue => e
+          puts Backtrace.new(e)
+          write("Wystapil powazny blad")
+        ensure
+          release!
         end
-      rescue => e
-        puts Backtrace.new(e)
-        write("Wystapil powazny blad.\n")
       end
     end
 
@@ -46,6 +44,15 @@ module Engine
     end
 
     private
+
+    def lock!
+      semaphore.acquire
+    end
+
+    def release!
+      semaphore.release
+      write("> ")
+    end
 
     def current_handler
       @current_handler ||= handler.new(tp)

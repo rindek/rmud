@@ -8,24 +8,13 @@ module Engine
         model = yield find_player(name)
         password = yield get_password
 
-        sleep(1)
-
         yield authenticate(model, password)
 
-        puts name
-        puts password
+        entity = Entities::Player.new(model: model, origin: tp)
+        switch_handler(Engine::Handlers::Game)
+        yield spawn(entity)
 
-        puts "Yes"
-
-        tp.reset!
-
-        Success()
-
-        # entity = Entities::Player.new(model: model, origin: tp)
-        # switch_handler(Engine::Handlers::Game)
-        # yield spawn(entity)
-
-        # Success(entity)
+        Success(entity)
       end
 
       private
@@ -37,8 +26,7 @@ module Engine
 
       def get_password
         write_client("Podaj haslo: ")
-        tp.wait!
-        Success(tp.ivar.value)
+        Success(tp.read_client)
       end
 
       def authenticate(player, password)
