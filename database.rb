@@ -1,10 +1,22 @@
 # frozen_string_literal: true
 require "logger"
 
-connection_string = ENV["DATABASE_URL"] || "postgres://postgres@database:5432/rmud_#{ENV["STAGE"]}"
-puts "Connecting to #{connection_string}..."
+config = {
+  adapter: :postgres,
+  user: "postgres",
+  host: "database",
+  database: "rmud_#{ENV["STAGE"]}",
+}
 
-DB = Sequel.connect(connection_string)
+Sequel.connect(config.merge(database: "postgres")) do |db|
+  db.execute %(CREATE DATABASE #{config[:database]})
+rescue Sequel::DatabaseError => e
+  raise e unless e.cause.class == PG::DuplicateDatabase
+end
+
+puts "Connecting to #{config}..."
+
+DB = Sequel.connect(config)
 DB.loggers << Logger.new($stdout) unless ENV["STAGE"] == "test"
 
 Sequel::Model.plugin :timestamps, update_on_create: true
