@@ -17,7 +17,7 @@ jobs:
   test:
     strategy:
       matrix:
-        ruby: ["2.6", "2.7", "3.0"]
+        ruby: ["2.6", "2.7", "3.0.0-preview1"]
         postgres: ["13", "12", "11"]
 
     runs-on: ubuntu-latest
