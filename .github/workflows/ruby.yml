@@ -51,6 +51,7 @@ jobs:
           STAGE: test
           DB_HOST: localhost
           DB_PASS: x
+          DB_NAME: rmud_test
         run: |
           ruby ci.rb
           bundle exec rake sequel:migrate
