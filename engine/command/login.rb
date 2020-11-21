@@ -2,14 +2,22 @@
 module Engine
   module Command
     class Login < Base
+      include Concurrent
+
       def call(name)
-        player = yield find_player(name)
+        model = yield find_player(name)
         password = yield get_password
 
-        yield authenticate(player, password)
-        switch_handler(Engine::Handlers::Game)
+        yield authenticate(model, password)
 
-        Success(player)
+        entity = Entities::Player.new(model: model)
+        client.handler = Engine::Handlers::Game.new(client: client, tp: entity)
+        yield spawn(entity)
+
+        write_client("Zalogowano!\n")
+        client.receive_data("spojrz")
+
+        Success(entity)
       end
 
       private
@@ -21,7 +29,7 @@ module Engine
 
       def get_password
         write_client("Podaj haslo: ")
-        Success(read_client)
+        Success(client.read_client)
       end
 
       def authenticate(player, password)
@@ -32,9 +40,9 @@ module Engine
         end
       end
 
-      def switch_handler(handler)
-        tp.client.handler = handler
-        write_client("Zalogowany!\n")
+      def spawn(entity)
+        room = ROOMS.resolve("1")
+        entity.move(to: room)
       end
     end
   end

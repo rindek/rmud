@@ -5,16 +5,13 @@ module Engine
       extend Dry::Initializer
       include Dry::Monads[:result, :do, :maybe]
 
-      param :tp, type: Types.Instance(Engine::Player)
+      option :client, type: Types.Instance(Engine::Client)
+      option :tp, type: Types::PlayerObject, optional: true
 
       private
 
       def write_client(msg)
-        tp.write(msg)
-      end
-
-      def read_client
-        tp.client.tcpsocket.gets.chomp
+        client.write(msg)
       end
     end
   end

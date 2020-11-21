@@ -25,3 +25,7 @@ dev: build-dev
 	VOLUMES=.:/app \
 	ENVFILE=./.env.development \
 	docker-compose -p rmudev -f docker-compose-dev.yml run --service-ports --rm app 'sh -l'
+
+test:
+	STAGE=test bundle exec rake sequel:migrate
+	STAGE=test bundle exec rspec -f d

@@ -7,7 +7,7 @@ Bundler.require
 require "./database"
 
 loader = Zeitwerk::Loader.for_gem
-loader.log!
+loader.log! unless ENV["STAGE"] == "test"
 loader.ignore("./spec")
 loader.ignore("./boot")
 loader.ignore("./db")
@@ -19,9 +19,14 @@ loader.setup
 
 module Types
   include Dry.Types()
+
+  Room = Types.Instance(Entities::Room)
+  PlayerObject = Types.Instance(Entities::Player)
   GameObject = Types.Instance(Entities::GameObject)
   MovableObject = Types.Instance(Entities::MovableObject)
 end
+
+Dry::Types.load_extensions(:monads)
 
 ROOMS = Dry::Container.new
 

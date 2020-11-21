@@ -9,17 +9,17 @@ name: Ruby
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   test:
-
     strategy:
+      fail-fast: false
       matrix:
-        ruby: [ '2.6', '2.7' ]
-        postgres: [ '13', '12', '11' ]
+        ruby: ["2.6", "2.7"]
+        postgres: ["13", "12"]
 
     runs-on: ubuntu-latest
 
@@ -29,6 +29,7 @@ jobs:
         image: postgres:${{ matrix.postgres }}
         env:
           POSTGRES_PASSWORD: x
+          POSTGRES_USER: postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -38,18 +39,20 @@ jobs:
           - 5432:5432
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-    - name: Install dependencies
-      run: bundle install
-    - name: Setup db, run tests
-      env:
-        STAGE: test
-        DATABASE_URL: postgres://postgres:x@localhost:5432/rmud_test
-      run: |
-        ruby ci.rb
-        bundle exec rake sequel:migrate
-        bundle exec rspec -f progress
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: Install dependencies
+        run: bundle install
+      - name: Setup db, run tests
+        env:
+          STAGE: test
+          DB_HOST: localhost
+          DB_PASS: x
+          DB_NAME: rmud_test
+        run: |
+          ruby ci.rb
+          bundle exec rake sequel:migrate
+          bundle exec rspec -f progress

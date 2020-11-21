@@ -3,33 +3,77 @@ module Engine
   class Client
     extend Dry::Initializer
 
-    option :tcpsocket, type: Types.Instance(TCPSocket)
+    include Dry::Monads[:try]
+
+    option :em_connection
     option :handler, default: -> { Engine::Handlers::Login }
+    option :semaphore, default: -> { Concurrent::Semaphore.new(1) }
+    option :queue, default: -> { [] }
 
-    delegate :close, :write, to: :tcpsocket
+    def close
+      em_connection.close_connection
+    end
 
-    def listen
-      loop do
+    def write(msg)
+      em_connection.send_data(msg)
+    end
+
+    ## triggered from EM
+    def receive_data(data)
+      process_command((queue << data.chomp).shift)
+    end
+
+    def process_command(data)
+      return continue(data) if reading?
+
+      Thread.new do
+        lock!
+
         begin
-          handler.new(tp).receive(tcpsocket.gets.chomp)
+          current_handler.receive(data)
         rescue => e
-          # TODO - rollbar
           puts Backtrace.new(e)
-          write("Wystapil powazny blad.\n")
+          write("Wystapil powazny blad")
+        ensure
+          release!
         end
-
-        break if tcpsocket.closed?
       end
     end
 
     def handler=(new_handler)
-      @handler = new_handler
+      @current_handler = new_handler
+    end
+
+    def read_client
+      # asynchronously wait for this variable to be set by next
+      # received data, name of method is for simplicity when
+      # implementing
+      @ivar = Concurrent::IVar.new
+      @ivar.value(60 * 5) # 5 minutes is good enough
     end
 
     private
 
-    def tp
-      @tp ||= Engine::Player.new(client: self)
+    def lock!
+      semaphore.acquire
+    end
+
+    def release!
+      semaphore.release
+      write("> ")
+    end
+
+    def continue(data)
+      @ivar.set(data)
+      @ivar = nil
+    end
+
+    def reading?
+      @ivar && @ivar.pending?
+    end
+
+    def current_handler
+      @current_handler ||= handler.new(client: self)
     end
   end
 end

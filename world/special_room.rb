@@ -11,7 +11,7 @@ module World
   end
 end
 
-ROOMS.register("special") do
+ROOMS.register("special", memoize: true) do
   World::SpecialRoom.new(
     short: "a special short",
     long: "a special long",

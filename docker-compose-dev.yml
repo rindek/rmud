@@ -1,7 +1,11 @@
 version: "3.7"
 services:
   database:
-    image: postgres:11.5
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: x
+      POSTGRES_USER: postgres
+      POSTGRES_DB: rmud
 
   app:
     image: ${IMAGE_TAG}
@@ -11,6 +15,6 @@ services:
       STAGE: development
     volumes: [$VOLUMES]
     ports:
-      - 3000:3000
+      - 2300:2300
     depends_on:
       - database
