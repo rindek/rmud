@@ -28,6 +28,7 @@ jobs:
         image: postgres:${{ matrix.postgres }}
         env:
           POSTGRES_PASSWORD: x
+          POSTGRES_USER: postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -47,7 +48,6 @@ jobs:
       - name: Setup db, run tests
         env:
           STAGE: test
-          DATABASE_URL: postgres://postgres:x@localhost:5432/rmud_test
         run: |
           ruby ci.rb
           bundle exec rake sequel:migrate
