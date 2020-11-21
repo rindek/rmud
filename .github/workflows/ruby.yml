@@ -49,6 +49,8 @@ jobs:
       - name: Setup db, run tests
         env:
           STAGE: test
+          DB_HOST: localhost
+          DB_PASS: x
         run: |
           ruby ci.rb
           bundle exec rake sequel:migrate

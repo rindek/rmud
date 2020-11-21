@@ -3,10 +3,10 @@ require "logger"
 
 config = {
   adapter: :postgres,
-  user: "postgres",
-  host: "database",
-  database: "rmud_#{ENV["STAGE"]}",
-  password: "x",
+  user: ENV["DB_USER"] || "postgres",
+  host: ENV["DB_HOST"] || "database",
+  database: ENV["DB_NAME"] || "rmud_#{ENV["STAGE"]}",
+  password: ENV["DB_PASS"] || "x",
 }
 
 Sequel.connect(config.merge(database: "postgres")) do |db|
