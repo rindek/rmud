@@ -18,6 +18,10 @@ module Engine
         commands.resolve(:_login).(client: client).(cmd)
           .or { |msg| client.write(msg) }
       end
+
+      def prompt
+        "login> "
+      end
     end
   end
 end

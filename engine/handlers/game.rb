@@ -19,6 +19,10 @@ module Engine
 
         client.write("Slucham?\n")
       end
+
+      def prompt
+        "game> "
+      end
     end
   end
 end
