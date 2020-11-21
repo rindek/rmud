@@ -6,6 +6,7 @@ config = {
   user: "postgres",
   host: "database",
   database: "rmud_#{ENV["STAGE"]}",
+  password: "x",
 }
 
 Sequel.connect(config.merge(database: "postgres")) do |db|
