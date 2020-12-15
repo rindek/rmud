@@ -36,7 +36,7 @@ module Engine
       end
 
       def spawn(entity)
-        room = ROOMS.resolve("1")
+        room = ROOMS.resolve("spawn")
         entity.move(to: room)
       end
     end
