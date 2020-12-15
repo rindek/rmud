@@ -11,10 +11,10 @@ module World
   end
 end
 
-ROOMS.register("special", memoize: true) do
+ROOMS.register("spawn", memoize: true) do
   World::SpecialRoom.new(
-    short: "a special short",
-    long: "a special long",
-    exits: [Entities::RoomExit.new(id: "2", name: "wschod")],
+    short: "a spawn room short",
+    long: "a spawn room long",
+    exits: [Entities::RoomExit.new(id: Models::Room.first.id, name: "wyjscie")],
   )
 end
