@@ -29,7 +29,7 @@ module Engine
       private
 
       def validate_item(item:)
-        return Success if item.is_a?(Entities::GameObject)
+        return Success(true) if item.is_a?(Entities::GameObject)
         Failure(:not_game_object)
       end
     end
