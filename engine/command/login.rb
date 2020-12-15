@@ -32,7 +32,7 @@ module Engine
       end
 
       def authenticate(player, password)
-        BCrypt::Password.new(player.password) == password ? Success : Failure("Niepoprawne haslo.\n")
+        BCrypt::Password.new(player.password) == password ? Success(true) : Failure("Niepoprawne haslo.\n")
       end
 
       def spawn(entity)
