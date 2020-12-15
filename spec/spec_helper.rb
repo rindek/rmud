@@ -5,7 +5,7 @@ M = Dry::Monads
 
 require "factory_bot"
 
-["custom_matchers", "factories"].each do |directory|
+%w[custom_matchers factories].each do |directory|
   Dir[File.join(".", "spec", "support", directory, "**", "*.rb")].each { |file| require file }
 end
 
@@ -107,13 +107,9 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 
-  config.around(:each) do |example|
-    DB.transaction(rollback: :always, auto_savepoint: true) { example.run }
-  end
+  config.around(:each) { |example| DB.transaction(rollback: :always, auto_savepoint: true) { example.run } }
 
   config.include FactoryBot::Syntax::Methods
 
-  config.before(:suite) do
-    FactoryBot.find_definitions
-  end
+  config.before(:suite) { FactoryBot.find_definitions }
 end

@@ -19,10 +19,7 @@ module Engine
 
     ## triggered from EM
     def receive_data(data)
-      process_command.call(
-        input: (queue << data.chomp).shift,
-        handler: current_handler,
-      )
+      process_command.call(input: (queue << data.chomp).shift, handler: current_handler)
     end
 
     def read_client

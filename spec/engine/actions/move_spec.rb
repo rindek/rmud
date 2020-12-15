@@ -2,7 +2,7 @@
 RSpec.describe Engine::Actions::Move do
   let(:action) { described_class.new(object: object, dest: dest) }
 
-  subject { action.() }
+  subject { action. }
 
   let(:object) { build(:movable_object) }
   let(:dest) { build(:room) }
@@ -21,36 +21,29 @@ RSpec.describe Engine::Actions::Move do
       end
 
       it "removes itself from other inventory" do
-        expect { subject }.to change { other_dest.inventory.items }
-                                .from([object]).to([])
+        expect { subject }.to change { other_dest.inventory.items }.from([object]).to([])
       end
     end
 
     it { is_expected.to hold(object) }
 
     it "changes environment properly" do
-      expect { subject }.to change { object.environment }
-                              .to(dest)
+      expect { subject }.to change { object.environment }.to(dest)
     end
 
     it "object is inside destination inventory" do
-      expect { subject }.to change { dest.inventory.items }
-                              .from([]).to([object])
+      expect { subject }.to change { dest.inventory.items }.from([]).to([object])
     end
   end
 
   context "setting new environment fails" do
-    before do
-      allow(object).to receive(:environment=)
-    end
+    before { allow(object).to receive(:environment=) }
 
     it { is_expected.to cause(:wrong_object_environment) }
   end
 
   context "moving to destination inventory fails" do
-    before do
-      allow(dest.inventory).to receive(:add)
-    end
+    before { allow(dest.inventory).to receive(:add) }
 
     it { is_expected.to cause(:missing_object_in_inventory) }
   end

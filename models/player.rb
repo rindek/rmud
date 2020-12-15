@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 module Models
-  class Player < Sequel::Model(:players)
+  class Player < Sequel.Model(:players)
     include BCrypt
 
     def password

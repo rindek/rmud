@@ -12,8 +12,7 @@ module Engine
       def receive(message)
         cmd, *args = message.split
 
-        commands.resolve(String(cmd).to_sym).(client: client, tp: tp).(*args)
-          .or { |msg| client.write(msg) }
+        commands.resolve(String(cmd).to_sym).(client: client, tp: tp).(*args).or { |msg| client.write(msg) }
       rescue Dry::Container::Error => e
         raise(e) unless e.message.match(/Nothing registered with the key/)
 

@@ -18,7 +18,7 @@ loader.ignore("./ci.rb")
 loader.setup
 
 module Types
-  include Dry.Types()
+  include Dry.Types
 
   Room = Types.Instance(Entities::Room)
   PlayerObject = Types.Instance(Entities::Player)

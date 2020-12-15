@@ -10,11 +10,13 @@ module Engine
 
         ## remove object from previous inventory
         object.environment.inventory.remove(object) if object.environment.present?
+
         ## nullify environment of object
         object.environment = nil
 
         ## add object to new inventory
         dest.inventory.add(object)
+
         ## set object's new environment
         object.environment = dest
 
@@ -27,14 +29,14 @@ module Engine
       private
 
       def check_if_can_move
-        Success()
+        Success
       end
 
       def validate_after_move(object:, dest:)
         return Failure(:wrong_object_environment) unless object.environment == dest
         return Failure(:missing_object_in_inventory) unless dest.inventory.has?(object)
 
-        Success()
+        Success
       end
     end
   end

@@ -2,7 +2,7 @@
 RSpec.xdescribe Engine::Command::Zakoncz do
   let(:command) { described_class.new(client: client, tp: tp) }
 
-  subject { command.() }
+  subject { command. }
 
   let(:client) { instance_double(Engine::Client) }
   let(:tp) { build(:player) }
