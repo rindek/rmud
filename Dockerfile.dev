@@ -8,13 +8,17 @@ RUN apk --update add git libpq libxslt tzdata less
 
 RUN apk --update add --virtual build_deps \
     build-base libc-dev linux-headers \
-    openssl-dev postgresql-dev libxml2-dev libxslt-dev
+    openssl-dev postgresql-dev libxml2-dev libxslt-dev \
+    nodejs npm
+
+RUN npm install -g yarn
 
 # add Gemfile & install dependencies
 ADD Gemfile* /app/
 ADD vendor/cache /app/vendor/cache
 
 RUN bundle install --jobs=8 --retry=3
+RUN yarn global add prettier @prettier/plugin-ruby@1.0.1
 
 # add application code
 COPY . /app

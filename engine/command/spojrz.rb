@@ -4,14 +4,13 @@ module Engine
     class Spojrz < Base
       def call
         present(yield fetch_room)
-        Success()
+        Success(true)
       end
 
       private
 
       def fetch_room
-        Types::Room.try(tp.environment).to_monad
-          .or { Failure("Nie znajdujesz sie w pomieszczeniu.\n") }
+        Types::Room.try(tp.environment).to_monad.or { Failure("Nie znajdujesz sie w pomieszczeniu.\n") }
       end
 
       def present(room)

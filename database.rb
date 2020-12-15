@@ -10,7 +10,7 @@ config = {
 }
 
 Sequel.connect(config.merge(database: "postgres")) do |db|
-  db.execute %(CREATE DATABASE #{config[:database]})
+  db.execute "CREATE DATABASE #{config[:database]}"
 rescue Sequel::DatabaseError => e
   raise e unless e.cause.class == PG::DuplicateDatabase
 end

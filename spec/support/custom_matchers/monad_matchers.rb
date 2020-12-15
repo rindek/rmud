@@ -7,9 +7,7 @@ RSpec::Matchers.define :hold do |expected|
 
     expect(actual.value!.inspect).to eq expected.inspect
   end
-  failure_message do |actual|
-    "expected that #{actual} would be successful and contain an #{expected}"
-  end
+  failure_message { |actual| "expected that #{actual} would be successful and contain an #{expected}" }
   diffable
 end
 
@@ -19,25 +17,15 @@ RSpec::Matchers.define :cause do |expected|
 
     expect(actual.failure).to eq expected
   end
-  failure_message do |actual|
-    "expected that #{actual} would be failed and contain an #{expected}"
-  end
+  failure_message { |actual| "expected that #{actual} would be failed and contain an #{expected}" }
 end
 
 RSpec::Matchers.define :be_failed do |_expected|
-  match do |actual|
-    expect(actual).to be_a Dry::Monads::Result::Failure
-  end
-  failure_message do |actual|
-    "expected FAILURE instead #{actual}"
-  end
+  match { |actual| expect(actual).to be_a Dry::Monads::Result::Failure }
+  failure_message { |actual| "expected FAILURE instead #{actual}" }
 end
 
 RSpec::Matchers.define :be_successful do |_expected|
-  match do |actual|
-    expect(actual).to be_a Dry::Monads::Result::Success
-  end
-  failure_message do |actual|
-    "expected SUCCESS instead #{actual}"
-  end
+  match { |actual| expect(actual).to be_a Dry::Monads::Result::Success }
+  failure_message { |actual| "expected SUCCESS instead #{actual}" }
 end

@@ -1,5 +1,4 @@
 # frozen_string_literal: true
 module Traits
-  module Environment
-  end
+  module Environment; end
 end

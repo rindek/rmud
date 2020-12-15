@@ -15,11 +15,6 @@ ROOMS.register("special", memoize: true) do
   World::SpecialRoom.new(
     short: "a special short",
     long: "a special long",
-    exits: [
-      Entities::RoomExit.new(
-        id: "2",
-        name: "wschod",
-      ),
-    ],
+    exits: [Entities::RoomExit.new(id: "2", name: "wschod")],
   )
 end

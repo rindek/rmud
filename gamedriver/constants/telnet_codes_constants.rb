@@ -68,6 +68,7 @@ OPT_AUTHENTICATION = 37.chr # "%"    # "\x25" # Authentication Option
 OPT_ENCRYPT = 38.chr # "&"    # "\x26" # Encryption Option
 OPT_NEW_ENVIRON = 39.chr # "'"    # "\x27" # New Environment Option
 OPT_EXOPL = 255.chr # "\377" # "\xff" # Extended-Options-List
+
 #MCCP
 OPT_COMPRESS = 85.chr
 OPT_COMPRESS2 = 86.chr

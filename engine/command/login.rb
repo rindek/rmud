@@ -23,8 +23,7 @@ module Engine
       private
 
       def find_player(name)
-        Maybe(Models::Player.where(name: name).first).to_result
-          .or { Failure("Nie ma takiego gracza #{name}.\n") }
+        Maybe(Models::Player.where(name: name).first).to_result.or { Failure("Nie ma takiego gracza #{name}.\n") }
       end
 
       def get_password
@@ -33,11 +32,7 @@ module Engine
       end
 
       def authenticate(player, password)
-        if BCrypt::Password.new(player.password) == password
-          Success()
-        else
-          Failure("Niepoprawne haslo.\n")
-        end
+        BCrypt::Password.new(player.password) == password ? Success(true) : Failure("Niepoprawne haslo.\n")
       end
 
       def spawn(entity)
