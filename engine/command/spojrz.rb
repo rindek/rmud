@@ -4,7 +4,7 @@ module Engine
     class Spojrz < Base
       def call
         present(yield fetch_room)
-        Success
+        Success(true)
       end
 
       private

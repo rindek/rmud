@@ -6,7 +6,7 @@ module Engine
         move_to_void if tp
         client.close
 
-        Success
+        Success(true)
       end
 
       private

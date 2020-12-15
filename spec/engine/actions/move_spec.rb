@@ -2,7 +2,7 @@
 RSpec.describe Engine::Actions::Move do
   let(:action) { described_class.new(object: object, dest: dest) }
 
-  subject { action. }
+  subject { action.call }
 
   let(:object) { build(:movable_object) }
   let(:dest) { build(:room) }

@@ -29,14 +29,14 @@ module Engine
       private
 
       def check_if_can_move
-        Success
+        Success(true)
       end
 
       def validate_after_move(object:, dest:)
         return Failure(:wrong_object_environment) unless object.environment == dest
         return Failure(:missing_object_in_inventory) unless dest.inventory.has?(object)
 
-        Success
+        Success(true)
       end
     end
   end
