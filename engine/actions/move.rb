@@ -9,7 +9,7 @@ module Engine
         yield check_if_can_move
 
         ## remove object from previous inventory
-        object.environment.inventory.remove(object) unless object.environment.nil?
+        object.environment.inventory.remove(object) if object.environment.present?
 
         ## nullify environment of object
         object.environment = nil

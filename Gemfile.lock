@@ -1,6 +1,12 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    activesupport (6.1.0)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+      zeitwerk (~> 2.3)
     backtrace (0.3.0)
     bcrypt (3.1.13)
     coderay (1.1.2)
@@ -40,12 +46,17 @@ GEM
       dry-inflector (~> 0.1, >= 0.1.2)
       dry-logic (~> 1.0, >= 1.0.2)
     eventmachine (1.2.7)
+    factory_bot (6.1.0)
+      activesupport (>= 5.0.0)
+    i18n (1.8.5)
+      concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     json_spec (1.1.5)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
     logger (1.4.2)
     method_source (1.0.0)
+    minitest (5.14.2)
     multi_json (1.14.1)
     pg (1.2.3)
     pry (0.13.1)
@@ -72,7 +83,11 @@ GEM
     sequel_pg (1.13.0)
       pg (>= 0.18.0, != 1.2.0)
       sequel (>= 4.38.0)
+    shoulda-matchers (4.4.1)
+      activesupport (>= 4.2.0)
     thor (0.20.3)
+    tzinfo (2.0.4)
+      concurrent-ruby (~> 1.0)
     zeitwerk (2.3.0)
 
 PLATFORMS
@@ -80,6 +95,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  activesupport
   backtrace
   bcrypt
   database_cleaner
@@ -88,6 +104,7 @@ DEPENDENCIES
   dry-struct
   dry-types
   eventmachine
+  factory_bot
   json_spec
   logger
   pg
@@ -97,6 +114,7 @@ DEPENDENCIES
   rspec-json_expectations
   sequel-rake
   sequel_pg
+  shoulda-matchers
   zeitwerk
 
 BUNDLED WITH
