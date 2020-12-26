@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 module Engine
   module Server
-    delegate :receive_data, to: :@client
+    extend Forwardable
+
+    # delegate :receive_data, to: :@client
+    def_delegator :@client, :receive_data
 
     def post_init
       puts "-- new connection --"
