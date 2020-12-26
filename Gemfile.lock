@@ -95,7 +95,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport
   backtrace
   bcrypt
   database_cleaner
@@ -118,4 +117,4 @@ DEPENDENCIES
   zeitwerk
 
 BUNDLED WITH
-   2.1.2
+   2.1.4

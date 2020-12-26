@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "activesupport", require: "active_support/all"
+# gem "activesupport", require: "active_support/all"
 gem "backtrace"
 gem "bcrypt"
 
