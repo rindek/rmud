@@ -13,11 +13,11 @@ RSpec.describe Engine::Actions::Move do
 
       before do
         other_dest.inventory.add(object)
-        object.environment = other_dest
+        object.update_current_environment(other_dest)
       end
 
       it "changes environment" do
-        expect { subject }.to change { object.environment }
+        expect { subject }.to change { object.current_environment }
       end
 
       it "removes itself from other inventory" do
@@ -28,7 +28,7 @@ RSpec.describe Engine::Actions::Move do
     it { is_expected.to hold(object) }
 
     it "changes environment properly" do
-      expect { subject }.to change { object.environment }.to(dest)
+      expect { subject }.to change { object.current_environment }.to(dest)
     end
 
     it "object is inside destination inventory" do
@@ -37,7 +37,7 @@ RSpec.describe Engine::Actions::Move do
   end
 
   context "setting new environment fails" do
-    before { allow(object).to receive(:environment=) }
+    before { allow(object).to receive(:current_environment).and_return(:wrong) }
 
     it { is_expected.to cause(:wrong_object_environment) }
   end

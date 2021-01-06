@@ -3,7 +3,7 @@ RSpec.describe Engine::Lib::Inventory do
   let(:lib) { described_class.new(source: source, items: items) }
   let(:items) { [] }
   let(:source) { build(:game_object) }
-  let(:item) { build(:game_object) }
+  let(:item) { build(:movable_object) }
 
   describe "#add" do
     subject { lib.add(item) }
@@ -35,7 +35,7 @@ RSpec.describe Engine::Lib::Inventory do
     context "when item does not exist" do
       let(:items) { [] }
 
-      it { is_expected.to be_failed }
+      it { is_expected.to be_none }
     end
   end
 

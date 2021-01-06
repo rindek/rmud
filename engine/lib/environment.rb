@@ -10,7 +10,7 @@ module Engine
       def remove_self_from_inventory
         return Success(:in_void) if dest == Types::VOID
         yield inventory.remove(source)
-        @dest = Types::VOID
+        Success(@dest = Types::VOID)
       end
 
       def update(env)
