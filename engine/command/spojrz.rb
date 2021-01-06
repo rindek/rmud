@@ -10,7 +10,7 @@ module Engine
       private
 
       def fetch_room
-        Types::Room.try(tp.environment).to_monad.or { Failure("Nie znajdujesz sie w pomieszczeniu.\n") }
+        Types::Room.try(tp.environment.environment).to_monad.or { Failure("Nie znajdujesz sie w pomieszczeniu.\n") }
       end
 
       def present(room)

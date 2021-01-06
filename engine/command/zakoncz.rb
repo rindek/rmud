@@ -3,7 +3,7 @@ module Engine
   module Command
     class Zakoncz < Base
       def call
-        move_to_void if tp
+        clean_up if tp
         client.close
 
         Success(true)
@@ -11,9 +11,8 @@ module Engine
 
       private
 
-      def move_to_void
-        tp.environment.inventory.remove(tp)
-        tp.environment = nil
+      def clean_up
+        tp.environment.remove_from_inventory
       end
     end
   end
