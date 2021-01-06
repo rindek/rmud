@@ -31,6 +31,7 @@ end
 Dry::Types.load_extensions(:monads)
 
 ROOMS = Dry::Container.new
+PLAYERS = {}
 
 loader.eager_load
 

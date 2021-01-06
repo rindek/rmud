@@ -3,19 +3,19 @@ module Engine
   module Lib
     class Environment < Abstract
       option :source, type: Types::MovableObject
-      option :environment, default: -> { Types::VOID }
+      option :dest, default: -> { Types::VOID }
 
-      delegate :inventory, to: :environment
+      delegate :inventory, to: :dest
 
-      def remove_from_inventory
-        return Success(:in_void) if environment == Types::VOID
-        yield environment.inventory.remove(source)
-        @environment = Types::VOID
+      def remove_self_from_inventory
+        return Success(:in_void) if dest == Types::VOID
+        yield inventory.remove(source)
+        @dest = Types::VOID
       end
 
       def update(env)
         yield validate_environment(env)
-        Success(@environment = env)
+        Success(@dest = env)
       end
 
       private

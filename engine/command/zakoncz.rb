@@ -12,7 +12,8 @@ module Engine
       private
 
       def clean_up
-        tp.environment.remove_from_inventory
+        tp.remove_self_from_inventory
+        PLAYERS.delete(tp.model.name)
       end
     end
   end
