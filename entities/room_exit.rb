@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Entities
   class RoomExit < Abstract
-    option :id, type: Types::Coercible::String
-    option :name, type: Types::String
+    attribute :id, Types::Coercible::String
+    attribute :name, Types::String
   end
 end
