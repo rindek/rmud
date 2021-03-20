@@ -11,7 +11,7 @@ module World
   end
 end
 
-ROOMS.register("spawn", memoize: true) do
+App[:rooms].register("spawn", memoize: true) do
   World::SpecialRoom.new(
     short: "a spawn room short",
     long: "a spawn room long",

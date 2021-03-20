@@ -37,7 +37,7 @@ module Engine
       end
 
       def spawn(entity)
-        room = ROOMS.resolve("spawn")
+        room = App[:rooms].resolve("spawn")
         entity.move(to: room)
       end
     end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Repos
   class Room < Local
-    option :dataset, default: -> { DB[:rooms] }
+    option :dataset, default: -> { App[:database][:rooms] }
     option :entity, default: -> { Entities::Room }
 
     def each_with_exits(&blk)
