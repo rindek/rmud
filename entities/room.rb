@@ -4,7 +4,7 @@ module Entities
     attribute? :id, Types::Integer.optional
     attribute :short, Types::String
     attribute :long, Types::String
-    attribute :exits, Types::Array.of(Types.Instance(Entities::RoomExit))
+    attribute? :exits, Types::Array.of(Types.Instance(Entities::RoomExit))
 
     include Traits::Inventory
   end

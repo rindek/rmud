@@ -7,6 +7,10 @@ module Repos
     option :dataset, default: -> {  }
     option :entity, default: -> {  }
 
+    def first
+      find_by({})
+    end
+
     def find_by(args)
       dataset.where(args).first.then { |record| record ? Some(wrap(record)) : None() }
     end
