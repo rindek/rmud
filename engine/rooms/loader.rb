@@ -8,7 +8,7 @@ module Engine
           .all
           .each do |room|
             container.register(room.link, memoize: true) do
-              Entities::Room.new(short: room.short, long: room.long, exits: room.exits.map(&:to_entity))
+              Entities::Room.new(id: room.id, short: room.short, long: room.long, exits: room.exits.map(&:to_entity))
             end
           end
       end
