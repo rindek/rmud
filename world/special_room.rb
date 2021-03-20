@@ -15,6 +15,6 @@ ROOMS.register("spawn", memoize: true) do
   World::SpecialRoom.new(
     short: "a spawn room short",
     long: "a spawn room long",
-    exits: [Entities::RoomExit.new(id: Models::Room.first.id, name: "wyjscie")],
+    exits: [Entities::RoomExit.new(to_room_id: String(Repos::Room.new.first.value!.id), name: "wyjscie")],
   )
 end

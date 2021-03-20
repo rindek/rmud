@@ -3,14 +3,7 @@ module Engine
   module Rooms
     class Loader
       def self.load!(container)
-        Models::Room
-          .eager(:exits)
-          .all
-          .each do |room|
-            container.register(room.link, memoize: true) do
-              Entities::Room.new(short: room.short, long: room.long, exits: room.exits.map(&:to_entity))
-            end
-          end
+        Repos::Room.new.each_with_exits { |room| container.register(room.id, memoize: true) { room } }
       end
     end
   end

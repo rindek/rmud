@@ -5,6 +5,8 @@ FactoryBot.define do
     initialize_with { Entities::Player.new(**attributes) }
     skip_create
 
-    model { build(:player_model) }
+    sequence(:id) { |n| n }
+    name { "player" }
+    password { "password" }
   end
 end

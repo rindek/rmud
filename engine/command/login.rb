@@ -5,27 +5,26 @@ module Engine
       include Concurrent
 
       def call(name)
-        model = yield find_player(name)
+        player = yield find_player(name)
         password = yield get_password
 
-        yield authenticate(model, password)
+        yield authenticate(player, password)
 
-        entity = Entities::Player.new(model: model)
-        PLAYERS[name] = entity
+        PLAYERS[name] = player
 
-        client.handler = Engine::Handlers::Game.new(client: client, tp: entity)
-        yield spawn(entity)
+        client.handler = Engine::Handlers::Game.new(client: client, tp: player)
+        yield spawn(player)
 
         write_client("Zalogowano!\n")
         client.receive_data("spojrz")
 
-        Success(entity)
+        Success(player)
       end
 
       private
 
       def find_player(name)
-        Maybe(Models::Player.where(name: name).first).to_result.or { Failure("Nie ma takiego gracza #{name}.\n") }
+        Repos::Player.new.find_by(name: name).or { Failure("Nie ma takiego gracza #{name}.\n") }
       end
 
       def get_password

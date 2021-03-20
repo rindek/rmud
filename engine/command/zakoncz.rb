@@ -13,7 +13,7 @@ module Engine
 
       def clean_up
         tp.remove_self_from_inventory
-        PLAYERS.delete(tp.model.name)
+        PLAYERS.delete(tp.name)
       end
     end
   end
