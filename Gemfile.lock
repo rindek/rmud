@@ -13,6 +13,8 @@ GEM
     concurrent-ruby (1.1.6)
     database_cleaner (1.8.5)
     diff-lcs (1.3)
+    dry-auto_inject (0.7.0)
+      dry-container (>= 0.3.4)
     dry-configurable (0.11.5)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.4, >= 0.4.7)
@@ -38,6 +40,15 @@ GEM
       dry-equalizer (~> 0.3)
       dry-types (~> 1.3)
       ice_nine (~> 0.11)
+    dry-system (0.18.1)
+      concurrent-ruby (~> 1.0)
+      dry-auto_inject (>= 0.4.0)
+      dry-configurable (~> 0.11, >= 0.11.1)
+      dry-container (~> 0.7, >= 0.7.2)
+      dry-core (~> 0.3, >= 0.3.1)
+      dry-equalizer (~> 0.2)
+      dry-inflector (~> 0.1, >= 0.1.2)
+      dry-struct (~> 1.0)
     dry-types (1.4.0)
       concurrent-ruby (~> 1.0)
       dry-container (~> 0.3)
@@ -102,6 +113,7 @@ DEPENDENCIES
   dry-initializer
   dry-monads
   dry-struct
+  dry-system
   dry-types
   eventmachine
   factory_bot

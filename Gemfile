@@ -8,6 +8,7 @@ gem "dry-monads", require: "dry/monads/all"
 gem "dry-types"
 gem "dry-initializer"
 gem "dry-struct"
+gem "dry-system"
 
 gem "eventmachine"
 

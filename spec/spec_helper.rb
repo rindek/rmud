@@ -1,6 +1,8 @@
 ENV["STAGE"] = "test"
 
 require_relative "../boot"
+App.start(:requirements)
+
 M = Dry::Monads
 
 require "factory_bot"
@@ -105,7 +107,7 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 
-  config.around(:each) { |example| DB.transaction(rollback: :always, auto_savepoint: true) { example.run } }
+  config.around(:each) { |example| App[:database].transaction(rollback: :always, auto_savepoint: true) { example.run } }
 
   config.include FactoryBot::Syntax::Methods
 
