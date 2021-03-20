@@ -24,11 +24,14 @@ module Types
   PlayerObject = Types.Instance(Entities::Player)
   GameObject = Types.Instance(Entities::GameObject)
   MovableObject = Types.Instance(Entities::MovableObject)
+
+  VOID = :void.freeze
 end
 
 Dry::Types.load_extensions(:monads)
 
 ROOMS = Dry::Container.new
+PLAYERS = {}
 
 loader.eager_load
 

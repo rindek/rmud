@@ -25,6 +25,11 @@ RSpec::Matchers.define :be_failed do |_expected|
   failure_message { |actual| "expected FAILURE instead #{actual}" }
 end
 
+RSpec::Matchers.define :be_none do |_expected|
+  match { |actual| expect(actual).to be_a Dry::Monads::Maybe::None }
+  failure_message { |actual| "expected NONE instead #{actual}" }
+end
+
 RSpec::Matchers.define :be_successful do |_expected|
   match { |actual| expect(actual).to be_a Dry::Monads::Result::Success }
   failure_message { |actual| "expected SUCCESS instead #{actual}" }

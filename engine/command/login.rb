@@ -11,6 +11,8 @@ module Engine
         yield authenticate(model, password)
 
         entity = Entities::Player.new(model: model)
+        PLAYERS[name] = entity
+
         client.handler = Engine::Handlers::Game.new(client: client, tp: entity)
         yield spawn(entity)
 

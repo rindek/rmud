@@ -2,10 +2,8 @@
 module Engine
   module Lib
     class Inventory < Abstract
-      extend Dry::Initializer
-
       option :source, type: Types::GameObject
-      option :items, type: Types::Array.of(Types::GameObject), default: -> { [] }
+      option :items, type: Types::Array.of(Types::MovableObject), default: -> { [] }
 
       def add(item)
         yield validate_item(item: item)
@@ -15,7 +13,7 @@ module Engine
       end
 
       def remove(item)
-        Maybe(items.delete(item)).to_result
+        Maybe(items.delete(item))
       end
 
       def has?(item)
@@ -29,7 +27,7 @@ module Engine
       private
 
       def validate_item(item:)
-        return Success(true) if item.is_a?(Entities::GameObject)
+        return Success(true) if item.is_a?(Entities::MovableObject)
         Failure(:not_game_object)
       end
     end
