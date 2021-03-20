@@ -24,12 +24,7 @@ module Engine
       private
 
       def find_player(name)
-        case Repos::Player.new.find_by(name: name)
-        in Some[player]
-          Success(player)
-        in None
-          Failure("Nie ma takiego gracza #{name}.\n")
-        end
+        Repos::Player.new.find_by(name: name).or { Failure("Nie ma takiego gracza #{name}.\n") }
       end
 
       def get_password

@@ -11,8 +11,16 @@ module Repos
       dataset.where(args).first.then { |record| record ? Some(wrap(record)) : None() }
     end
 
+    def all_by(args)
+      dataset.where(args).all.then { |records| records.empty? ? None() : Some(wrap_many(records)) }
+    end
+
     def wrap(record)
       entity.new(record)
+    end
+
+    def wrap_many(records)
+      records.map { |record| wrap(record) }
     end
   end
 end
