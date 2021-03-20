@@ -11,6 +11,4 @@ end
 
 Dir[File.join(".", "boot", "**", "*.rb")].sort.each { |file| require file }
 
-App.start(:requirements)
-
 PLAYERS = {}

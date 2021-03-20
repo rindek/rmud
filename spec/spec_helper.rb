@@ -1,6 +1,8 @@
 ENV["STAGE"] = "test"
 
 require_relative "../boot"
+App.start(:requirements)
+
 M = Dry::Monads
 
 require "factory_bot"
