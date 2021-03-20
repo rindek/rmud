@@ -6,10 +6,10 @@ App.boot(:persistence) do
 
     config = {
       adapter: :postgres,
-      user: ENV["DB_USER"] || "postgres",
-      host: ENV["DB_HOST"] || "database",
-      database: ENV["DB_NAME"] || "rmud_#{ENV["STAGE"]}",
-      password: ENV["DB_PASS"] || "x",
+      user: App[:settings].db_user,
+      host: App[:settings].db_host,
+      database: App[:settings].db_name,
+      password: App[:settings].db_pass,
     }
 
     Sequel.connect(config.merge(database: "postgres")) do |db|
@@ -21,7 +21,7 @@ App.boot(:persistence) do
     puts "Connecting to #{config}..."
 
     db = Sequel.connect(config)
-    db.loggers << Logger.new($stdout) unless ENV["STAGE"] == "test"
+    db.loggers << Logger.new($stdout) unless App.env == "test"
 
     Sequel::Model.plugin :timestamps, update_on_create: true
 
