@@ -4,6 +4,5 @@ App.boot(:requirements) do
     use :bundler
     use :persistence
     use :zeitwerk
-    use :rooms
   end
 end

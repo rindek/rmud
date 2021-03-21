@@ -2,6 +2,7 @@
 App.boot(:server) do
   start do
     use :requirements
+    use :rooms
 
     Thread.new do
       EventMachine.run do
