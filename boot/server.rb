@@ -1,8 +1,10 @@
 # frozen_string_literal: true
-App.boot(:server) do
+App.boot(:server) do |app|
   start do
     use :requirements
     use :rooms
+
+    app[:loader].eager_load
 
     Thread.new do
       EventMachine.run do

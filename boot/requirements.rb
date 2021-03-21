@@ -4,5 +4,7 @@ App.boot(:requirements) do
     use :bundler
     use :persistence
     use :zeitwerk
+    use :types
+    use :import
   end
 end
