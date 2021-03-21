@@ -110,6 +110,7 @@ DEPENDENCIES
   backtrace
   bcrypt
   database_cleaner
+  dry-auto_inject
   dry-initializer
   dry-monads
   dry-struct
