@@ -17,6 +17,7 @@ App.boot(:zeitwerk) do |app|
     loader.ignore("./ci.rb")
     loader.ignore("./rmud.rb")
     loader.setup
-    loader.eager_load
+
+    register(:loader, loader)
   end
 end

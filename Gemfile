@@ -4,6 +4,7 @@ gem "activesupport", require: "active_support/all"
 gem "backtrace"
 gem "bcrypt"
 
+gem "dry-auto_inject"
 gem "dry-monads", require: "dry/monads/all"
 gem "dry-types"
 gem "dry-initializer"

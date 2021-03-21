@@ -4,8 +4,8 @@ module Repos
     extend Dry::Initializer
     include Dry::Monads[:result, :do, :maybe, :try]
 
-    option :dataset, default: -> {  }
-    option :entity, default: -> {  }
+    option :dataset, default: -> { raise "dataset must be set" }
+    option :entity, default: -> { raise "entity must be set" }
 
     def first
       find_by({})
