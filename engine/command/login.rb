@@ -3,6 +3,7 @@ module Engine
   module Command
     class Login < Base
       include Concurrent
+      include Import["repos.players"]
 
       def call(name)
         player = yield find_player(name)
@@ -24,7 +25,7 @@ module Engine
       private
 
       def find_player(name)
-        Repos::Player.new.find_by(name: name).or { Failure("Nie ma takiego gracza #{name}.\n") }
+        players.new.find_by(name: name).or { Failure("Nie ma takiego gracza #{name}.\n") }
       end
 
       def get_password

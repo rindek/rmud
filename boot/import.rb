@@ -7,16 +7,16 @@ App.boot(:import) do
       extend Dry::Container::Mixin
 
       namespace "repos" do
-        register "room" do
-          Repos::Room.new
+        register "rooms" do
+          Repos::Rooms.new
         end
 
-        register "room_exit" do
-          Repos::RoomExit.new
+        register "room_exits" do
+          Repos::RoomExits.new
         end
 
-        register "player" do
-          Repos::Player.new
+        register "players" do
+          Repos::Players.new
         end
       end
     end
