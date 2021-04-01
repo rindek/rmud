@@ -10,6 +10,7 @@ gem "dry-types"
 gem "dry-initializer"
 gem "dry-struct"
 gem "dry-system"
+gem "dry-transformer"
 
 gem "eventmachine"
 

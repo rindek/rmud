@@ -12,4 +12,20 @@ namespace :world do
     Models::RoomExit.find_or_create(from_room_id: room1.id, to_room_id: String(room2.id), name: "wschod")
     Models::RoomExit.find_or_create(from_room_id: room2.id, to_room_id: String(room1.id), name: "zachod")
   end
+
+  task seed_mongo: :environment do
+    ## Add default player
+    App[:mongo][:players]
+      .find(name: "rindek")
+      .first
+      .then do |record|
+        if record.nil?
+          App[:mongo][:players].insert_one(
+            name: "rindek",
+            password: BCrypt::Password.create("rindek"),
+            created_at: Time.now,
+          )
+        end
+      end
+  end
 end
