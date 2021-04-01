@@ -1,4 +1,4 @@
-FROM ruby:3.0-rc-alpine
+FROM ruby:3.0-alpine
 
 RUN mkdir -p /app/vendor/cache
 WORKDIR /app
