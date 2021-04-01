@@ -24,6 +24,8 @@ module Repos
       dataset.find(args).to_a.then { |records| records.empty? ? None() : Some(wrap_many(records)) }
     end
 
+    private
+
     def wrap(record)
       entity.new(transform(record))
     end
@@ -31,8 +33,6 @@ module Repos
     def wrap_many(records)
       records.map { |record| wrap(record) }
     end
-
-    private
 
     def transform(record)
       (T.t(:deep_symbolize_keys) >> T.t(:rename_keys, _id: :id))[record]

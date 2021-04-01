@@ -5,6 +5,10 @@ App.boot(:types) do
       include ::Dry.Types
 
       BSON = Types.Instance(BSON::ObjectId)
+
+      def self.Entity(klass)
+        Types.Constructor(klass) { |values| klass.new(values) }
+      end
     end
 
     use :zeitwerk
