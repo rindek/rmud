@@ -7,6 +7,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: rmud
 
+  mongo:
+    image: mongo:4.4
+
   app:
     image: ${IMAGE_TAG}
     entrypoint: sh -c
@@ -18,3 +21,4 @@ services:
       - 2300:2300
     depends_on:
       - database
+      - mongo

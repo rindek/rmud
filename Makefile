@@ -29,3 +29,6 @@ dev: build-dev
 test:
 	STAGE=test bundle exec rake sequel:migrate
 	STAGE=test bundle exec rspec -f d
+
+run:
+	ruby rmud.rb
