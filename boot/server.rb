@@ -2,7 +2,6 @@
 App.boot(:server) do |app|
   start do
     use :requirements
-
     use :rooms
 
     app[:loader].eager_load
