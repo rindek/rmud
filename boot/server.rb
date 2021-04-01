@@ -3,9 +3,9 @@ App.boot(:server) do |app|
   start do
     use :requirements
 
-    # use :rooms
+    use :rooms
 
-    # app[:loader].eager_load
+    app[:loader].eager_load
 
     Thread.new do
       EventMachine.run do
