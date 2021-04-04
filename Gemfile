@@ -16,9 +16,6 @@ gem "eventmachine"
 
 gem "pry"
 gem "rake"
-gem "pg"
-gem "sequel_pg", require: "sequel"
-gem "sequel-rake"
 gem "mongo"
 
 gem "zeitwerk"
