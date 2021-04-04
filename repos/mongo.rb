@@ -24,6 +24,10 @@ module Repos
       dataset.find(args).to_a.then { |records| records.empty? ? None() : Some(wrap_many(records)) }
     end
 
+    def each(&block)
+      dataset.find({}).each { |document| block.call(wrap(document)) }
+    end
+
     private
 
     def wrap(record)
