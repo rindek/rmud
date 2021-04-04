@@ -1,11 +1,7 @@
 version: "3.7"
 services:
-  database:
-    image: postgres:13
-    environment:
-      POSTGRES_PASSWORD: x
-      POSTGRES_USER: postgres
-      POSTGRES_DB: rmud
+  mongo:
+    image: mongo:4.4
 
   app:
     image: ${IMAGE_TAG}
@@ -17,4 +13,4 @@ services:
     ports:
       - 2300:2300
     depends_on:
-      - database
+      - mongo

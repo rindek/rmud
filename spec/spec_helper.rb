@@ -107,9 +107,18 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 
-  config.around(:each) { |example| App[:database].transaction(rollback: :always, auto_savepoint: true) { example.run } }
+  config.around(:each) do |example|
+    begin
+      example.run
+    ensure
+      App[:mongo].collections.select { |c| c.name !~ /^system\./ }.each(&:delete_many)
+    end
+  end
 
   config.include FactoryBot::Syntax::Methods
 
-  config.before(:suite) { FactoryBot.find_definitions }
+  config.before(:suite) do
+    FactoryBot.find_definitions
+    App[:mongo].collections.select { |c| c.name !~ /^system\./ }.each(&:delete_many)
+  end
 end

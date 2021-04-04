@@ -5,7 +5,7 @@ module Engine
       include Import["repos.rooms"]
 
       def self.load!(container = Dry::Container.new)
-        new.rooms.each_with_exits { |room| container.register(room.id, memoize: true) { room } }
+        new.rooms.each { |room| container.register(room.id, memoize: true) { room } }
         container
       end
     end

@@ -10,19 +10,17 @@ gem "dry-types"
 gem "dry-initializer"
 gem "dry-struct"
 gem "dry-system"
+gem "dry-transformer"
 
 gem "eventmachine"
 
-gem "logger"
 gem "pry"
 gem "rake"
-gem "pg"
-gem "sequel_pg", require: "sequel"
-gem "sequel-rake"
+gem "mongo"
+
 gem "zeitwerk"
 
 group :test, :development do
-  gem "database_cleaner"
   gem "factory_bot"
   gem "json_spec"
   gem "rspec"

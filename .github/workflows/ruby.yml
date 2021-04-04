@@ -18,25 +18,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: ["2.7", "3.0"]
-        postgres: ["13", "12"]
+        ruby: [2.7, 3.0]
+        mongodb: [4.0, 4.2, 4.4]
 
     runs-on: ubuntu-latest
 
-    name: Ruby ${{ matrix.ruby }}, PG ${{ matrix.postgres }}
+    name: Ruby ${{ matrix.ruby }}, MongoDB ${{ matrix.mongodb }}
     services:
-      database:
-        image: postgres:${{ matrix.postgres }}
-        env:
-          POSTGRES_PASSWORD: x
-          POSTGRES_USER: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+      mongodb:
+        image: mongo:${{ matrix.mongodb }}
         ports:
-          - 5432:5432
+          - 27017:27017
 
     steps:
       - uses: actions/checkout@v2
@@ -49,10 +41,6 @@ jobs:
       - name: Setup db, run tests
         env:
           STAGE: test
-          DB_HOST: localhost
-          DB_PASS: x
-          DB_NAME: rmud_test
+          MONGO_HOST: localhost
         run: |
-          ruby ci.rb
-          bundle exec rake sequel:migrate
           bundle exec rspec -f progress
