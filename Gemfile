@@ -21,7 +21,6 @@ gem "mongo"
 gem "zeitwerk"
 
 group :test, :development do
-  gem "database_cleaner"
   gem "factory_bot"
   gem "json_spec"
   gem "rspec"

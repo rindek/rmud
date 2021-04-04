@@ -2,7 +2,7 @@
 App.boot(:requirements) do
   start do
     use :bundler
-    use :persistence
+    use :mongo
     use :zeitwerk
     use :types
     use :import
