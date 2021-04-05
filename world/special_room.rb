@@ -17,5 +17,6 @@ App[:rooms].register("spawn", memoize: true) do
     short: "a spawn room short",
     long: "a spawn room long",
     exits: [Entities::RoomExit.new(to: Repos::Rooms.new.first.value!.id, name: "wyjscie")],
+    objects: [Entities::Reference.new(type: "player", id: "rindek")],
   )
 end
