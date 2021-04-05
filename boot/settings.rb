@@ -15,5 +15,7 @@ App.boot(:settings, from: :system) do
     key :mongo_host, T::String.default("mongo")
     key :mongo_port, T::Integer.default(27_017)
     key :mongo_database, T::String.default("rmud_#{App.env}".freeze)
+
+    key :redis_host, T::String.default("redis")
   end
 end
