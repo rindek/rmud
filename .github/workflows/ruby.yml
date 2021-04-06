@@ -24,7 +24,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    name: Ruby ${{ matrix.ruby }}, MongoDB ${{ matrix.mongodb }}
+    name: Ruby ${{ matrix.ruby }}, MongoDB ${{ matrix.mongodb }}, Redis ${{ matrix.redis }}
     services:
       mongodb:
         image: mongo:${{ matrix.mongodb }}
