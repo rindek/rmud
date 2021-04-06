@@ -13,6 +13,7 @@ module Engine
 
       def clean_up
         tp.remove_self_from_inventory
+        State::Player.clear(tp.name)
         PLAYERS.delete(tp.name)
       end
     end

@@ -18,17 +18,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: [2.7, 3.0]
+        ruby: [3.0]
         mongodb: [4.0, 4.2, 4.4]
+        redis: [5.0, 6.0, 6.2]
 
     runs-on: ubuntu-latest
 
-    name: Ruby ${{ matrix.ruby }}, MongoDB ${{ matrix.mongodb }}
+    name: Ruby ${{ matrix.ruby }}, MongoDB ${{ matrix.mongodb }}, Redis ${{ matrix.redis }}
     services:
       mongodb:
         image: mongo:${{ matrix.mongodb }}
         ports:
           - 27017:27017
+
+      redis:
+        image: redis:${{ matrix.redis }}
+        ports:
+          - 6379:6379
 
     steps:
       - uses: actions/checkout@v2
@@ -42,5 +48,6 @@ jobs:
         env:
           STAGE: test
           MONGO_HOST: localhost
+          REDIS_HOST: localhost
         run: |
           bundle exec rspec -f progress

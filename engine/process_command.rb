@@ -3,12 +3,12 @@ module Engine
   class ProcessCommand
     extend Dry::Initializer
 
-    include Dry::Monads[:try]
+    include Dry::Monads[:try, :maybe]
 
     option :semaphore, default: -> { Concurrent::Semaphore.new(1) }
 
     def call(input:, handler:)
-      return continue(input) if reading?
+      fetch_ivar.fmap { |ivar| return ivar.set(input) }
 
       Thread.new do
         semaphore.acquire
@@ -32,13 +32,8 @@ module Engine
 
     private
 
-    def continue(input)
-      @ivar.set(input)
-      @ivar = nil
-    end
-
-    def reading?
-      @ivar && @ivar.pending?
+    def fetch_ivar
+      @ivar && @ivar.pending? ? Some(@ivar) : None()
     end
   end
 end

@@ -3,6 +3,9 @@ services:
   mongo:
     image: mongo:4.4
 
+  redis:
+    image: redis:6.2
+
   app:
     image: ${IMAGE_TAG}
     entrypoint: sh -c
@@ -14,3 +17,4 @@ services:
       - 2300:2300
     depends_on:
       - mongo
+      - redis

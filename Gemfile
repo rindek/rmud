@@ -17,6 +17,7 @@ gem "eventmachine"
 gem "pry"
 gem "rake"
 gem "mongo"
+gem "redis"
 
 gem "zeitwerk"
 

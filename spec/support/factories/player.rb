@@ -8,5 +8,6 @@ FactoryBot.define do
     id { BSON::ObjectId.new }
     name { "player" }
     password { "password" }
+    room_id { "" }
   end
 end
