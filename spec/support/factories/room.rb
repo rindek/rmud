@@ -10,5 +10,6 @@ FactoryBot.define do
     long { "Long description of the room" }
 
     exits { [] }
+    objects { [] }
   end
 end
