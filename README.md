@@ -4,6 +4,7 @@ mvp
 ========
 * ~~can login to game using player name / pass via telnet~~
 
+
 * 'player' object (include Living object, being Inventory object)
 * 'room'   object (include being Inventory object)
 
