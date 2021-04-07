@@ -2,10 +2,13 @@
 module Engine
   module Actions
     class Move < Abstract
-      option :object, type: Types::MovableObject
-      option :dest, type: Types.Interface(:inventory)
+      Schema =
+        Dry::Schema.Params do
+          required(:object).filled(Types::MovableObject)
+          required(:dest).filled(Types.Interface(:inventory))
+        end
 
-      def call
+      def execute(object:, dest:)
         yield check_if_can_move
 
         ## remove object from previous inventory

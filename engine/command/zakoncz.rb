@@ -2,7 +2,7 @@
 module Engine
   module Command
     class Zakoncz < Base
-      def call
+      def call(...)
         clean_up if tp
         client.close
 

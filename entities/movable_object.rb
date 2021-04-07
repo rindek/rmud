@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 module Entities
   class MovableObject < GameObject
-    include Traits::Movable
-
     delegate :remove_self_from_inventory, to: :environment
 
     def current_environment
@@ -11,6 +9,10 @@ module Entities
 
     def update_current_environment(dest)
       environment.update(dest)
+    end
+
+    def presentable
+      name.capitalize
     end
 
     private

@@ -3,7 +3,7 @@ module Engine
   module Lib
     class Inventory < Abstract
       option :source, type: Types::GameObject
-      option :items, type: Types::Array.of(Types::MovableObject), default: -> { [] }
+      option :items, type: Types::ConcurrentArray, default: -> { Concurrent::Array.new }
 
       def add(item)
         yield validate_item(item: item)

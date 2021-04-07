@@ -6,6 +6,7 @@ module Engine
 
       register(:zakoncz) { |**args| Engine::Command::Zakoncz.new(**args) }
       register(:spojrz) { |**args| Engine::Command::Spojrz.new(**args) }
+      register(:powiedz) { |**args| Engine::Command::Powiedz.new(**args) }
     end
   end
 end

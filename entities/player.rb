@@ -4,10 +4,16 @@ module Entities
     attribute :id, Types::Coercible::String
     attribute :name, Types::String
     attribute :password, Types::String
-    attribute :room_id, Types::Coercible::String
+
+    # def environment
+    #   Try[Dry::Container::Error] { App[:game].resolve(environment_ref) }.to_maybe
+    # end
+
+    # def inventory
+    #   inventory_refs.map do |ref|
+    #     Try[Dry::Container::Error] { App[:game].resolve(ref) }.to_maybe.value_or { nil }
+    #   end.compact
+    # end
     include Traits::Inventory
-    def room
-      Try[Dry::Container::Error] { App[:rooms].resolve(room_id) }.to_maybe
-    end
   end
 end

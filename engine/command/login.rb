@@ -5,13 +5,15 @@ module Engine
       include Concurrent
       include Import["repos.players"]
 
+      DEFAULT_SPAWN_ID = "app.world.spawn".freeze
+
       def call(name)
         player = yield find_player(name)
         password = yield get_password
 
         yield authenticate(player, password)
 
-        PLAYERS[name] = player
+        PLAYERS[name] = { entity: player, client: client }
 
         client.handler = Engine::Handlers::Game.new(client: client, tp: player)
         yield spawn(player)
@@ -25,7 +27,7 @@ module Engine
       private
 
       def find_player(name)
-        State::Player.get(name).or { Failure("Nie ma takiego gracza #{name}.\n") }
+        players.find_by(name: name).or { Failure("Nie ma takiego gracza #{name}.\n") }
       end
 
       def get_password
@@ -38,8 +40,8 @@ module Engine
       end
 
       def spawn(entity)
-        room = App[:rooms].resolve("spawn")
-        entity.move(to: room)
+        State::Player.clear(entity.name)
+        Engine::Actions::Move.call(object: entity, dest: App[:game][:rooms][DEFAULT_SPAWN_ID])
       end
     end
   end

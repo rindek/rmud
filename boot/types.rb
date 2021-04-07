@@ -5,9 +5,14 @@ App.boot(:types) do
       include ::Dry.Types
 
       BSON = Types.Instance(BSON::ObjectId)
+      ConcurrentArray = Types.Instance(Concurrent::Array)
 
       def self.Entity(klass)
         Types.Constructor(klass) { |values| klass.new(values) }
+      end
+
+      def self.Resolvable(type)
+        Types.Constructor(Proc) { |id| -> { App[:game][type].resolve(id) } }
       end
     end
 
@@ -23,5 +28,8 @@ App.boot(:types) do
     end
 
     Dry::Types.load_extensions(:monads)
+    Dry::Schema.load_extensions(:monads)
+
+    App[:game].register(:void, Types::VOID)
   end
 end
