@@ -19,7 +19,7 @@ module Engine
 
     ## triggered from EM
     def receive_data(data)
-      process_command.call(input: (queue << data.chomp).shift, handler: current_handler)
+      process_command.call(input: (queue << data.chomp).shift, handler: current_handler, client: self)
     end
 
     def read_client
@@ -36,7 +36,7 @@ module Engine
     private
 
     def current_handler
-      @current_handler ||= default_handler.new(client: self)
+      @current_handler ||= default_handler.new
     end
   end
 end

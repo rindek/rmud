@@ -20,7 +20,7 @@ module Engine
           entity.client.handler = Engine::Handlers::Game.new(player: entity)
           yield spawn(entity)
 
-          client.write("Zalogowano!\n")
+          entity.client.write("Zalogowano!\n")
           entity.client.receive_data("spojrz")
 
           Success(entity)

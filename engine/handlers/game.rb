@@ -7,9 +7,7 @@ module Engine
       option :player, type: Types::Game::Player
       option :commands, default: -> { Engine::Commands::Game }
 
-      delegate :client, to: :player
-
-      def receive(message)
+      def receive(message, client)
         cmd, *args = message.split
 
         commands.resolve(String(cmd).to_sym).(player: player).(*args).or { |msg| client.write(msg) }
