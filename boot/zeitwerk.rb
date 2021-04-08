@@ -17,6 +17,7 @@ App.boot(:zeitwerk) do |app|
     loader.ignore("./ci.rb")
     loader.ignore("./rmud.rb")
     loader.ignore("./world")
+    loader.inflector.inflect("db" => "DB")
     loader.setup
 
     register(:loader, loader)
