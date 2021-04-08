@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 RSpec.describe Repos::Mongo do
   class FakeEntityForTests < Dry::Struct
-    attribute :id, Types::BSON
+    transform_keys(&:to_sym)
+    attribute :_id, Types::BSON
     attribute :name, Types::String
   end
 
