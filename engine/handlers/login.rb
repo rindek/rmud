@@ -4,10 +4,9 @@ module Engine
     class Login
       extend Dry::Initializer
 
-      option :client, type: Types.Instance(Engine::Client)
       option :commands, default: -> { Engine::Commands::Login }
 
-      def receive(message)
+      def receive(message, client)
         cmd, *args = message.split
 
         commands.resolve(String(cmd).to_sym).(client: client).(*args).or { |msg| client.write(msg) }

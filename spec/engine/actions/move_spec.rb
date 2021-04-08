@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 RSpec.describe Engine::Actions::Move do
-  let(:action) { described_class.new(object: object, dest: dest) }
+  let(:action) { described_class.new }
 
-  subject { action.call }
+  subject { action.call(object: object, dest: dest) }
 
   let(:object) { build(:movable_object) }
   let(:dest) { build(:room) }

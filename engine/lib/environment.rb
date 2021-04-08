@@ -2,15 +2,15 @@
 module Engine
   module Lib
     class Environment < Abstract
-      option :source, type: Types::MovableObject
-      option :dest, default: -> { Types::VOID }
+      option :source, type: Types::Game::MovableObject
+      option :dest, default: -> { Types::Game::VOID }
 
       delegate :inventory, to: :dest
 
       def remove_self_from_inventory
-        return Success(:in_void) if dest == Types::VOID
+        return Success(:in_void) if dest == Types::Game::VOID
         yield inventory.remove(source)
-        Success(@dest = Types::VOID)
+        Success(@dest = Types::Game::VOID)
       end
 
       def update(env)

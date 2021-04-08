@@ -7,20 +7,20 @@ module Engine
 
     option :semaphore, default: -> { Concurrent::Semaphore.new(1) }
 
-    def call(input:, handler:)
+    def call(input:, handler:, client:)
       fetch_ivar.fmap { |ivar| return ivar.set(input) }
 
       Thread.new do
         semaphore.acquire
 
         begin
-          handler.receive(input)
+          handler.receive(input, client)
         rescue => e
           puts Backtrace.new(e)
-          handler.client.write("Wystapil powazny blad")
+          client.write("Wystapil powazny blad")
         ensure
           semaphore.release
-          handler.client.write(handler.prompt)
+          client.write(handler.prompt)
         end
       end
     end

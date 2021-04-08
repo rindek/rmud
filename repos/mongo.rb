@@ -31,15 +31,11 @@ module Repos
     private
 
     def wrap(record)
-      entity.new(transform(record))
+      entity.new(record)
     end
 
     def wrap_many(records)
       records.map { |record| wrap(record) }
-    end
-
-    def transform(record)
-      (T.t(:deep_symbolize_keys) >> T.t(:rename_keys, _id: :id))[record]
     end
   end
 end

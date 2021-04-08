@@ -4,15 +4,13 @@ module Engine
     class Game
       extend Dry::Initializer
 
-      option :client, type: Types.Instance(Engine::Client)
-      option :tp, type: Types::PlayerObject
-
+      option :player, type: Types::Game::Player
       option :commands, default: -> { Engine::Commands::Game }
 
-      def receive(message)
+      def receive(message, client)
         cmd, *args = message.split
 
-        commands.resolve(String(cmd).to_sym).(client: client, tp: tp).(*args).or { |msg| client.write(msg) }
+        commands.resolve(String(cmd).to_sym).(player: player).(*args).or { |msg| client.write(msg) }
       rescue Dry::Container::Error => e
         raise(e) unless e.message.match(/Nothing registered with the key/)
 

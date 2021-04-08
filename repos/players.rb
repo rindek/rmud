@@ -2,6 +2,6 @@
 module Repos
   class Players < Local
     option :dataset, default: -> { App[:mongo][:players] }
-    option :entity, default: -> { Entities::Player }
+    option :entity, default: -> { Entities::DB::Player }
   end
 end
