@@ -4,8 +4,8 @@ module Engine
     class Login
       extend Dry::Container::Mixin
 
-      register(:zakoncz) { |client:| Engine::Command::Zakoncz.new(client: client) }
-      register(:_login) { |client:| Engine::Command::Login.new(client: client) }
+      register(:zakoncz) { |client:| Engine::Command::Login::Zakoncz.new(client: client) }
+      register(:_login) { |client:| Engine::Command::Login::Login.new(client: client) }
     end
   end
 end

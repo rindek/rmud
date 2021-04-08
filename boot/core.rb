@@ -2,7 +2,7 @@
 def Room(input)
   called_from = caller_locations.first.path
   App[:game][:rooms].register(GameId(called_from), memoize: true) do
-    Entities::Room.new(input.merge(id: GameId(called_from)))
+    Entities::Game::Room.new(input.merge(id: GameId(called_from)))
   end
 end
 

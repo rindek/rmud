@@ -4,7 +4,7 @@ module Engine
     class Move < Abstract
       Schema =
         Dry::Schema.Params do
-          required(:object).filled(Types::MovableObject)
+          required(:object).filled(Types::Game::MovableObject)
           required(:dest).filled(Types.Interface(:inventory))
         end
 
