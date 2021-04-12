@@ -13,17 +13,9 @@ module Engine
 
           yield authenticate(player, password)
 
-          entity = Entities::Game::Player.new(data: player, client: client)
+          yield (in_game?(player.name) ? take_control(player.name, client) : spawn(player, client))
 
-          PLAYERS[name] = entity
-
-          entity.client.handler = Engine::Handlers::Game.new(player: entity)
-          yield spawn(entity)
-
-          entity.client.write("Zalogowano!\n")
-          entity.client.receive_data("spojrz")
-
-          Success(entity)
+          Success()
         end
 
         private
@@ -41,13 +33,34 @@ module Engine
           BCrypt::Password.new(player.password) == password ? Success(true) : Failure("Niepoprawne haslo.\n")
         end
 
-        def spawn(entity)
-          Engine::Actions::Move
-            .call(object: entity, dest: App[:game][:rooms][DEFAULT_SPAWN_ID])
-            .or do |failure|
-              App[:logger].debug(failure)
-              Failure("Wystapil blad podczas przenoszenia.\n")
-            end
+        def in_game?(name)
+          PLAYERS.key?(name)
+        end
+
+        def spawn(player, client)
+          entity = Entities::Game::Player.new(data: player, client: client)
+          PLAYERS[player.name] = entity
+          entity.client.handler = Engine::Handlers::Game.new(player: entity)
+
+          yield (
+            Engine::Actions::Move
+              .call(object: entity, dest: App[:game][:rooms][DEFAULT_SPAWN_ID])
+              .or do |failure|
+                App[:logger].debug(failure)
+                Failure("Wystapil blad podczas przenoszenia.\n")
+              end
+          )
+
+          entity.client.write("Zalogowano!\n")
+          entity.client.receive_data("spojrz")
+
+          Success()
+        end
+
+        def take_control(name, client)
+          client.handler = Engine::Handlers::Game.new(player: PLAYERS[name])
+          PLAYERS[name].replace_client(client)
+          Success()
         end
       end
     end

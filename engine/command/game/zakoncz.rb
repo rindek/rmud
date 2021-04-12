@@ -4,17 +4,7 @@ module Engine
     module Game
       class Zakoncz < Base
         def call(...)
-          clean_up
-          client.close
-
-          Success(true)
-        end
-
-        private
-
-        def clean_up
-          player.remove_self_from_inventory
-          PLAYERS.delete(player.name)
+          Engine::Lib::Shutdown.new(player: player).call
         end
       end
     end
