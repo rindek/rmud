@@ -18,8 +18,13 @@ module Engine
     end
 
     ## triggered from EM
-    def receive_data(data)
-      process_command.call(input: (queue << data.chomp).shift, handler: current_handler, client: self)
+    def receive_data(data, write_prompt: true)
+      process_command.call(
+        input: (queue << data.chomp).shift,
+        handler: current_handler,
+        client: self,
+        write_prompt: write_prompt,
+      )
     end
 
     def read_client

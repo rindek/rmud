@@ -7,9 +7,11 @@ module Engine
           to_say = arg.join(" ")
           client.write("Mowisz: #{to_say}\n")
 
-          player.current_environment.inventory.items.select do |item|
-            item.is_a?(Entities::Game::Player)
-          end.reject { |item| item == player }.each { |pl| pl.write("#{player.name} mowi: #{to_say}\n") }
+          player
+            .current_environment
+            .inventory
+            .players(without: player)
+            .each { |pl| pl.write("#{player.name} mowi: #{to_say}\n") }
 
           Success(true)
         end

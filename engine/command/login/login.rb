@@ -52,7 +52,7 @@ module Engine
           )
 
           entity.client.write("Zalogowano!\n")
-          entity.client.receive_data("spojrz")
+          entity.client.receive_data("spojrz", write_prompt: false)
 
           Success()
         end
