@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-RSpec.xdescribe Engine::Lib::Shutdown do
+RSpec.describe Engine::Lib::Shutdown do
   let(:lib) { described_class.new }
 
   describe "#call" do
@@ -8,8 +8,18 @@ RSpec.xdescribe Engine::Lib::Shutdown do
 
     context "happy path" do
       after { subject }
-      it "expects to remove itself from inventory" do
+
+      it "removes player from inventory" do
         expect(player).to receive(:remove_self_from_inventory)
+      end
+
+      it "closes connection" do
+        expect(player.client).to receive(:close)
+      end
+
+      it "removes itself from global PLAYER variable" do
+        subject
+        expect(App[:players][player.name]).to be_nil
       end
     end
   end

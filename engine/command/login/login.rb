@@ -34,12 +34,12 @@ module Engine
         end
 
         def in_game?(name)
-          PLAYERS.key?(name)
+          App[:players].key?(name)
         end
 
         def spawn(player, client)
           entity = Entities::Game::Player.new(data: player, client: client)
-          PLAYERS[player.name] = entity
+          App[:players][player.name] = entity
           entity.client.handler = Engine::Handlers::Game.new(player: entity)
 
           yield (
@@ -58,8 +58,8 @@ module Engine
         end
 
         def take_control(name, client)
-          client.handler = Engine::Handlers::Game.new(player: PLAYERS[name])
-          PLAYERS[name].replace_client(client)
+          client.handler = Engine::Handlers::Game.new(player: App[:players][name])
+          App[:players][name].replace_client(client)
           Success()
         end
       end

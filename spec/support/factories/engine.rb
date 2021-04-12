@@ -5,6 +5,6 @@ FactoryBot.define do
     initialize_with { Engine::Client.new(**attributes) }
     skip_create
 
-    em_connection { FakeSocketClient.new(nil) }
+    em_connection { FakeSocketClient.new(0) }
   end
 end

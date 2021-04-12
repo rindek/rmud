@@ -109,7 +109,10 @@ RSpec.configure do |config|
 
   config.around(:each) do |example|
     begin
-      example.run
+      EventMachine.run do
+        example.run
+        EventMachine.stop
+      end
     ensure
       App[:mongo].collections.select { |c| c.name !~ /^system\./ }.each(&:delete_many)
     end
