@@ -20,7 +20,7 @@ module Engine
           client.write("Wystapil powazny blad")
         ensure
           semaphore.release
-          client.write(handler.prompt)
+          client.write(client.current_handler.prompt)
         end
       end
     end

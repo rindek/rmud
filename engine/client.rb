@@ -2,7 +2,7 @@
 module Engine
   class Client
     extend Dry::Initializer
-    include Dry::Monads[:try]
+    include Dry::Monads[:try, :maybe]
 
     option :em_connection
     option :default_handler, default: -> { Engine::Handlers::Login }
@@ -10,7 +10,7 @@ module Engine
     option :process_command, default: -> { Engine::ProcessCommand.new }
 
     def close
-      em_connection.close_connection
+      em_connection.close_connection_after_writing
     end
 
     def write(msg)
@@ -33,10 +33,16 @@ module Engine
       @current_handler = new_handler
     end
 
-    private
+    def current_player
+      Maybe(current_handler).fmap { |handler| handler.try(:player) }.bind do |player|
+        Entities::Game::Player.try(player).to_monad.to_maybe
+      end
+    end
 
     def current_handler
       @current_handler ||= default_handler.new
     end
+
+    private
   end
 end

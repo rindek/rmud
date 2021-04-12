@@ -3,18 +3,10 @@ module Engine
   module Command
     module Game
       class Zakoncz < Base
+        include Import["lib.shutdown"]
+
         def call(...)
-          clean_up
-          client.close
-
-          Success(true)
-        end
-
-        private
-
-        def clean_up
-          player.remove_self_from_inventory
-          PLAYERS.delete(player.name)
+          shutdown.call(player: player)
         end
       end
     end
