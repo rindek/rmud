@@ -19,6 +19,12 @@ App.boot(:import) do
           Repos::Players.new
         end
       end
+
+      namespace "lib" do
+        register "shutdown" do
+          Engine::Lib::Shutdown.new
+        end
+      end
     end
 
     Import = Dry.AutoInject(ImportContainer)

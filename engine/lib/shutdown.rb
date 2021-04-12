@@ -2,20 +2,20 @@
 module Engine
   module Lib
     class Shutdown < Abstract
-      option :player, type: Types::Game::Player
-
-      def before
+      def before(player:)
         player.remove_self_from_inventory
       end
 
-      def after
+      def after(player:)
         PLAYERS.delete(player.name)
       end
 
-      def call
-        before
+      def call(player:)
+        yield Types::Game::Player.try(player)
+
+        before(player: player)
         player.client.close
-        after
+        after(player: player)
 
         Success()
       end

@@ -3,8 +3,10 @@ module Engine
   module Command
     module Game
       class Zakoncz < Base
+        include Import["lib.shutdown"]
+
         def call(...)
-          Engine::Lib::Shutdown.new(player: player).call
+          shutdown.call(player: player)
         end
       end
     end
