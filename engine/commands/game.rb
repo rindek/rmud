@@ -3,10 +3,17 @@ module Engine
   module Commands
     class Game
       extend Dry::Container::Mixin
+      extend Engine::Command::Game::Mixin
 
-      register(:zakoncz) { |player:| Engine::Command::Game::Zakoncz.new(player: player) }
-      register(:spojrz) { |player:| Engine::Command::Game::Spojrz.new(player: player) }
-      register(:powiedz) { |player:| Engine::Command::Game::Powiedz.new(player: player) }
+      register_command(
+        :powiedz,
+        ->(player, *args) do
+          Engine::Events::Speak.call(who: player, what: args.join(" "), where: player.current_environment)
+        end,
+      )
+      register_command(:zakoncz, ->(player, _) { shutdown.call(player: player) }, ["lib.shutdown"])
+
+      register(:spojrz) { |player:| Engine::Command::Game::Glance.new(player: player) }
     end
   end
 end
