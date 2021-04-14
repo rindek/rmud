@@ -42,14 +42,18 @@ module Engine
           App[:players][player.name] = entity
           entity.client.handler = Engine::Handlers::Game.new(player: entity)
 
+          room_to_move = App[:game][:rooms][DEFAULT_SPAWN_ID]
+
+          Engine::Events::Rooms::BeforeEnter.call(who: entity, to_room: room_to_move)
           yield (
             Engine::Actions::Move
-              .call(object: entity, dest: App[:game][:rooms][DEFAULT_SPAWN_ID])
+              .call(object: entity, dest: room_to_move)
               .or do |failure|
                 App[:logger].debug(failure)
                 Failure("Wystapil blad podczas przenoszenia.\n")
               end
           )
+          Engine::Events::Rooms::AfterEnter.call(who: entity, to_room: room_to_move)
 
           entity.client.write("Zalogowano!\n")
           entity.client.receive_data("spojrz", write_prompt: false)

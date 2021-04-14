@@ -5,7 +5,6 @@ gem "backtrace"
 gem "bcrypt"
 
 gem "dry-auto_inject"
-gem "dry-events"
 gem "dry-monads", require: "dry/monads/all"
 gem "dry-types"
 gem "dry-initializer"
