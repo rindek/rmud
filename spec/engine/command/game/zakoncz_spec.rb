@@ -1,6 +1,8 @@
 # frozen_string_literal: true
-RSpec.describe Engine::Command::Game::Zakoncz do
-  let(:command) { described_class.new(player: player, shutdown: shutdown_lib) }
+RSpec.describe "Command.Game.zakoncz" do
+  let(:command) do
+    Engine::Commands::Game.resolve(:zakoncz).call(player: player).class.new(player: player, shutdown: shutdown_lib)
+  end
 
   subject { command.call }
   let(:shutdown_lib) { instance_double(Engine::Lib::Shutdown) }

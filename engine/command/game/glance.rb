@@ -2,7 +2,7 @@
 module Engine
   module Command
     module Game
-      class Spojrz < Base
+      class Glance < Base
         def call(...)
           present(yield fetch_room)
           Success(true)

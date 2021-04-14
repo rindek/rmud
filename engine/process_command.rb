@@ -7,7 +7,7 @@ module Engine
 
     option :semaphore, default: -> { Concurrent::Semaphore.new(1) }
 
-    def call(input:, handler:, client:)
+    def call(input:, handler:, client:, write_prompt:)
       fetch_ivar.fmap { |ivar| return ivar.set(input) }
 
       Thread.new do
@@ -20,7 +20,12 @@ module Engine
           client.write("Wystapil powazny blad")
         ensure
           semaphore.release
-          client.write(client.current_handler.prompt)
+          if write_prompt
+            Concurrent::Promises.future(0.01) do |duration|
+              sleep(duration)
+              client.write(client.current_handler.prompt)
+            end
+          end
         end
       end
     end

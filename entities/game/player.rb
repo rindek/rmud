@@ -2,6 +2,8 @@
 module Entities
   module Game
     class Player < Creature
+      include Concurrent::Async
+
       attribute :data, Types::DB::Player
       attribute :client, Types.Instance(Engine::Client)
 

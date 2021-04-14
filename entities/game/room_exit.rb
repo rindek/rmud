@@ -5,6 +5,8 @@ module Entities
       attribute :to, Types.Resolvable(:rooms)
       attribute :name, Types::String
 
+      attribute :joiner, Types::String.default { "na" }
+
       def room
         to.()
       end
