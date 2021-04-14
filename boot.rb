@@ -1,5 +1,4 @@
 require "dry/system/container"
-require "dry/events/publisher"
 
 class App < Dry::System::Container
   use :env
@@ -20,5 +19,3 @@ App.register(:game, GameContainer)
 App.register(:players, Concurrent::Hash.new)
 
 Dir[App.config.root.join("boot", "**", "*.rb")].sort.each { |file| require file }
-
-App.start(:bundler)
