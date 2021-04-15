@@ -14,7 +14,7 @@ module Engine
           from
             .inventory
             .players(without: who)
-            .each { |player| player.write("%s podąża %s %s.\n" % [who.name, to_exit.joiner, to_exit.name]) }
+            .each { |player| player.write("%s podąża %s %s.\n" % [who.present, to_exit.joiner, to_exit.name]) }
 
           Maybe(from.callbacks[:after_leave]).bind { |c| c.(who) }
 

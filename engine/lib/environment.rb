@@ -18,6 +18,10 @@ module Engine
         Success(@dest = env)
       end
 
+      def dump_info
+        dest == Types::Game::VOID ? :void : dest.dump_info
+      end
+
       private
 
       def validate_environment(env)

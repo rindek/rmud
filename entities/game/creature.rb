@@ -2,6 +2,7 @@
 module Entities
   module Game
     class Creature < MovableObject
+      include Traits::Inventory
     end
   end
 end

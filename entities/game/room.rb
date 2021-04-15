@@ -9,6 +9,10 @@ module Entities
       attribute? :callbacks, Types::Hash.map(Types::Symbol, Types::Proc).default { {} }
 
       include Traits::Inventory
+
+      def dump_info
+        attributes.slice(:id, :short).merge(class: self.class)
+      end
     end
   end
 end

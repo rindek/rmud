@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 RSpec.describe Engine::Lib::Inventory do
-  let(:lib) { described_class.new(source: source, items: items) }
-  let(:items) { Concurrent::Array.new }
+  let(:lib) { described_class.new(source: source, elements: elements) }
+  let(:elements) { Concurrent::Array.new }
   let(:source) { build(:game_object) }
   let(:item) { build(:movable_object) }
 
@@ -11,8 +11,8 @@ RSpec.describe Engine::Lib::Inventory do
     context "item is a valid game object" do
       it { is_expected.to hold(item) }
 
-      it "updates items list" do
-        expect { subject }.to change { lib.items.count }.by(1)
+      it "updates elements list" do
+        expect { subject }.to change { lib.elements.count }.by(1)
       end
     end
 
@@ -27,13 +27,13 @@ RSpec.describe Engine::Lib::Inventory do
     subject { lib.remove(item) }
 
     context "when item exists" do
-      let(:items) { Concurrent::Array.new [item] }
+      let(:elements) { Concurrent::Array.new [item] }
 
       it { is_expected.to hold(item) }
     end
 
     context "when item does not exist" do
-      let(:items) { Concurrent::Array.new [] }
+      let(:elements) { Concurrent::Array.new [] }
 
       it { is_expected.to be_none }
     end
@@ -43,13 +43,13 @@ RSpec.describe Engine::Lib::Inventory do
     subject { lib.has?(item) }
 
     context "item exists in inventory" do
-      let(:items) { Concurrent::Array.new [item] }
+      let(:elements) { Concurrent::Array.new [item] }
 
       it { is_expected.to be_truthy }
     end
 
     context "item does not exist in inventory" do
-      let(:items) { Concurrent::Array.new [] }
+      let(:elements) { Concurrent::Array.new [] }
 
       it { is_expected.to be_falsey }
     end

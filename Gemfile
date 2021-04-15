@@ -19,6 +19,7 @@ gem "pry"
 gem "rake"
 gem "mongo"
 gem "redis"
+gem "rollbar"
 
 gem "zeitwerk"
 
