@@ -5,7 +5,7 @@ module Engine
       class Login < Base
         include Import["repos.players"]
 
-        DEFAULT_SPAWN_ID = "app.world.spawn".freeze
+        DEFAULT_SPAWN_ID = "main.spawn".freeze
 
         def call(name)
           player = yield find_player(name)

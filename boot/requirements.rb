@@ -4,6 +4,7 @@ App.boot(:requirements) do
     use :bundler
     use :mongo
     use :redis
+    use :rollbar
     use :zeitwerk
     use :types
     use :import

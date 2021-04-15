@@ -84,6 +84,7 @@ GEM
       method_source (~> 1.0)
     rake (13.0.1)
     redis (4.2.5)
+    rollbar (3.1.2)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -127,6 +128,7 @@ DEPENDENCIES
   pry
   rake
   redis
+  rollbar
   rspec
   rspec-json_expectations
   shoulda-matchers

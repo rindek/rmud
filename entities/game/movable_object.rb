@@ -12,8 +12,8 @@ module Entities
         environment.update(dest)
       end
 
-      def presentable
-        name.capitalize
+      def present
+        raise "implement in subclass"
       end
 
       private

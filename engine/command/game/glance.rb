@@ -18,10 +18,12 @@ module Engine
         end
 
         def present(room)
-          players = room.inventory.players(without: player).map(&:name)
+          players = room.inventory.players(without: player).map(&:present)
+          items = room.inventory.items.map(&:present)
 
           client.write("#{room.short}\n")
           client.write("#{composite(players)}.\n") unless players.empty?
+          client.write("#{composite(items)}.\n") unless items.empty?
           client.write("Wyjscia: #{room.exits.map(&:name).join(", ")}\n")
         end
 

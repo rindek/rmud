@@ -10,7 +10,7 @@ module Engine
           end
 
         def execute(who:, to_room:)
-          to_room.inventory.players(without: who).each { |player| player.write("%s przybywa.\n" % player.name) }
+          to_room.inventory.players(without: who).each { |player| player.write("%s przybywa.\n" % who.present) }
           Maybe(to_room.callbacks[:after_enter]).bind { |c| c.(who) }
 
           Success()
