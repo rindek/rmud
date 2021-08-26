@@ -1,0 +1,23 @@
+FROM ghcr.io/graalvm/graalvm-ce:latest
+
+# RUN mkdir -p /app/vendor/cache
+# WORKDIR /app
+
+# # add Gemfile & install dependencies
+# ADD Gemfile* /app/
+# ADD vendor/cache /app/vendor/cache
+
+# RUN bundle install --jobs=8 --retry=3
+
+# # add application code
+# COPY . /app
+
+RUN gu install ruby
+RUN $(ruby -e 'print RbConfig::CONFIG["prefix"]')/lib/truffle/post_install_hook.sh
+
+WORKDIR /app
+ADD Gemfile* /app/
+ADD vendor/cache /app/vendor/cache
+
+RUN bundle install --jobs=8 --retry=3
+COPY . /app

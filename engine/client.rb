@@ -14,7 +14,17 @@ module Engine
     end
 
     def write(msg)
-      em_connection.send_data(msg)
+      to_send = if msg.is_a?(String)
+        msg
+      elsif msg.is_a?(Array)
+        msg.map(&:present).join(", ").capitalize + ".\n"
+      elsif Types::Game::GameObject.try(msg).success?
+        msg.present.capitalize + ".\n"
+      else
+        "Error while sending message. Unknown type #{msg.inspect}\n"
+      end
+
+      em_connection.send_data(to_send)
     end
 
     ## triggered from EM

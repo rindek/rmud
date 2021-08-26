@@ -5,7 +5,7 @@ def Room(input)
   App[:game][:rooms].register(id, memoize: true) do
     Entities::Game::Room
       .new(input.merge(id: id))
-      .tap { |room| Dry::Monads.Maybe(room.callbacks[:after_load]).bind { |callback| callback.call } }
+      .tap { |room| Dry::Monads.Maybe(room.callbacks[:after_load]).bind { |callback| callback.call(room) } }
   end
 end
 
@@ -13,6 +13,12 @@ def Item(input)
   called_from = caller_locations.first.path
   id = input[:id] || GameId(called_from)
   App[:game][:items].register(id, memoize: false) { Entities::Game::Item.new(input.merge(id: id)) }
+end
+
+def NPC(input)
+  called_from = caller_locations.first.path
+  id = input[:id] || GameId(called_from)
+  App[:game][:npcs].register(id, memoize: false) { Entities::Game::Creature.new(input.merge(id: id)) }
 end
 
 def Namespace(suffix)

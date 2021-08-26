@@ -34,6 +34,10 @@ module Engine
         filter(entity: Entities::Game::Player, without: without)
       end
 
+      def creatures(without: nil)
+        filter(entity: Entities::Game::Creature, without: without)
+      end
+
       def items(without: nil)
         filter(entity: Entities::Game::Item, without: without)
       end

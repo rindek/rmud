@@ -13,6 +13,7 @@ class GameContainer
   extend Dry::Container::Mixin
   register(:rooms, Dry::Container.new)
   register(:items, Dry::Container.new)
+  register(:npcs, Dry::Container.new)
 end
 
 App.register(:game, GameContainer)

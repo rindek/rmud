@@ -11,7 +11,7 @@ module Engine
           Engine::Events::Speak.call(who: player, what: args.join(" "), where: player.current_environment)
         end,
       )
-      register_command(:zakoncz, ->(player, _) { shutdown.call(player: player) }, ["lib.shutdown"])
+      register_command(:zakoncz, ->(player, *args) { shutdown.call(player: player) }, ["lib.shutdown"])
       register_command(
         :clone,
         ->(player, *args) do
@@ -33,7 +33,7 @@ module Engine
 
       register_command(
         :i,
-        ->(player, *args) { Success(player.write(player.inventory.items.map(&:present).join(", ") + "\n")) },
+        ->(player, *args) { Success(player.write(player.inventory.items)) },
       )
 
       register(:spojrz) { |player:| Engine::Command::Game::Glance.new(player: player) }

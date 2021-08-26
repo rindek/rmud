@@ -7,6 +7,9 @@ App.boot(:server) do |app|
     ## Load all world
     use :world
 
+    puts "Warming up..."
+    5.times { BCrypt::Password.create(SecureRandom.uuid) }
+
     Thread.new do
       EventMachine.run do
         EventMachine.start_server App[:settings].host, App[:settings].port, Engine::Server
