@@ -14,17 +14,23 @@ module Engine
     end
 
     def write(msg)
-      to_send = if msg.is_a?(String)
-        msg
-      elsif msg.is_a?(Array)
-        msg.map(&:present).join(", ").capitalize + ".\n"
-      elsif Types::Game::GameObject.try(msg).success?
-        msg.present.capitalize + ".\n"
-      else
-        "Error while sending message. Unknown type #{msg.inspect}\n"
-      end
+      em_connection.send_data(msg)
+      # to_send =
+      #   if msg.is_a?(String)
+      #     msg
+      #   elsif msg.is_a?(Array)
+      #     msg.map { |obj| obj.decorator(observer: current_player) }.join(", ").capitalize + ".\n"
+      #   elsif Types::Game::GameObject.try(msg).success?
+      #     msg.decorator(observer: current_player).capitalize + ".\n"
+      #   else
+      #     "Error while sending message. Unknown type #{msg.inspect}\n"
+      #   end
 
-      em_connection.send_data(to_send)
+      # em_connection.send_data(to_send)
+    end
+
+    def pwrite(msg)
+      write(msg.capitalize + ending(msg))
     end
 
     ## triggered from EM
@@ -49,9 +55,9 @@ module Engine
     end
 
     def current_player
-      Maybe(current_handler).fmap { |handler| handler.try(:player) }.bind do |player|
-        Entities::Game::Player.try(player).to_monad.to_maybe
-      end
+      Maybe(current_handler)
+        .fmap { |handler| handler.try(:player) }
+        .bind { |player| Entities::Game::Player.try(player).to_monad.to_maybe }
     end
 
     def current_handler
@@ -59,5 +65,9 @@ module Engine
     end
 
     private
+
+    def ending(message)
+      message.ends_with?(".") ? "\n" : ".\n"
+    end
   end
 end

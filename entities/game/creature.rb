@@ -7,7 +7,7 @@ module Entities
       attribute :name, Types::String
       attribute :events, Types::Array.of(Types::String)
 
-      def present
+      def decorator(observer:)
         [adjectives, name].flatten.join(" ")
       end
 
