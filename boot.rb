@@ -3,9 +3,11 @@ require "dry/system/container"
 class App < Dry::System::Container
   use :env
 
-  configure do
+  configure do |config|
     config.env = ENV["STAGE"] || "development"
     config.root = Pathname.new(__dir__)
+    # config.component_dirs.add 'repos'
+    # config.component_dirs.add 'engine'
   end
 end
 

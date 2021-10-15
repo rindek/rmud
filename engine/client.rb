@@ -15,18 +15,6 @@ module Engine
 
     def write(msg)
       em_connection.send_data(msg)
-      # to_send =
-      #   if msg.is_a?(String)
-      #     msg
-      #   elsif msg.is_a?(Array)
-      #     msg.map { |obj| obj.decorator(observer: current_player) }.join(", ").capitalize + ".\n"
-      #   elsif Types::Game::GameObject.try(msg).success?
-      #     msg.decorator(observer: current_player).capitalize + ".\n"
-      #   else
-      #     "Error while sending message. Unknown type #{msg.inspect}\n"
-      #   end
-
-      # em_connection.send_data(to_send)
     end
 
     def pwrite(msg)

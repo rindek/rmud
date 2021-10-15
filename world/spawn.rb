@@ -24,5 +24,3 @@ NPC(
     "wydaje z siebie dźwięki: uuu, oooo",
   ],
 )
-
-# 500.times { Engine::Actions::Move.new.call(object: App[:game][:npcs]["main.ghost"], dest:  App[:game][:rooms]['main.spawn']) }
