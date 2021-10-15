@@ -25,11 +25,9 @@ module Engine
             end
           end
 
-        commands.resolve(String(cmd).to_sym).(player: player).(*args).or { |msg| client.write(msg) }
-      rescue Dry::Container::Error => e
-        raise(e) unless e.message.match(/Nothing registered with the key/)
-
-        client.write("Slucham?\n")
+        Try(Dry::Container::Error) { commands.resolve(String(cmd).to_sym) }.or do
+          Failure(client.write("Słucham?\n"))
+        end.bind { |cmd| cmd.(player: player).(*args).or { |msg| client.write(msg) } }
       end
 
       def prompt

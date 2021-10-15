@@ -17,5 +17,7 @@ App.boot(:settings, from: :system) do
     key :mongo_database, T::String.default("rmud_#{App.env}".freeze)
 
     key :redis_host, T::String.default("redis")
+
+    key :rollbar_token, T::String.default("token")
   end
 end

@@ -17,6 +17,10 @@ module Engine
       em_connection.send_data(msg)
     end
 
+    def pwrite(msg)
+      write(msg.capitalize + ending(msg))
+    end
+
     ## triggered from EM
     def receive_data(data, write_prompt: true)
       process_command.call(
@@ -39,9 +43,9 @@ module Engine
     end
 
     def current_player
-      Maybe(current_handler).fmap { |handler| handler.try(:player) }.bind do |player|
-        Entities::Game::Player.try(player).to_monad.to_maybe
-      end
+      Maybe(current_handler)
+        .fmap { |handler| handler.try(:player) }
+        .bind { |player| Entities::Game::Player.try(player).to_monad.to_maybe }
     end
 
     def current_handler
@@ -49,5 +53,9 @@ module Engine
     end
 
     private
+
+    def ending(message)
+      message.ends_with?(".") ? "\n" : ".\n"
+    end
   end
 end

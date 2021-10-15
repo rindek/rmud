@@ -4,6 +4,10 @@ module Engine
     class Abstract
       include Dry::Monads[:do, :result, :maybe, :try]
       extend Dry::Initializer
+
+      def self.call(...)
+        new.call(...)
+      end
     end
   end
 end

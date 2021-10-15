@@ -1,9 +1,24 @@
 # frozen_string_literal: true
 def Room(input)
   called_from = caller_locations.first.path
-  App[:game][:rooms].register(GameId(called_from), memoize: true) do
-    Entities::Game::Room.new(input.merge(id: GameId(called_from)))
+  id = input[:id] || GameId(called_from)
+  App[:game][:rooms].register(id, memoize: true) do
+    Entities::Game::Room
+      .new(input.merge(id: id))
+      .tap { |room| Dry::Monads.Maybe(room.callbacks[:after_load]).bind { |callback| callback.call(room) } }
   end
+end
+
+def Item(input)
+  called_from = caller_locations.first.path
+  id = input[:id] || GameId(called_from)
+  App[:game][:items].register(id, memoize: false) { Entities::Game::Item.new(input.merge(id: id)) }
+end
+
+def NPC(input)
+  called_from = caller_locations.first.path
+  id = input[:id] || GameId(called_from)
+  App[:game][:npcs].register(id, memoize: false) { Entities::Game::Creature.new(input.merge(id: id)) }
 end
 
 def Namespace(suffix)

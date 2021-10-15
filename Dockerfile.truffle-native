@@ -1,0 +1,13 @@
+FROM flavorjones/truffleruby:stable
+
+RUN mkdir -p /app/vendor/cache
+WORKDIR /app
+
+# add Gemfile & install dependencies
+ADD Gemfile* /app/
+ADD vendor/cache /app/vendor/cache
+
+RUN bundle install --jobs=8 --retry=3
+
+# add application code
+COPY . /app

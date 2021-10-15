@@ -18,22 +18,18 @@ module Engine
         end
 
         def present(room)
-          players = room.inventory.players(without: player).map(&:name)
+          players = room.inventory.players(without: player)
+          creatures = room.inventory.creatures
+          items = room.inventory.items
 
-          client.write("#{room.short}\n")
-          client.write("#{composite(players)}.\n") unless players.empty?
-          client.write("Wyjscia: #{room.exits.map(&:name).join(", ")}\n")
-        end
-
-        def composite(words)
-          case words
-          in first, second
-            [first, second].join(" i ")
-          in first, second, *rest
-            [[first, second].join(", "), rest].join(" i ")
-          else
-            words.first
+          client.pwrite(room.short)
+          if [players, creatures].any? { |x| !x.empty? }
+            client.pwrite(Mudlib::Decorate.call(objects: players + creatures, observer: player))
           end
+
+          # client.write(players + creatures) if [players, creatures].any? { |x| !x.empty? }
+          client.write(items) unless items.empty?
+          client.write("Wyjscia: #{room.exits.map(&:name).join(", ")}\n")
         end
       end
     end

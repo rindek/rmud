@@ -21,7 +21,7 @@ RSpec.describe Engine::Actions::Move do
       end
 
       it "removes itself from other inventory" do
-        expect { subject }.to change { other_dest.inventory.items }.from([object]).to([])
+        expect { subject }.to change { other_dest.inventory.elements }.from([object]).to([])
       end
     end
 
@@ -32,7 +32,7 @@ RSpec.describe Engine::Actions::Move do
     end
 
     it "object is inside destination inventory" do
-      expect { subject }.to change { dest.inventory.items }.from([]).to([object])
+      expect { subject }.to change { dest.inventory.elements }.from([]).to([object])
     end
   end
 

@@ -3,31 +3,43 @@ module Engine
   module Lib
     class Inventory < Abstract
       option :source, type: Types::Game::GameObject
-      option :items, type: Types::ConcurrentArray, default: -> { Concurrent::Array.new }
+      option :elements, type: Types::ConcurrentArray, default: -> { Concurrent::Array.new }
 
       def add(item)
         yield validate_item(item: item)
-        items << item
+        elements << item
 
         Success(item)
       end
 
       def remove(item)
-        Maybe(items.delete(item))
+        Maybe(elements.delete(item))
       end
 
       def has?(item)
-        items.include?(item)
+        elements.include?(item)
       end
 
       def inspect
-        "<Inventory of #{source.class}(#{source.object_id}) items=#{items.count}>"
+        "<Inventory of #{source.class}(#{source.object_id}) elements=#{elements.count}>"
+      end
+
+      def filter(entity:, without:)
+        elements.select { |item| item.is_a?(entity) }.then do |elements|
+          without ? elements.reject { |item| item == without } : elements
+        end
       end
 
       def players(without: nil)
-        items.select { |item| item.is_a?(Entities::Game::Player) }.then do |items|
-          without ? items.reject { |item| item == without } : items
-        end
+        filter(entity: Entities::Game::Player, without: without)
+      end
+
+      def creatures(without: nil)
+        filter(entity: Entities::Game::Creature, without: without)
+      end
+
+      def items(without: nil)
+        filter(entity: Entities::Game::Item, without: without)
       end
 
       private

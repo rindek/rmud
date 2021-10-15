@@ -17,7 +17,10 @@ module Engine
           handler.receive(input, client)
         rescue => e
           puts Backtrace.new(e)
-          client.write("Wystapil powazny blad")
+          pp error_data(input, client)
+
+          Rollbar.error(e, error_data(input, client))
+          client.write("Wystąpił poważny błąd.\n")
         ensure
           semaphore.release
           if write_prompt
@@ -39,6 +42,14 @@ module Engine
 
     def fetch_ivar
       @ivar && @ivar.pending? ? Some(@ivar) : None()
+    end
+
+    def error_data(input, client)
+      {
+        input: input,
+        current_handler: client.current_handler.class,
+        player_info: client.current_player.bind { |player| player.dump_info },
+      }
     end
   end
 end

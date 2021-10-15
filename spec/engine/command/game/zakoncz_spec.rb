@@ -4,7 +4,7 @@ RSpec.describe "Command.Game.zakoncz" do
     Engine::Commands::Game.resolve(:zakoncz).call(player: player).class.new(player: player, shutdown: shutdown_lib)
   end
 
-  subject { command.call }
+  subject { command.call("") }
   let(:shutdown_lib) { instance_double(Engine::Lib::Shutdown) }
 
   let(:player) { build(:game_player) }
