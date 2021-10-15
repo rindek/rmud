@@ -3,7 +3,10 @@ Room(
   id: Engine::Command::Login::Login::DEFAULT_SPAWN_ID,
   short: "spawn",
   long: "spawn",
-  exits: [{ to: Namespace("special_room"), name: "wyjscie", joiner: "w kierunku" }],
+  exits: [
+    { to: Namespace("special_room"), name: "wyjscie", joiner: "w kierunku" },
+    { to: "redania.novigrad.passiflora.rooms.common", name: "passiflora" },
+  ],
   callbacks: {
     after_load: ->(room) { Engine::Actions::Move.new.call(object: App[:game][:npcs]["main.ghost"], dest: room) },
   },

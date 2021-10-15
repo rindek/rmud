@@ -3,7 +3,7 @@ Room(
   long: "another room long",
   exits: [
     { to: Namespace("special_room"), name: "zachod" },
-    { to: "app.world.yet_another_room", name: "drzwi", joiner: "w kierunku" },
+    { to: "yet_another_room", name: "drzwi", joiner: "w kierunku" },
   ],
   callbacks: {
     before_leave: ->(obj) { obj.write("before leave.\n") },
