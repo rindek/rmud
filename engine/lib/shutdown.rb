@@ -7,7 +7,7 @@ module Engine
       end
 
       def after(player:)
-        App[:players].delete(player.name)
+        PLAYERS.delete(player.name)
       end
 
       def call(player:)

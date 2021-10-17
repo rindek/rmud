@@ -19,7 +19,7 @@ RSpec.describe Engine::Lib::Shutdown do
 
       it "removes itself from global PLAYER variable" do
         subject
-        expect(App[:players][player.name]).to be_nil
+        expect(PLAYERS[player.name]).to be_nil
       end
     end
   end

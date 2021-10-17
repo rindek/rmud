@@ -13,11 +13,12 @@ App.boot(:types) do
       end
 
       def self.Resolvable(type)
-        Types.Constructor(Proc) { |id| -> { App[:game][type].resolve(id) } }
+        Types.Constructor(Proc) { |id| -> { GAME[type].resolve(id) } }
       end
     end
 
     use :zeitwerk
+    use :core
 
     module ::Types
       module DB
@@ -39,6 +40,6 @@ App.boot(:types) do
     Dry::Types.load_extensions(:monads)
     Dry::Schema.load_extensions(:monads)
 
-    App[:game].register(:void, Types::Game::VOID)
+    GAME.register(:void, Types::Game::VOID)
   end
 end

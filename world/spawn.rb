@@ -1,5 +1,5 @@
 # encoding: UTF-8
-Room(
+Engine::Core.Room(
   id: Engine::Command::Login::Login::DEFAULT_SPAWN_ID,
   short: "spawn",
   long: "spawn",
@@ -8,14 +8,14 @@ Room(
     { to: "redania.novigrad.passiflora.rooms.common", name: "passiflora" },
   ],
   callbacks: {
-    after_load: ->(room) { Engine::Actions::Move.new.call(object: App[:game][:npcs]["main.ghost"], dest: room) },
+    after_load: ->(room) { Engine::Actions::Move.new.call(object: NPCS["main.ghost"], dest: room) },
   },
 )
 
-Item(id: "main.spawn.sztylet", name: "sztylet", adjectives: %w[długi ostry])
-Item(id: "main.spawn.miecz", name: "miecz", adjectives: %w[krótki tępy])
+Engine::Core.Item(id: "main.spawn.sztylet", name: "sztylet", adjectives: %w[długi ostry])
+Engine::Core.Item(id: "main.spawn.miecz", name: "miecz", adjectives: %w[krótki tępy])
 
-NPC(
+Engine::Core.NPC(
   id: "main.ghost",
   adjectives: %w[przyjacielski],
   name: "duch",

@@ -18,7 +18,7 @@ module Engine
           Maybe(args[0])
             .or { Failure("What do you want to clone?\n") }
             .bind do |key|
-              Try() { App[:game][:items].resolve(key) }
+              Try() { ITEMS.resolve(key) }
                 .to_result
                 .either(
                   ->(item) do

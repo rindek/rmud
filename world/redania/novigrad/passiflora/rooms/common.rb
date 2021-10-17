@@ -1,4 +1,4 @@
-Room(
+Engine::Core.Room(
   short: "Passiflora common room",
   long: "Passiflora common room. There are a lot of guests",
   exits: [
@@ -7,7 +7,7 @@ Room(
   ],
   callbacks: {
     after_load: ->(room) do
-      Engine::Actions::Move.new.call(object: App[:game][:npcs]["redania.novigrad.passiflora.npcs.Narcissa"], dest: room)
+      Engine::Actions::Move.new.call(object: NPCS["redania.novigrad.passiflora.npcs.Narcissa"], dest: room)
     end,
   },
 )
