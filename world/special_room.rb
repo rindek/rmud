@@ -2,8 +2,8 @@ Engine::Core.Room(
   short: "a spawn room short",
   long: "a long room long",
   exits: [
-    { to: "another_room", name: "wschod" },
-    { to: "yet_another_room", name: "drzwi", joiner: "przez" },
+    { to: Relative("another_room"), name: "wschod" },
+    { to: Relative("yet_another_room"), name: "drzwi", joiner: "przez" },
     { to: Engine::Command::Login::Login::DEFAULT_SPAWN_ID, name: "spawn" },
   ],
   callbacks: {

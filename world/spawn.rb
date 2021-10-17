@@ -4,8 +4,8 @@ Engine::Core.Room(
   short: "spawn",
   long: "spawn",
   exits: [
-    { to: Namespace("special_room"), name: "wyjscie", joiner: "w kierunku" },
-    { to: "redania.novigrad.passiflora.rooms.common", name: "passiflora" },
+    { to: Relative("special_room"), name: "wyjscie", joiner: "w kierunku" },
+    { to: "world.redania.novigrad.passiflora.rooms.common", name: "passiflora" },
   ],
   callbacks: {
     after_load: ->(room) { Engine::Actions::Move.new.call(object: NPCS["main.ghost"], dest: room) },

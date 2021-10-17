@@ -2,7 +2,7 @@ Engine::Core.Room(
   short: "another room short",
   long: "another room long",
   exits: [
-    { to: Namespace("special_room"), name: "zachod" },
+    { to: Relative("special_room"), name: "zachod" },
     { to: "yet_another_room", name: "drzwi", joiner: "w kierunku" },
   ],
   callbacks: {

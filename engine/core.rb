@@ -3,8 +3,7 @@ module Engine
     module_function
 
     def Room(input)
-      called_from = caller_locations.first.path
-      id = input[:id] || GameID(called_from)
+      id = input[:id] || GameID(caller_locations.first.path)
       ROOMS.register(id, memoize: true) do
         Entities::Game::Room
           .new(input.merge(id: id))
@@ -13,14 +12,12 @@ module Engine
     end
 
     def Item(input)
-      called_from = caller_locations.first.path
-      id = input[:id] || GameID(called_from)
+      id = input[:id] || GameID(caller_locations.first.path)
       ITEMS.register(id, memoize: false) { Entities::Game::Item.new(input.merge(id: id)) }
     end
 
     def NPC(input)
-      called_from = caller_locations.first.path
-      id = input[:id] || GameID(called_from)
+      id = input[:id] || GameID(caller_locations.first.path)
       NPCS.register(id, memoize: false) { Entities::Game::Creature.new(input.merge(id: id)) }
     end
 
@@ -32,6 +29,10 @@ module Engine
         .split("/")
         .reject(&:empty?)
         .join(".")
+    end
+
+    def Relative(path, from = caller_locations.first.path)
+      Pathname(from[4..]).dirname.join(path).to_s.gsub(%r{\/}, ".")[1..]
     end
   end
 end
