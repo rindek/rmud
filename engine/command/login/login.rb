@@ -34,15 +34,15 @@ module Engine
         end
 
         def in_game?(name)
-          App[:players].key?(name)
+          PLAYERS.key?(name)
         end
 
         def spawn(player, client)
           entity = Entities::Game::Player.new(data: player, client: client)
-          App[:players][player.name] = entity
+          PLAYERS[player.name] = entity
           entity.client.handler = Engine::Handlers::Game.new(player: entity)
 
-          room_to_move = App[:game][:rooms][DEFAULT_SPAWN_ID]
+          room_to_move = ROOMS[DEFAULT_SPAWN_ID]
 
           Engine::Events::Rooms::BeforeEnter.call(who: entity, to_room: room_to_move)
           yield (
@@ -62,8 +62,8 @@ module Engine
         end
 
         def take_control(name, client)
-          client.handler = Engine::Handlers::Game.new(player: App[:players][name])
-          App[:players][name].replace_client(client)
+          client.handler = Engine::Handlers::Game.new(player: PLAYERS[name])
+          PLAYERS[name].replace_client(client)
           Success()
         end
       end
