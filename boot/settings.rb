@@ -18,6 +18,6 @@ App.boot(:settings, from: :system) do
 
     key :redis_host, T::String.default("redis")
 
-    key :rollbar_token, T::String.default(ENV["ROLLBAR_TOKEN"])
+    key :rollbar_token, T::String.default(ENV["ROLLBAR_TOKEN"] || "token")
   end
 end
