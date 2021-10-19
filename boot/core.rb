@@ -7,13 +7,9 @@ App.boot(:core) do
     ITEMS = Containers::Items
     NPCS = Containers::NPCS
     PLAYERS = Concurrent::Hash.new
-
-    def Namespace(suffix)
-      raise "replace me with Relative in #{caller_locations.first.path}"
-    end
   end
 end
 
 def Relative(path)
-  Engine::Core.Relative(path)
+  Engine::Core.Relative(path, caller_locations.first.path)
 end
