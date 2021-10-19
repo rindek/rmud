@@ -25,7 +25,9 @@ module Engine
                     Engine::Actions::Move
                       .new
                       .call(object: item, dest: player)
-                      .fmap { player.write("%s cloned to your inventory.\n" % [item.present.capitalize]) }
+                      .fmap do
+                        player.write("%s cloned to your inventory.\n" % [item.decorator(observer: player).capitalize])
+                      end
                       .or do |failure|
                         App[:logger].debug(failure)
                         Failure("Something went wrong, check logs.\n")
