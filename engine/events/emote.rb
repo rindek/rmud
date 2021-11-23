@@ -4,7 +4,7 @@ module Engine
     class Emote < Base
       Schema =
         Dry::Schema.Params do
-          required(:who).filled(Types.Interface(:present))
+          required(:who).filled(Types.Interface(:observer))
           required(:what).filled(Types::String)
           required(:where).filled(Types::Game::Environment)
         end
@@ -13,7 +13,7 @@ module Engine
         where
           .inventory
           .players(without: who)
-          .each { |player| player.write("%s %s.\n" % [who.present.capitalize, what]) }
+          .each { |player| player.pwrite("%s %s" % [who.decorator(observer: player), what]) }
 
         Success()
       end
