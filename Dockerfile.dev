@@ -8,7 +8,7 @@ RUN apk --update add git libpq libxslt tzdata less
 
 RUN apk --update add --virtual build_deps \
     build-base libc-dev linux-headers \
-    openssl-dev libxml2-dev libxslt-dev
+    openssl-dev libxml2-dev libxslt-dev postgresql-dev
 
 # add Gemfile & install dependencies
 ADD Gemfile* /app/
