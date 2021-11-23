@@ -10,7 +10,7 @@ module Entities
       delegate :write, :pwrite, to: :client
       delegate :name, to: :data
 
-      def decorator(against:)
+      def decorator(observer:)
         name.capitalize
       end
 
