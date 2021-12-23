@@ -4,7 +4,7 @@ module Engine
     class Emote < Base
       Schema =
         Dry::Schema.Params do
-          required(:who).filled(Types.Interface(:observer))
+          required(:who).filled(Types.Interface(:decorator))
           required(:what).filled(Types::String)
           required(:where).filled(Types::Game::Environment)
         end
