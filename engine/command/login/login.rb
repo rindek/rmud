@@ -21,7 +21,7 @@ module Engine
         private
 
         def find_player(name)
-          players.find_by(name: name).or { Failure("Nie ma takiego gracza #{name}.\n") }
+          players.find_by_name(name: name).or { Failure("Nie ma takiego gracza #{name}.\n") }
         end
 
         def get_password

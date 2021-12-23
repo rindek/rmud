@@ -12,6 +12,8 @@ module Repos
     option :dataset, default: -> { raise "dataset must be set" }
     option :entity, default: -> { raise "entity must be set" }
 
+    private
+
     def first
       find_by({})
     end
@@ -27,8 +29,6 @@ module Repos
     def each(&block)
       dataset.find({}).each { |document| block.call(wrap(document)) }
     end
-
-    private
 
     def wrap(record)
       entity.new(record)
