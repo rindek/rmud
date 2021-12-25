@@ -5,9 +5,5 @@ Engine::Core.Room(
     { to: Relative("secret/secret_room"), name: "north" },
     { to: Engine::Command::Login::Login::DEFAULT_SPAWN_ID, name: "outside" },
   ],
-  callbacks: {
-    after_load: ->(room) do
-      Engine::Actions::Move.new.call(object: NPCS["world.redania.novigrad.passiflora.npcs.Narcissa"], dest: room)
-    end,
-  },
+  spawn: -> { [NPCS[Relative("../npcs/Narcissa")]] },
 )

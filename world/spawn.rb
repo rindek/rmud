@@ -7,9 +7,14 @@ Engine::Core.Room(
     { to: Relative("special_room"), name: "wyjscie", joiner: "w kierunku" },
     { to: "world.redania.novigrad.passiflora.rooms.common", name: "passiflora" },
   ],
-  callbacks: {
-    after_load: ->(room) { Engine::Actions::Move.new.call(object: NPCS["main.ghost"], dest: room) },
-  },
+  spawn: -> do
+    [
+      NPCS["main.ghost"],
+      ITEMS["main.spawn.sztylet"],
+      ITEMS["main.spawn.miecz"],
+      ITEMS[Relative("redania/novigrad/passiflora/items/knife")],
+    ]
+  end,
 )
 
 Engine::Core.Item(id: "main.spawn.sztylet", name: "sztylet", adjectives: %w[długi ostry])

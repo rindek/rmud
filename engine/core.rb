@@ -7,6 +7,7 @@ module Engine
       ROOMS.register(id, memoize: true) do
         Entities::Game::Room
           .new(input.merge(id: id))
+          .tap { |room| room.spawn.().each { |object| Engine::Actions::Move.call(object: object, dest: room) } }
           .tap { |room| Dry::Monads.Maybe(room.callbacks[:after_load]).bind { |callback| callback.call(room) } }
       end
     end

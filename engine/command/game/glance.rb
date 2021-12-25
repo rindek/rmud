@@ -27,8 +27,7 @@ module Engine
             client.pwrite(Mudlib::Decorate.call(objects: players + creatures, observer: player))
           end
 
-          # client.write(players + creatures) if [players, creatures].any? { |x| !x.empty? }
-          client.write(items) unless items.empty?
+          client.pwrite(Mudlib::Decorate.call(objects: items, observer: player)) unless items.empty?
           client.write("Wyjscia: #{room.exits.map(&:name).join(", ")}\n")
         end
       end
