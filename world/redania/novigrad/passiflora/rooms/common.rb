@@ -5,5 +5,7 @@ Engine::Core.Room(
     { to: Relative("secret/secret_room"), name: "north" },
     { to: Engine::Command::Login::Login::DEFAULT_SPAWN_ID, name: "outside" },
   ],
-  spawn: -> { [NPCS[Relative("../npcs/Narcissa")]] },
+  callbacks: {
+    after_load: -> { _1.spawn(NPCS[Relative("../npcs/Narcissa")]) },
+  },
 )

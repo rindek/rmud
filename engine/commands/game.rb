@@ -42,7 +42,14 @@ module Engine
       register_command(
         :i,
         ->(player, *args) do
-          Success(player.pwrite(Mudlib::Decorate.call(objects: player.inventory.items, observer: player)))
+          message =
+            Mudlib::Decorate.call(
+              objects: player.inventory.items,
+              observer: player,
+              when_empty: "Nie masz nic przy sobie",
+            )
+
+          Success(player.pwrite(message))
         end,
       )
 

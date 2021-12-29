@@ -7,14 +7,15 @@ Engine::Core.Room(
     { to: Relative("special_room"), name: "wyjscie", joiner: "w kierunku" },
     { to: "world.redania.novigrad.passiflora.rooms.common", name: "passiflora" },
   ],
-  spawn: -> do
-    [
-      NPCS["main.ghost"],
-      ITEMS["main.spawn.sztylet"],
-      ITEMS["main.spawn.miecz"],
-      ITEMS[Relative("redania/novigrad/passiflora/items/knife")],
-    ]
-  end,
+  callbacks: {
+    after_load: -> do
+      _1.spawn(
+        NPCS["main.ghost"],
+        ITEMS["main.spawn.sztylet"],
+        ITEMS[Relative("redania/novigrad/passiflora/items/knife")],
+      )
+    end,
+  },
 )
 
 Engine::Core.Item(id: "main.spawn.sztylet", name: "sztylet", adjectives: %w[długi ostry])
