@@ -4,6 +4,9 @@ App.boot(:server) do |app|
     use :requirements
     app[:loader].eager_load
 
+    ## database indices - find a better place to handle these
+    app[:mongo][:dictionary].indexes.create_one({ "pojedyncza.mianownik": 1 }, unique: true)
+
     ## Load all world
     use :world
 

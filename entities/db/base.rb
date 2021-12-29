@@ -2,7 +2,7 @@
 module Entities
   module DB
     class Base < Abstract
-      attribute :_id, Types::BSON
+      attribute? :_id, Types::BSON
 
       def id
         String(_id)

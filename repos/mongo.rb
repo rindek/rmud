@@ -37,5 +37,9 @@ module Repos
     def wrap_many(records)
       records.map { |record| wrap(record) }
     end
+
+    def insert(attrs)
+      Try() { entity.new(attrs.merge(_id: BSON::ObjectId.new)).tap { |e| dataset.insert_one(e.to_h) } }.to_result
+    end
   end
 end
