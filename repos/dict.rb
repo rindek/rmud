@@ -5,10 +5,10 @@ module Repos
     option :entity, default: -> { Entities::DB::Dict }
 
     def find(name)
-      find_by("pojedyncza.mianownik": name)
+      find_by(nazwa: name)
     end
 
-    def create_entry(singular, plural, type)
+    def create_entry(name, singular, plural, type)
       type_check = Types::Array.of(Types::String).constrained(size: 7)
       yield (
         Try() do
@@ -18,6 +18,7 @@ module Repos
       )
 
       data = {
+        nazwa: name,
         pojedyncza: {
           mianownik: singular[0],
           dopelniacz: singular[1],

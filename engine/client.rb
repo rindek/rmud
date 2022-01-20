@@ -23,12 +23,16 @@ module Engine
 
     ## triggered from EM
     def receive_data(data, write_prompt: true)
-      process_command.call(
-        input: (queue << data.chomp).shift,
-        handler: current_handler,
-        client: self,
-        write_prompt: write_prompt,
-      )
+      if data.ascii_only?
+        process_command.call(
+          input: (queue << data.chomp).shift,
+          handler: current_handler,
+          client: self,
+          write_prompt: write_prompt,
+        )
+      else
+        pwrite("invalid input received")
+      end
     end
 
     def read_client

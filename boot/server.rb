@@ -6,6 +6,7 @@ App.boot(:server) do |app|
 
     ## database indices - find a better place to handle these
     app[:mongo][:dictionary].indexes.create_one({ "pojedyncza.mianownik": 1 }, unique: true)
+    app[:mongo][:dictionary].indexes.create_one({ "nazwa": 1 }, unique: true)
 
     ## Load all world
     use :world

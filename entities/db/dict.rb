@@ -2,6 +2,8 @@
 module Entities
   module DB
     class Dict < Base
+      attribute :nazwa, Types::String
+
       attribute :pojedyncza do
         attribute :mianownik, Types::String
         attribute :dopelniacz, Types::String
