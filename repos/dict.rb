@@ -8,6 +8,10 @@ module Repos
       find_by(nazwa: name)
     end
 
+    def for_each(&block)
+      each_batch(&block)
+    end
+
     def create_entry(name, singular, plural, type)
       type_check = Types::Array.of(Types::String).constrained(size: 7)
       yield (

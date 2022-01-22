@@ -7,6 +7,7 @@ App.boot(:core) do
     ITEMS = Containers::Items
     NPCS = Containers::NPCS
     PLAYERS = Concurrent::Hash.new
+    DICTIONARY = Containers::Dictionary
   end
 end
 

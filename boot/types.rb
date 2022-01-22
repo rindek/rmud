@@ -23,6 +23,7 @@ App.boot(:types) do
     module ::Types
       module DB
         Player = Types.Instance(Entities::DB::Player)
+        Dict = Types.Instance(Entities::DB::Dict)
       end
 
       module Game

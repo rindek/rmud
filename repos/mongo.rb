@@ -4,6 +4,8 @@ module Repos
     extend Dry::Initializer
     include Dry::Monads[:result, :do, :maybe, :try]
 
+    DEFAULT_BATCH_SIZE = 1000.freeze
+
     module T
       extend Dry::Transformer::Registry
       import Dry::Transformer::HashTransformations
@@ -26,8 +28,12 @@ module Repos
       dataset.find(args).to_a.then { |records| records.empty? ? None() : Some(wrap_many(records)) }
     end
 
-    def each(&block)
-      dataset.find({}).each { |document| block.call(wrap(document)) }
+    def each_batch(size: DEFAULT_BATCH_SIZE, &block)
+      each(batch_size: size, &block)
+    end
+
+    def each(opts = {}, &block)
+      dataset.find({}, opts).each { |document| block.call(wrap(document)) }
     end
 
     def wrap(record)
