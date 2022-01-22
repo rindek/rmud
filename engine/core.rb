@@ -1,5 +1,8 @@
 module Engine
   module Core
+    include Dry::Monads[:try]
+    extend Dry::Monads[:result]
+
     module_function
 
     def Room(input)
