@@ -10,6 +10,8 @@ module Entities
       def decorator(observer:)
         [adjectives, name].flatten.join(" ")
       end
+
+      include Traits::Matchable
     end
   end
 end

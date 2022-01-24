@@ -54,6 +54,7 @@ module Engine
       )
 
       register(:spojrz) { |player:| Engine::Command::Game::Glance.new(player: player) }
+      register(:wez) { |player:| Engine::Command::Game::Take.new(player: player) }
     end
   end
 end

@@ -11,15 +11,39 @@ Engine::Core.Room(
     after_load: -> do
       _1.spawn(
         NPCS["main.ghost"],
-        ITEMS["main.spawn.sztylet"],
+        WEAPONS["main.spawn.sztylet"],
         WEAPONS[Relative("redania/novigrad/passiflora/items/knife")],
       )
     end,
   },
 )
 
-Engine::Core.Item(id: "main.spawn.sztylet", name: "sztylet", adjectives: %w[długi ostry])
-Engine::Core.Item(id: "main.spawn.miecz", name: "miecz", adjectives: %w[krótki tępy])
+Engine::Core.Weapon(
+  id: "main.spawn.sztylet",
+  name: "sztylet",
+  adjectives: %w[długi ostry tępy wielki],
+  hit_type: [Constants::Game::Weapon::HitType::PIERCE, Constants::Game::Weapon::HitType::SLASH],
+  hand: Constants::Game::Weapon::Hand::SINGLE,
+  dps: 8.0,
+  level: 1,
+  bonus: {
+    dexterity: 1,
+  },
+  durability: 20,
+  weight: 1.0,
+)
+
+Engine::Core.Weapon(
+  id: "main.spawn.miecz",
+  name: "miecz",
+  adjectives: %w[krótki tępy],
+  hit_type: [Constants::Game::Weapon::HitType::SLASH],
+  hand: Constants::Game::Weapon::Hand::SINGLE,
+  dps: 7.5,
+  level: 1,
+  durability: 20,
+  weight: 1.5,
+)
 
 Engine::Core.NPC(
   id: "main.ghost",
