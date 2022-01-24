@@ -55,6 +55,7 @@ module Engine
 
       register(:spojrz) { |player:| Engine::Command::Game::Glance.new(player: player) }
       register(:wez) { |player:| Engine::Command::Game::Take.new(player: player) }
+      register(:odloz) { |player:| Engine::Command::Game::Drop.new(player: player) }
     end
   end
 end
