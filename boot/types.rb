@@ -33,6 +33,16 @@ App.boot(:types) do
         GameObject = Types.Instance(Entities::Game::GameObject)
         MovableObject = Types.Instance(Entities::Game::MovableObject)
         Environment = Types.Interface(:inventory)
+        Rarity =
+          Types::Symbol
+            .default(Constants::Game::Rarities::COMMON)
+            .enum(
+              Constants::Game::Rarities::COMMON,
+              Constants::Game::Rarities::UNCOMMON,
+              Constants::Game::Rarities::RARE,
+              Constants::Game::Rarities::EPIC,
+              Constants::Game::Rarities::QUEST,
+            )
 
         VOID = :void.freeze
       end
