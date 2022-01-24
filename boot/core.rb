@@ -5,6 +5,7 @@ App.boot(:core) do
     GAME = Containers::Game
     ROOMS = Containers::Rooms
     ITEMS = Containers::Items
+    WEAPONS = Containers::Weapons
     NPCS = Containers::NPCS
     PLAYERS = Concurrent::Hash.new
     DICTIONARY = Containers::Dictionary

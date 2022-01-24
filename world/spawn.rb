@@ -12,7 +12,7 @@ Engine::Core.Room(
       _1.spawn(
         NPCS["main.ghost"],
         ITEMS["main.spawn.sztylet"],
-        ITEMS[Relative("redania/novigrad/passiflora/items/knife")],
+        WEAPONS[Relative("redania/novigrad/passiflora/items/knife")],
       )
     end,
   },

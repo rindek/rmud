@@ -19,6 +19,11 @@ module Engine
       ITEMS.register(id, memoize: false) { Entities::Game::Item.new(input.merge(id: id)) }
     end
 
+    def Weapon(input)
+      id = input[:id] || GameID(caller_locations.first.path)
+      WEAPONS.register(id, memoize: false) { Entities::Game::Weapon.new(input.merge(id: id)) }
+    end
+
     def NPC(input)
       id = input[:id] || GameID(caller_locations.first.path)
       NPCS.register(id, memoize: false) { Entities::Game::Creature.new(input.merge(id: id)) }
