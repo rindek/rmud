@@ -5,7 +5,7 @@ module Entities
       attribute :id, Types::String
       attribute :adjectives, Types::Array.of(Types::String)
       attribute :name, Types::String
-      attribute :rarity, Types::Game::Rarity
+      attribute :rarity, Types::Game::Item::Rarity
 
       def decorator(observer:)
         [adjectives, name].flatten.join(" ")

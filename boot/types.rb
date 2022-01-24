@@ -33,16 +33,45 @@ App.boot(:types) do
         GameObject = Types.Instance(Entities::Game::GameObject)
         MovableObject = Types.Instance(Entities::Game::MovableObject)
         Environment = Types.Interface(:inventory)
-        Rarity =
-          Types::Symbol
-            .default(Constants::Game::Rarities::COMMON)
-            .enum(
-              Constants::Game::Rarities::COMMON,
-              Constants::Game::Rarities::UNCOMMON,
-              Constants::Game::Rarities::RARE,
-              Constants::Game::Rarities::EPIC,
-              Constants::Game::Rarities::QUEST,
+
+        module Creature
+          Attribute =
+            Types::Symbol.enum(
+              Constants::Game::Creature::Attribute::STRENGTH,
+              Constants::Game::Creature::Attribute::DEXTERITY,
+              Constants::Game::Creature::Attribute::STAMINA,
+              Constants::Game::Creature::Attribute::INTELLIGENCE,
+              Constants::Game::Creature::Attribute::WISDOM,
             )
+        end
+
+        module Item
+          Rarity =
+            Types::Symbol
+              .default(Constants::Game::Item::Rarity::COMMON)
+              .enum(
+                Constants::Game::Item::Rarity::COMMON,
+                Constants::Game::Item::Rarity::UNCOMMON,
+                Constants::Game::Item::Rarity::RARE,
+                Constants::Game::Item::Rarity::EPIC,
+                Constants::Game::Item::Rarity::QUEST,
+              )
+
+          Bonus = Types::Hash.map(Types::Game::Creature::Attribute, Types::Integer)
+        end
+
+        module Weapon
+          HitType =
+            Types::Array.of(
+              Types::Symbol.enum(
+                Constants::Game::Weapon::HitType::PIERCE,
+                Constants::Game::Weapon::HitType::SLASH,
+                Constants::Game::Weapon::HitType::BLUNT,
+              ),
+            )
+
+          Hand = Types::Symbol.enum(Constants::Game::Weapon::Hand::SINGLE, Constants::Game::Weapon::Hand::BOTH)
+        end
 
         VOID = :void.freeze
       end
