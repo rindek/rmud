@@ -10,6 +10,21 @@ module Entities
       delegate :write, :pwrite, to: :client
       delegate :name, to: :data
 
+      def slots
+        @slots ||=
+          {
+            head: None(),
+            torso: None(),
+            legs: None(),
+            neck: None(),
+            left_finger: None(),
+            right_finger: None(),
+            feet: None(),
+            left_hand: None(),
+            right_hand: None(),
+          }
+      end
+
       def decorator(observer:)
         name.capitalize
       end

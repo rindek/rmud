@@ -25,9 +25,7 @@ module Engine
       end
 
       def filter(entity:, without:)
-        elements.select { |item| item.is_a?(entity) }.then do |elements|
-          without ? elements.reject { |item| item == without } : elements
-        end
+        elements.select { |item| item.is_a?(entity) }.then { |elements| without ? elements - Array(without) : elements }
       end
 
       def players(without: nil)
@@ -40,6 +38,10 @@ module Engine
 
       def items(without: nil)
         filter(entity: Entities::Game::Item, without: without)
+      end
+
+      def weapons(without: nil)
+        filter(entity: Entities::Game::Weapon, without: without)
       end
 
       private

@@ -42,9 +42,20 @@ module Engine
       register_command(
         :i,
         ->(player, *args) do
+          to_filter_out = []
+
+          player.slots[:left_hand].bind do
+            to_filter_out << _1
+            player.pwrite("W lewej ręce trzymasz #{_1.decorator(observer: player)}")
+          end
+          player.slots[:right_hand].bind do
+            to_filter_out << _1
+            player.pwrite("W prawej ręce trzymasz #{_1.decorator(observer: player)}")
+          end
+
           message =
             Mudlib::Decorate.call(
-              objects: player.inventory.items,
+              objects: player.inventory.items.without(to_filter_out),
               observer: player,
               when_empty: "Nie masz nic przy sobie",
             )
@@ -56,6 +67,8 @@ module Engine
       register(:spojrz) { |player:| Engine::Command::Game::Glance.new(player: player) }
       register(:wez) { |player:| Engine::Command::Game::Take.new(player: player) }
       register(:odloz) { |player:| Engine::Command::Game::Drop.new(player: player) }
+      register(:dobadz) { |player:| Engine::Command::Game::Wield.new(player: player) }
+      register(:opusc) { |player:| Engine::Command::Game::Unwield.new(player: player) }
     end
   end
 end
