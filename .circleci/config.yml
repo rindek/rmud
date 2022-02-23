@@ -34,6 +34,13 @@ jobs:
       - run:
           command: bundle audit
 
+  for_status:
+    docker:
+      - image: busybox
+    steps:
+      - run:
+          command: echo ok
+
   test:
     parameters:
       ruby:
@@ -90,3 +97,7 @@ workflows:
               redis: ["5.0", "6.0", "6.2"]
           requires:
             - build
+      - for_status:
+          requires:
+            - test
+            - audit
