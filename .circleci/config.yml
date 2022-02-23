@@ -24,6 +24,19 @@ jobs:
           command: bundle -v
       - ruby/install-deps
 
+  brakeman:
+    parameters:
+      ruby:
+        type: string
+    docker:
+      - image: cimg/ruby:<< parameters.ruby >>
+    steps:
+      - checkout
+      - run:
+          command: gem install brakeman
+      - run:
+          command: brakeman -f plain -z --report-direct -w3
+
   test:
     parameters:
       ruby:
@@ -62,16 +75,19 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results/rspec/results.xml
 
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  workflow:
     jobs:
       - build:
           matrix:
             parameters:
               ruby: ["3.0"]
+      - brakeman:
+          matrix:
+            parameters:
+              ruby: ["3.0"]
+          requires:
+            - build
       - test:
           matrix:
             parameters:
@@ -80,38 +96,3 @@ workflows:
               redis: ["5.0", "6.0", "6.2"]
           requires:
             - build
-
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     ruby: ["3.0"]
-    #     mongodb: ["4.0", "4.2", "4.4"]
-    #     redis: ["5.0", "6.0", "6.2"]
-
-    # name: Ruby ${{ matrix.ruby }}, MongoDB ${{ matrix.mongodb }}, Redis ${{ matrix.redis }}
-    # services:
-    #   mongodb:
-    #     image: mongo:${{ matrix.mongodb }}
-    #     ports:
-    #       - 27017:27017
-
-    #   redis:
-    #     image: redis:${{ matrix.redis }}
-    #     ports:
-    #       - 6379:6379
-
-    # steps:
-    #   - uses: actions/checkout@v2
-    #   - name: Set up Ruby
-    #     uses: ruby/setup-ruby@v1
-    #     with:
-    #       ruby-version: ${{ matrix.ruby }}
-    #   - name: Install dependencies
-    #     run: bundle install
-    #   - name: Setup db, run tests
-    #     env:
-    #       STAGE: test
-    #       MONGO_HOST: localhost
-    #       REDIS_HOST: localhost
-    #     run: |
-    #       bundle exec rspec -f progress
