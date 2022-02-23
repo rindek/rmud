@@ -12,7 +12,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/ruby:3.0
+      - image: cimg/ruby:<< matrix.ruby >>
     executor: ruby/default
     steps:
       - checkout
@@ -24,13 +24,13 @@ jobs:
   test:
     parallelism: 2
     docker:
-      - image: cimg/ruby:3.0
+      - image: cimg/ruby:<< matrix.ruby >>
         environment:
           - STAGE: test
           - MONGO_HOST: localhost
           - REDIS_HOST: localhost
-      - image: mongo:4.2
-      - image: redis:6.2
+      - image: mongo:<< matrix.mongodb >>
+      - image: redis:<< matrix.redis >>
 
     steps:
       - checkout
@@ -58,10 +58,25 @@ workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build
+      - build:
+          matrix:
+            parameters:
+              ruby: ["3.0"]
       - test:
+          matrix:
+            parameters:
+              ruby: ["3.0"]
+              mongodb: ["4.0", "4.2", "4.4"]
+              redis: ["5.0", "6.0", "6.2"]
           requires:
             - build
+
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     ruby: ["3.0"]
+    #     mongodb: ["4.0", "4.2", "4.4"]
+    #     redis: ["5.0", "6.0", "6.2"]
 
     # name: Ruby ${{ matrix.ruby }}, MongoDB ${{ matrix.mongodb }}, Redis ${{ matrix.redis }}
     # services:
