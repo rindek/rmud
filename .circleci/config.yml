@@ -41,9 +41,12 @@ jobs:
           command: "dockerize -wait tcp://localhost:6379 -timeout 1m"
           name: Wait for Redis
       - run:
-          command: shopt -s globstar
-      - ruby/rspec-test:
-          include: spec/**/*_spec.rb
+          command: |
+            shopt -s globstar
+            mkdir -p /tmp/test-results/rspec
+            TESTFILES=$(circleci tests glob spec/**/*_spec.rb | circleci tests split --split-by=timings)
+            bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out /tmp/test-results/rspec/results.xml --format progress
+          name: Run rspec
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
