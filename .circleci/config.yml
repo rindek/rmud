@@ -11,8 +11,11 @@ orbs:
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
   build:
+    parameters:
+      ruby:
+        type: string
     docker:
-      - image: cimg/ruby:<< matrix.ruby >>
+      - image: cimg/ruby:<< parameters.ruby >>
     executor: ruby/default
     steps:
       - checkout
@@ -22,15 +25,22 @@ jobs:
       - ruby/install-deps
 
   test:
+    parameters:
+      ruby:
+        type: string
+      mongodb:
+        type: string
+      redis:
+        type: string
     parallelism: 2
     docker:
-      - image: cimg/ruby:<< matrix.ruby >>
+      - image: cimg/ruby:<< parameters.ruby >>
         environment:
           - STAGE: test
           - MONGO_HOST: localhost
           - REDIS_HOST: localhost
-      - image: mongo:<< matrix.mongodb >>
-      - image: redis:<< matrix.redis >>
+      - image: mongo:<< parameters.mongodb >>
+      - image: redis:<< parameters.redis >>
 
     steps:
       - checkout
