@@ -24,18 +24,15 @@ jobs:
           command: bundle -v
       - ruby/install-deps
 
-  brakeman:
-    parameters:
-      ruby:
-        type: string
+  audit:
     docker:
-      - image: cimg/ruby:<< parameters.ruby >>
+      - image: cimg/ruby:3.0
     steps:
       - checkout
       - run:
-          command: gem install brakeman
+          command: gem install bundle-audit
       - run:
-          command: brakeman -f plain -z --report-direct -w3
+          command: bundle audit
 
   test:
     parameters:
@@ -82,10 +79,7 @@ workflows:
           matrix:
             parameters:
               ruby: ["3.0"]
-      - brakeman:
-          matrix:
-            parameters:
-              ruby: ["3.0"]
+      - audit:
           requires:
             - build
       - test:
