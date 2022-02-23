@@ -40,6 +40,8 @@ jobs:
       - run:
           command: "dockerize -wait tcp://localhost:6379 -timeout 1m"
           name: Wait for Redis
+      - run:
+          command: shopt -s globstar
       - ruby/rspec-test:
           include: spec/**/*_spec.rb
 
