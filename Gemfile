@@ -29,4 +29,5 @@ group :test, :development do
   gem "rspec"
   gem "rspec-json_expectations"
   gem "shoulda-matchers"
+  gem "rspec_junit_formatter"
 end
