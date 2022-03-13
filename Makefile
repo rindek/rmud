@@ -60,3 +60,6 @@ run:
 
 run-prod:
 	ruby --jvm rmud.rb
+
+seed:
+	bundle exec rake world:seed
