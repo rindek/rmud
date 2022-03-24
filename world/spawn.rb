@@ -13,6 +13,7 @@ Engine::Core.Room(
         NPCS["main.ghost"],
         WEAPONS["main.spawn.sztylet"],
         WEAPONS[Relative("redania/novigrad/passiflora/items/knife")],
+        ITEMS["main.spawn.fajka"],
       )
     end,
   },
@@ -44,6 +45,8 @@ Engine::Core.Weapon(
   durability: 20,
   weight: 1.5,
 )
+
+Engine::Core.Item(id: "main.spawn.fajka", name: "fajka", adjectives: %w[krótka])
 
 Engine::Core.NPC(
   id: "main.ghost",

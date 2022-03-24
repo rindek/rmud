@@ -11,7 +11,7 @@ module Engine
 
           return Failure("Odłóż <co>?\n") unless item
 
-          yield Engine::Actions::Move.call(object: item, dest: player.current_environment)
+          yield Engine::Actions::Drop.call(item: item, player: player)
 
           client.pwrite("Odkładasz #{item.decorator(observer: player)}")
           Success()

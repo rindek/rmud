@@ -21,6 +21,8 @@ App.boot(:import) do
           Engine::Lib::Shutdown.new
         end
       end
+
+      register("core") { Engine::Core }
     end
 
     Import = Dry.AutoInject(ImportContainer)

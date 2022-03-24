@@ -42,5 +42,9 @@ module Engine
     def Relative(path, from = caller_locations.first.path)
       Pathname(from[4..]).dirname.join(path).to_s.gsub(%r{\/}, ".")[1..]
     end
+
+    def weapon?(item)
+      Entities::Game::Weapon === item
+    end
   end
 end

@@ -3,31 +3,28 @@ source "https://rubygems.org"
 gem "activesupport", require: "active_support/all"
 gem "backtrace"
 gem "bcrypt"
-
 gem "dry-auto_inject"
-gem "dry-monads", require: "dry/monads/all"
-gem "dry-types"
 gem "dry-initializer"
+gem "dry-monads", require: "dry/monads/all"
 gem "dry-schema"
 gem "dry-struct"
 gem "dry-system"
 gem "dry-transformer"
-
+gem "dry-types"
 gem "eventmachine"
-
+gem "mongo"
 gem "pry"
 gem "rake"
-gem "mongo"
 gem "redis"
 gem "rollbar"
-
+gem "ulid-ruby", require: "ulid"
 gem "zeitwerk"
 
 group :test, :development do
   gem "factory_bot"
   gem "json_spec"
-  gem "rspec"
-  gem "rspec-json_expectations"
-  gem "shoulda-matchers"
   gem "rspec_junit_formatter"
+  gem "rspec-json_expectations"
+  gem "rspec"
+  gem "shoulda-matchers"
 end
