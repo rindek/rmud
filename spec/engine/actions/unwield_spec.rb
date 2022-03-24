@@ -48,4 +48,42 @@ RSpec.describe Engine::Actions::Unwield do
       )
     end
   end
+
+  context "when two single-handed weapons are wielded" do
+    let(:right_weapon) { FactoryBot.create(:weapon) }
+    let(:left_weapon) { FactoryBot.create(:weapon) }
+
+    before do
+      Engine::Actions::Wield.call(weapon: right_weapon, player: player)
+      Engine::Actions::Wield.call(weapon: left_weapon, player: player)
+    end
+
+    it "player slots properly shows wielded weapons" do
+      expect(player.slots.slice(:right_hand, :left_hand)).to eq(
+        right_hand: M.Some(right_weapon),
+        left_hand: M.Some(left_weapon),
+      )
+    end
+
+    context "unwielding right hand weapon" do
+      subject { action.call(weapon: right_weapon, player: player) }
+
+      it "clears proper slots after unwielding" do
+        expect { subject }.to change { player.slots.slice(:right_hand, :left_hand) }.to(
+          right_hand: M.None,
+          left_hand: M.Some(left_weapon),
+        )
+      end
+    end
+
+    context "unwielding left hand weapon" do
+      subject { action.call(weapon: left_weapon, player: player) }
+      it "clears proper slots after unwielding" do
+        expect { subject }.to change { player.slots.slice(:right_hand, :left_hand) }.to(
+          right_hand: M.Some(right_weapon),
+          left_hand: M.None,
+        )
+      end
+    end
+  end
 end
