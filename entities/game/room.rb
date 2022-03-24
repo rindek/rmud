@@ -10,10 +10,6 @@ module Entities
 
       include Traits::Inventory
 
-      def spawn(*objs)
-        Array(objs).each { |obj| Engine::Actions::Move.call(object: obj, dest: self) }
-      end
-
       def dump_info
         attributes.slice(:id, :short).merge(class: self.class)
       end

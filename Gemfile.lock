@@ -99,6 +99,7 @@ GEM
       activesupport (>= 4.2.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    ulid-ruby (1.0.2)
     zeitwerk (2.3.0)
 
 PLATFORMS
@@ -129,7 +130,8 @@ DEPENDENCIES
   rspec-json_expectations
   rspec_junit_formatter
   shoulda-matchers
+  ulid-ruby
   zeitwerk
 
 BUNDLED WITH
-   2.2.22
+   2.2.32

@@ -34,6 +34,45 @@ App.boot(:types) do
         MovableObject = Types.Instance(Entities::Game::MovableObject)
         Environment = Types.Interface(:inventory)
 
+        module Creature
+          Attribute =
+            Types::Symbol.enum(
+              Constants::Game::Creature::Attribute::STRENGTH,
+              Constants::Game::Creature::Attribute::DEXTERITY,
+              Constants::Game::Creature::Attribute::STAMINA,
+              Constants::Game::Creature::Attribute::INTELLIGENCE,
+              Constants::Game::Creature::Attribute::WISDOM,
+            )
+        end
+
+        module Item
+          Rarity =
+            Types::Symbol
+              .default(Constants::Game::Item::Rarity::COMMON)
+              .enum(
+                Constants::Game::Item::Rarity::COMMON,
+                Constants::Game::Item::Rarity::UNCOMMON,
+                Constants::Game::Item::Rarity::RARE,
+                Constants::Game::Item::Rarity::EPIC,
+                Constants::Game::Item::Rarity::QUEST,
+              )
+
+          Bonus = Types::Hash.map(Types::Game::Creature::Attribute, Types::Integer).default({}.freeze)
+        end
+
+        module Weapon
+          HitType =
+            Types::Array.of(
+              Types::Symbol.enum(
+                Constants::Game::Weapon::HitType::PIERCE,
+                Constants::Game::Weapon::HitType::SLASH,
+                Constants::Game::Weapon::HitType::BLUNT,
+              ),
+            )
+
+          Hand = Types::Symbol.enum(Constants::Game::Weapon::Hand::SINGLE, Constants::Game::Weapon::Hand::BOTH)
+        end
+
         VOID = :void.freeze
       end
     end
