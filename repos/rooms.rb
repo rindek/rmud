@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Repos
-  class Rooms < Local
-    option :dataset, default: -> { App[:mongo][:rooms] }
-    option :entity, default: -> { Entities::Room }
+  class Rooms < Container
+    option :dataset, default: -> { ROOMS }
+    option :entity, default: -> { Entities::Game::Room }
   end
 end

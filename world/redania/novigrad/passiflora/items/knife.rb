@@ -1,4 +1,4 @@
-Engine::Core.Weapon(
+CORE.Weapon(
   name: "knife",
   adjectives: %w[short dull],
   hit_type: [Constants::Game::Weapon::HitType::PIERCE, Constants::Game::Weapon::HitType::SLASH],

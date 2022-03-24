@@ -1,4 +1,4 @@
-Engine::Core.Room(
+CORE.Room(
   short: "a spawn room short",
   long: "a long room long",
   exits: [

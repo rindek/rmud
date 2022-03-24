@@ -3,7 +3,7 @@ module Engine
   module Command
     module Login
       class Login < Base
-        include Import["repos.players"]
+        include Import["repos.players", "repos.rooms"]
 
         DEFAULT_SPAWN_ID = "main.spawn".freeze
 
@@ -44,11 +44,12 @@ module Engine
         end
 
         def spawn(player, client)
+          room_to_move =
+            yield (rooms.find(DEFAULT_SPAWN_ID).or { Failure("Wystąpił błąd przy logowaniu (kod błędu: 0001).\n") })
+
           entity = Entities::Game::Player.new(data: player, client: client)
           PLAYERS[player.name] = entity
           entity.client.handler = Engine::Handlers::Game.new(player: entity)
-
-          room_to_move = ROOMS[DEFAULT_SPAWN_ID]
 
           Engine::Events::Rooms::BeforeEnter.call(who: entity, to_room: room_to_move)
           yield (

@@ -1,4 +1,4 @@
-Engine::Core.Room(
+CORE.Room(
   short: "Passiflora common room",
   long: "Passiflora common room. There are a lot of guests",
   exits: [
