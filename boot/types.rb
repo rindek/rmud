@@ -57,7 +57,7 @@ App.boot(:types) do
                 Constants::Game::Item::Rarity::QUEST,
               )
 
-          Bonus = Types::Hash.map(Types::Game::Creature::Attribute, Types::Integer).default({})
+          Bonus = Types::Hash.map(Types::Game::Creature::Attribute, Types::Integer).default({}.freeze)
         end
 
         module Weapon

@@ -17,5 +17,9 @@ FactoryBot.define do
     bonus { {} }
     durability { 100 }
     weight { 1.0 }
+
+    trait :two_hand do
+      hand { Constants::Game::Weapon::Hand::BOTH }
+    end
   end
 end
