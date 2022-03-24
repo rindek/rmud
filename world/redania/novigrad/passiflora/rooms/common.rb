@@ -6,6 +6,6 @@ CORE.Room(
     { to: Engine::Command::Login::Login::DEFAULT_SPAWN_ID, name: "outside" },
   ],
   callbacks: {
-    after_load: -> { _1.spawn(NPCS[Relative("../npcs/Narcissa")]) },
+    after_load: -> { _1.spawn(npcs: [Relative("../npcs/Narcissa")]) },
   },
 )

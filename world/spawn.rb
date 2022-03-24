@@ -10,10 +10,9 @@ CORE.Room(
   callbacks: {
     after_load: -> do
       _1.spawn(
-        NPCS["main.ghost"],
-        WEAPONS["main.spawn.sztylet"],
-        WEAPONS[Relative("redania/novigrad/passiflora/items/knife")],
-        ITEMS["main.spawn.fajka"],
+        npcs: %w[main.ghost non.existing.npc],
+        weapons: ["main.spawn.sztylet", Relative("redania/novigrad/passiflora/items/knife"), "non.existing.weapon"],
+        items: %w[main.spawn.fajka non.existing.item],
       )
     end,
   },
@@ -60,6 +59,6 @@ CORE.NPC(
     "wydaje z siebie dźwięki: uuu, oooo",
   ],
   callbacks: {
-    after_clone: -> { _1.spawn(WEAPONS["main.spawn.sztylet"]) },
+    after_clone: -> { _1.spawn(weapons: %w[main.spawn.sztylet non.existing.weapon]) },
   },
 )
