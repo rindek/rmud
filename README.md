@@ -11,3 +11,5 @@ mvp
 * character can move between rooms
 * character can execute some commands that others players see (for example 'say')
 * simple 'game object' - ball, that can execute a command 'throw', can be picked up / lay away by player
+
+Test from codspaces
