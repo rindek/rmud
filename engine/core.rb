@@ -26,7 +26,11 @@ module Engine
 
     def NPC(input)
       id = input[:id] || GameID(caller_locations.first.path)
-      NPCS.register(id, memoize: false) { Entities::Game::Creature.new(input.merge(id: id)) }
+      NPCS.register(id, memoize: false) do
+        Entities::Game::Creature
+          .new(input.merge(id: id))
+          .tap { |npc| Dry::Monads.Maybe(npc.callbacks[:after_clone]).bind { |callback| callback.call(npc) } }
+      end
     end
 
     def GameID(file)

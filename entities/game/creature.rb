@@ -6,6 +6,7 @@ module Entities
       attribute :adjectives, Types::Array.of(Types::String)
       attribute :name, Types::String
       attribute :events, Types::Array.of(Types::String)
+      attribute? :callbacks, Types::Hash.map(Types::Symbol, Types::Proc).default { {} }
 
       def decorator(observer:)
         [adjectives, name].flatten.join(" ")

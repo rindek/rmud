@@ -59,4 +59,10 @@ Engine::Core.NPC(
     "migocze delikatnie",
     "wydaje z siebie dźwięki: uuu, oooo",
   ],
+  callbacks: {
+    after_clone: -> do
+      weapon = WEAPONS["main.spawn.sztylet"]
+      _1.spawn(weapon)
+    end,
+  },
 )
