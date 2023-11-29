@@ -18,7 +18,6 @@ App.boot(:types) do
     end
 
     use :zeitwerk
-    use :core
 
     module ::Types
       module DB
@@ -76,6 +75,8 @@ App.boot(:types) do
         VOID = :void.freeze
       end
     end
+
+    use :core
 
     Dry::Types.load_extensions(:monads)
     Dry::Schema.load_extensions(:monads)

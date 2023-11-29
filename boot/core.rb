@@ -1,7 +1,7 @@
 App.boot(:core) do
-  start do
-    use :zeitwerk
+  init { use :import }
 
+  start do
     GAME = Containers::Game
     ROOMS = Containers::Rooms
     ITEMS = Containers::Items
@@ -9,9 +9,11 @@ App.boot(:core) do
     NPCS = Containers::NPCS
     PLAYERS = Concurrent::Hash.new
     DICTIONARY = Containers::Dictionary
+
+    CORE = Engine::Core.new
   end
 end
 
 def Relative(path)
-  Engine::Core.Relative(path, caller_locations.first.path)
+  CORE.Relative(path, caller_locations.first.path)
 end

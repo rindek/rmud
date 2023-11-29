@@ -1,5 +1,5 @@
 # encoding: UTF-8
-Engine::Core.Room(
+CORE.Room(
   id: Engine::Command::Login::Login::DEFAULT_SPAWN_ID,
   short: "spawn",
   long: "spawn",
@@ -10,16 +10,15 @@ Engine::Core.Room(
   callbacks: {
     after_load: -> do
       _1.spawn(
-        NPCS["main.ghost"],
-        WEAPONS["main.spawn.sztylet"],
-        WEAPONS[Relative("redania/novigrad/passiflora/items/knife")],
-        ITEMS["main.spawn.fajka"],
+        npcs: %w[main.ghost non.existing.npc],
+        weapons: ["main.spawn.sztylet", Relative("redania/novigrad/passiflora/items/knife"), "non.existing.weapon"],
+        items: %w[main.spawn.fajka non.existing.item],
       )
     end,
   },
 )
 
-Engine::Core.Weapon(
+CORE.Weapon(
   id: "main.spawn.sztylet",
   name: "sztylet",
   adjectives: %w[długi ostry tępy wielki],
@@ -34,7 +33,7 @@ Engine::Core.Weapon(
   weight: 1.0,
 )
 
-Engine::Core.Weapon(
+CORE.Weapon(
   id: "main.spawn.miecz",
   name: "miecz",
   adjectives: %w[krótki tępy],
@@ -46,9 +45,9 @@ Engine::Core.Weapon(
   weight: 1.5,
 )
 
-Engine::Core.Item(id: "main.spawn.fajka", name: "fajka", adjectives: %w[krótka])
+CORE.Item(id: "main.spawn.fajka", name: "fajka", adjectives: %w[krótka])
 
-Engine::Core.NPC(
+CORE.NPC(
   id: "main.ghost",
   adjectives: %w[przyjacielski],
   name: "duch",
@@ -60,9 +59,6 @@ Engine::Core.NPC(
     "wydaje z siebie dźwięki: uuu, oooo",
   ],
   callbacks: {
-    after_clone: -> do
-      weapon = WEAPONS["main.spawn.sztylet"]
-      _1.spawn(weapon)
-    end,
+    after_clone: -> { _1.spawn(weapons: %w[main.spawn.sztylet non.existing.weapon]) },
   },
 )

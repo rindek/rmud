@@ -1,4 +1,4 @@
-Engine::Core.Room(
+CORE.Room(
   short: "another room short",
   long: "another room long",
   exits: [

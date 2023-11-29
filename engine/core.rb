@@ -1,35 +1,29 @@
 module Engine
-  module Core
-    include Dry::Monads[:try]
-    extend Dry::Monads[:result]
-
-    module_function
+  class Core
+    include Dry::Monads[:try, :result]
+    include Import["repos.rooms", "repos.items", "repos.weapons", "repos.npcs"]
 
     def Room(input)
       id = input[:id] || GameID(caller_locations.first.path)
-      ROOMS.register(id, memoize: true) do
-        Entities::Game::Room
-          .new(input.merge(id: id))
-          .tap { |room| Dry::Monads.Maybe(room.callbacks[:after_load]).bind { |callback| callback.call(room) } }
+      rooms.create(id: id, input: input, cache: true) do |room|
+        Dry::Monads.Maybe(room.callbacks[:after_load]).bind { |callback| callback.call(room) }
       end
     end
 
     def Item(input)
       id = input[:id] || GameID(caller_locations.first.path)
-      ITEMS.register(id, memoize: false) { Entities::Game::Item.new(input.merge(id: id)) }
+      items.create(id: id, input: input, cache: false)
     end
 
     def Weapon(input)
       id = input[:id] || GameID(caller_locations.first.path)
-      WEAPONS.register(id, memoize: false) { Entities::Game::Weapon.new(input.merge(id: id)) }
+      weapons.create(id: id, input: input, cache: false)
     end
 
     def NPC(input)
       id = input[:id] || GameID(caller_locations.first.path)
-      NPCS.register(id, memoize: false) do
-        Entities::Game::Creature
-          .new(input.merge(id: id))
-          .tap { |npc| Dry::Monads.Maybe(npc.callbacks[:after_clone]).bind { |callback| callback.call(npc) } }
+      npcs.create(id: id, input: input, cache: false) do |npc|
+        Dry::Monads.Maybe(npc.callbacks[:after_clone]).bind { |callback| callback.call(npc) }
       end
     end
 

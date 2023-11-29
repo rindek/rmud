@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 App.boot(:import) do
+  init { use :zeitwerk }
   start do
-    use :zeitwerk
-
     class ImportContainer
       extend Dry::Container::Mixin
 
       namespace "repos" do
-        register("rooms") { Repos::Rooms.new }
-        register("players") { Repos::Players.new }
         register("dict") { Repos::Dict.new }
+        register("items") { Repos::Items.new }
+        register("npcs") { Repos::Npcs.new }
+        register("players") { Repos::Players.new }
+        register("rooms") { Repos::Rooms.new }
+        register("weapons") { Repos::Weapons.new }
       end
 
       namespace "containers" do
@@ -21,8 +23,6 @@ App.boot(:import) do
           Engine::Lib::Shutdown.new
         end
       end
-
-      register("core") { Engine::Core }
     end
 
     Import = Dry.AutoInject(ImportContainer)

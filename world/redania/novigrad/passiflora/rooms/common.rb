@@ -1,4 +1,4 @@
-Engine::Core.Room(
+CORE.Room(
   short: "Passiflora common room",
   long: "Passiflora common room. There are a lot of guests",
   exits: [
@@ -6,6 +6,6 @@ Engine::Core.Room(
     { to: Engine::Command::Login::Login::DEFAULT_SPAWN_ID, name: "outside" },
   ],
   callbacks: {
-    after_load: -> { _1.spawn(NPCS[Relative("../npcs/Narcissa")]) },
+    after_load: -> { _1.spawn(npcs: [Relative("../npcs/Narcissa")]) },
   },
 )
